@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+	--background: #ffffff;
+	--foreground: #171717;
+}
+
+/* @media (prefers-color-scheme: dark) {
+	:root {
+		--background: #0a0a0a;
+		--foreground: #ededed;
+	}
+} */
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+ul {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+}
+
+body {
+	color: var(--foreground);
+	background: var(--background);
+	font-family: Nunito, serif;
+}
+
+.container {
+	margin: 0 auto;
+	padding-left: 24px;
+	padding-right: 24px;
+
+	@media screen and (min-width: 768px) {
+		padding-left: 32px;
+		padding-right: 32px;
+	}
+	@media screen and (min-width: 1440px) {
+		max-width: 1440px;
+		padding-left: 80px;
+		padding-right: 80px;
+	}
+}
+
+.heading-section {
+	padding: 80px 0;
+}
+
+.section {
+	padding: 20px 0;
+
+	@media screen and (min-width: 768px) {
+		padding: 30px 0;
+	}
+}
+
+.wrapper {
+	margin: 0 auto;
+	padding: 0 15px;
+	width: 100%;
+	@media screen and (min-width: 480px) {
+		padding: 0 32px;
+	}
+	@media screen and (min-width: 768px) {
+		padding: 0 40px;
+	}
+	@media screen and (min-width: 768px) {
+		padding: 0 60px;
+	}
+}
+
+.custom-btn-next {
+	@apply z-10 absolute top-0 right-0 md:right-1/4 transform -translate-y-1/2 text-gray-500 p-3 rounded-full shadow-md hover:bg-[#0e62e4] backdrop-blur-md hover:text-gray-300 transition-all cursor-pointer;
+}
+
+.custom-btn-prev {
+	@apply z-10 absolute top-0 left-0 md:left-1/4 transform -translate-y-1/2 text-gray-500 p-3 rounded-full shadow-md hover:bg-[#0e62e4] backdrop-blur-md hover:text-gray-300 transition-all cursor-pointer;
+}
+
+/* font-[family-name:var(--font-nunito-sans)] */
