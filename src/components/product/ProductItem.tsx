@@ -22,7 +22,7 @@ const ProductItem = ({ product }: ProductItemProps) => {
 
 	const handleAddToCart = () => {
 		addToCart(product, quantity)
-		alert(`${product.name} added to cart!`)
+		console.log(`${product.name} added to cart!`)
 	}
 
 	return (
