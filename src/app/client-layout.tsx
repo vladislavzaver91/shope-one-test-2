@@ -10,7 +10,8 @@ export default function ClientLayout({
 	children: React.ReactNode
 }) {
 	const pathname = usePathname()
-	const hideHeader = pathname === '/login' || pathname === '/signup'
+	const hideHeader =
+		pathname === '/login' || pathname === '/signup' || pathname === '/admin'
 
 	return !hideHeader ? (
 		<>

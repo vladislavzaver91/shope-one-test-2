@@ -2,6 +2,7 @@
 
 import { useCart } from '@/helpers/context/CartContext'
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function CartPage() {
 	const { cart, updateQuantity, removeFromCart } = useCart()
@@ -23,7 +24,7 @@ export default function CartPage() {
 							>
 								<div className='relative flex-shrink-0 w-24 h-24'>
 									<Image
-										src={item.image}
+										src={`${item.image ? item.image : '/placeholder.jpg'}`}
 										alt={item.name}
 										fill
 										className='w-full h-full object-cover object-center rounded-lg shadow-md'
@@ -59,9 +60,12 @@ export default function CartPage() {
 
 					<div className='mt-6 text-right'>
 						<p className='text-lg font-bold'>Subtotal: ${total.toFixed(2)}</p>
-						<button className='mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700'>
+						<Link
+							href='/checkout'
+							className='mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700'
+						>
 							Checkout
-						</button>
+						</Link>
 					</div>
 				</>
 			)}

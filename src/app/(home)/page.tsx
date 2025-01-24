@@ -3,13 +3,13 @@
 import dynamic from 'next/dynamic'
 import { useState } from 'react'
 
-const ProductList = dynamic(() => import('../../components/ProductList'), {
+const ProductList = dynamic(() => import('../../components/home/ProductList'), {
 	ssr: false,
 })
-const Filters = dynamic(() => import('../../components/Filters'), {
+const Filters = dynamic(() => import('../../components/home/Filters'), {
 	ssr: false,
 })
-const SearchBar = dynamic(() => import('../../components/SearchBar'), {
+const SearchBar = dynamic(() => import('../../components/home/SearchBar'), {
 	ssr: false,
 })
 

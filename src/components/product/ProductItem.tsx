@@ -1,8 +1,9 @@
 'use client'
 
 import { useCart } from '@/helpers/context/CartContext'
-import { Product } from '@/utils/mockData'
+import { Product } from '@/types'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useState } from 'react'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
 import 'swiper/css'
@@ -41,18 +42,29 @@ const ProductItem = ({ product }: ProductItemProps) => {
 						}}
 						className='rounded-lg overflow-hidden shadow-lg'
 					>
-						{product.images?.map((image, index) => (
-							<SwiperSlide key={index}>
-								<div className='relative w-full h-60 aspect-square'>
-									<Image
-										src={image}
-										alt={`Product Image ${index + 1}`}
-										fill
-										className='w-full h-auto object-cover object-center'
-									/>
-								</div>
-							</SwiperSlide>
-						))}
+						{product.images ? (
+							product.images?.map((image, index) => (
+								<SwiperSlide key={index}>
+									<div className='relative w-full h-60 aspect-square'>
+										<Image
+											src={image}
+											alt={`Product Image ${index + 1}`}
+											fill
+											className='w-full h-auto object-cover object-center'
+										/>
+									</div>
+								</SwiperSlide>
+							))
+						) : (
+							<div className='relative w-full h-60 aspect-square'>
+								<Image
+									src={`${product.image ? product.image : '/placeholder.jpg'}`}
+									alt={product.name}
+									fill
+									className='w-full h-auto object-cover object-center'
+								/>
+							</div>
+						)}
 					</Swiper>
 
 					<div className='flex justify-between absolute bottom-32 md:bottom-14 w-full'>
@@ -103,9 +115,12 @@ const ProductItem = ({ product }: ProductItemProps) => {
 						>
 							Add to Cart
 						</button>
-						<button className='px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700'>
+						<Link
+							href='/checkout'
+							className='px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700'
+						>
 							Buy Now
-						</button>
+						</Link>
 					</div>
 				</div>
 			</div>

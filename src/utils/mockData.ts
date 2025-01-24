@@ -1,14 +1,4 @@
-export interface Product {
-	id: string
-	name: string
-	description: string
-	price: number
-	popularity: number
-	image: string
-	images?: string[]
-	category: string
-	type: string
-}
+import { Product } from '@/types'
 
 export const mockProducts: Product[] = Array.from({ length: 50 }, (_, i) => ({
 	id: `Product ${i + 1}`,

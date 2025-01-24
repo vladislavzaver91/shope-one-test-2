@@ -2,6 +2,7 @@
 
 import useModal from '@/helpers/hooks/useModal'
 import { Transition } from '@headlessui/react'
+import Link from 'next/link'
 import { FaCog, FaSignOutAlt, FaUser, FaUserPlus } from 'react-icons/fa'
 
 const UserMenu = () => {
@@ -27,43 +28,47 @@ const UserMenu = () => {
 				<div className='absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg z-10'>
 					<ul className='py-2'>
 						<li>
-							<a
-								href='#'
+							<Link
+								href='/user-account'
+								onClick={toggleMenu}
 								className='flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100'
 							>
 								<FaUser className='w-5 h-5 mr-3' />
 								Profile
-							</a>
+							</Link>
 						</li>
 						<li>
-							<a
+							<Link
 								href='#'
+								onClick={toggleMenu}
 								className='flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100'
 							>
 								<FaUserPlus className='w-5 h-5 mr-3' />
 								My Account
-							</a>
+							</Link>
 						</li>
 						<li>
 							<hr className='my-2 border-gray-300' />
 						</li>
 						<li>
-							<a
+							<Link
 								href='#'
+								onClick={toggleMenu}
 								className='flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100'
 							>
 								<FaCog className='w-5 h-5 mr-3' />
 								Settings
-							</a>
+							</Link>
 						</li>
 						<li>
-							<a
+							<Link
 								href='#'
+								onClick={toggleMenu}
 								className='flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100'
 							>
 								<FaSignOutAlt className='w-5 h-5 mr-3' />
 								Logout
-							</a>
+							</Link>
 						</li>
 					</ul>
 				</div>

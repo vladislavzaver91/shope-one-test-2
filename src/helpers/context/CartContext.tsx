@@ -1,6 +1,6 @@
 'use client'
 
-import { Product } from '@/utils/mockData'
+import { Product } from '@/types'
 import React, {
 	createContext,
 	useContext,

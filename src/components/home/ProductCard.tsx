@@ -1,7 +1,8 @@
+import { truncateDescription } from '@/helpers/functions/truncateDescription'
+import { Product } from '@/types'
 import Image from 'next/image'
 import Link from 'next/link'
 import { TbExternalLink } from 'react-icons/tb'
-import { Product } from '../utils/mockData'
 
 interface ProductCardProps {
 	product: Product
@@ -12,7 +13,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 		<div className='p-4 bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow'>
 			<div className='relative w-full h-40 aspect-square'>
 				<Image
-					src={product.image}
+					src={`${product.image ? product.image : '/placeholder.jpg'}`}
 					alt={product.name}
 					fill
 					className='w-full object-cover object-center rounded-t-lg'
@@ -20,7 +21,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
 			</div>
 			<div className='p-2'>
 				<h2 className='text-lg font-semibold'>{product.name}</h2>
-				<p className='text-gray-500 text-sm mb-2'>{product.description}</p>
+				<p className='text-gray-500 text-sm mb-2 h-10'>
+					{truncateDescription(product.description, 10)}
+				</p>
 				<p className='text-gray-700 font-bold'>Price: ${product.price}</p>
 				<p className='text-gray-500 text-sm'>Category: {product.category}</p>
 				<p className='text-gray-500 text-sm'>Type: {product.type}</p>

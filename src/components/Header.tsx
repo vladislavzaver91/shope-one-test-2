@@ -6,10 +6,8 @@ import { FaShoppingCart } from 'react-icons/fa'
 import UserMenu from './ui/UserMenu'
 
 const Header = () => {
-	const isAuth = Boolean(false)
+	const isAuth = Boolean(true)
 	const { cart } = useCart()
-
-	console.log(cart)
 
 	return (
 		<header className='bg-white shadow-md fixed w-full z-10'>

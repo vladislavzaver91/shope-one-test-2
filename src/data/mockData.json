@@ -1,0 +1,222 @@
+[
+	{
+		"id": "Product 1",
+		"name": "Product 1",
+		"description": "This is a description of product 1. Perfect for both personal and professional use.",
+		"price": 123.45,
+		"popularity": 78,
+		"image": "/watch.jpg",
+		"images": ["/watch-1.jpg", "/watch-2.jpg", "/watch-3.jpg"],
+		"category": "Electronics",
+		"type": "Physical"
+	},
+	{
+		"id": "Product 2",
+		"name": "Product 2",
+		"description": "This is a description of product 2. Perfect for both personal and professional use.",
+		"price": 234.56,
+		"popularity": 90,
+		"image": "/watch.jpg",
+		"images": ["/watch-1.jpg", "/watch-2.jpg", "/watch-3.jpg"],
+		"category": "Books",
+		"type": "Digital"
+	},
+	{
+		"id": "Product 3",
+		"name": "Product 3",
+		"description": "This is a description of product 3. Perfect for both personal and professional use.",
+		"price": 199.99,
+		"popularity": 65,
+		"image": "/watch.jpg",
+		"images": ["/watch-1.jpg", "/watch-2.jpg", "/watch-3.jpg"],
+		"category": "Software",
+		"type": "Digital"
+	},
+	{
+		"id": "Product 4",
+		"name": "Product 4",
+		"description": "This is a description of product 4. Perfect for both personal and professional use.",
+		"price": 310.12,
+		"popularity": 82,
+		"image": "/watch.jpg",
+		"images": ["/watch-1.jpg", "/watch-2.jpg", "/watch-3.jpg"],
+		"category": "Electronics",
+		"type": "Physical"
+	},
+	{
+		"id": "Product 5",
+		"name": "Product 5",
+		"description": "This is a description of product 5. Perfect for both personal and professional use.",
+		"price": 89.99,
+		"popularity": 47,
+		"image": "/watch.jpg",
+		"images": ["/watch-1.jpg", "/watch-2.jpg", "/watch-3.jpg"],
+		"category": "Books",
+		"type": "Digital"
+	},
+	{
+		"id": "Product 6",
+		"name": "Product 6",
+		"description": "This is a description of product 6. Perfect for both personal and professional use.",
+		"price": 456.0,
+		"popularity": 93,
+		"image": "/watch.jpg",
+		"images": ["/watch-1.jpg", "/watch-2.jpg", "/watch-3.jpg"],
+		"category": "Electronics",
+		"type": "Physical"
+	},
+	{
+		"id": "Product 7",
+		"name": "Product 7",
+		"description": "This is a description of product 7. Perfect for both personal and professional use.",
+		"price": 120.5,
+		"popularity": 57,
+		"image": "/watch.jpg",
+		"images": ["/watch-1.jpg", "/watch-2.jpg", "/watch-3.jpg"],
+		"category": "Software",
+		"type": "Digital"
+	},
+	{
+		"id": "Product 8",
+		"name": "Product 8",
+		"description": "This is a description of product 8. Perfect for both personal and professional use.",
+		"price": 78.99,
+		"popularity": 40,
+		"image": "/watch.jpg",
+		"images": ["/watch-1.jpg", "/watch-2.jpg", "/watch-3.jpg"],
+		"category": "Books",
+		"type": "Physical"
+	},
+	{
+		"id": "Product 9",
+		"name": "Product 9",
+		"description": "This is a description of product 9. Perfect for both personal and professional use.",
+		"price": 390.99,
+		"popularity": 75,
+		"image": "/watch.jpg",
+		"images": ["/watch-1.jpg", "/watch-2.jpg", "/watch-3.jpg"],
+		"category": "Electronics",
+		"type": "Digital"
+	},
+	{
+		"id": "Product 10",
+		"name": "Product 10",
+		"description": "This is a description of product 10. Perfect for both personal and professional use.",
+		"price": 150.0,
+		"popularity": 88,
+		"image": "/watch.jpg",
+		"images": ["/watch-1.jpg", "/watch-2.jpg", "/watch-3.jpg"],
+		"category": "Books",
+		"type": "Physical"
+	},
+	{
+		"id": "Product 11",
+		"name": "Product 11",
+		"description": "This is a description of product 11. Perfect for both personal and professional use.",
+		"price": 275.75,
+		"popularity": 69,
+		"image": "/watch.jpg",
+		"images": ["/watch-1.jpg", "/watch-2.jpg", "/watch-3.jpg"],
+		"category": "Software",
+		"type": "Digital"
+	},
+	{
+		"id": "Product 12",
+		"name": "Product 12",
+		"description": "This is a description of product 12. Perfect for both personal and professional use.",
+		"price": 310.0,
+		"popularity": 54,
+		"image": "/watch.jpg",
+		"images": ["/watch-1.jpg", "/watch-2.jpg", "/watch-3.jpg"],
+		"category": "Electronics",
+		"type": "Physical"
+	},
+	{
+		"id": "Product 13",
+		"name": "Product 13",
+		"description": "This is a description of product 13. Perfect for both personal and professional use.",
+		"price": 98.99,
+		"popularity": 81,
+		"image": "/watch.jpg",
+		"images": ["/watch-1.jpg", "/watch-2.jpg", "/watch-3.jpg"],
+		"category": "Books",
+		"type": "Digital"
+	},
+	{
+		"id": "Product 14",
+		"name": "Product 14",
+		"description": "This is a description of product 14. Perfect for both personal and professional use.",
+		"price": 500.0,
+		"popularity": 95,
+		"image": "/watch.jpg",
+		"images": ["/watch-1.jpg", "/watch-2.jpg", "/watch-3.jpg"],
+		"category": "Electronics",
+		"type": "Physical"
+	},
+	{
+		"id": "Product 15",
+		"name": "Product 15",
+		"description": "This is a description of product 15. Perfect for both personal and professional use.",
+		"price": 67.49,
+		"popularity": 38,
+		"image": "/watch.jpg",
+		"images": ["/watch-1.jpg", "/watch-2.jpg", "/watch-3.jpg"],
+		"category": "Books",
+		"type": "Physical"
+	},
+	{
+		"id": "Product 16",
+		"name": "Product 16",
+		"description": "This is a description of product 16. Perfect for both personal and professional use.",
+		"price": 400.0,
+		"popularity": 76,
+		"image": "/watch.jpg",
+		"images": ["/watch-1.jpg", "/watch-2.jpg", "/watch-3.jpg"],
+		"category": "Software",
+		"type": "Digital"
+	},
+	{
+		"id": "Product 17",
+		"name": "Product 17",
+		"description": "This is a description of product 17. Perfect for both personal and professional use.",
+		"price": 89.99,
+		"popularity": 45,
+		"image": "/watch.jpg",
+		"images": ["/watch-1.jpg", "/watch-2.jpg", "/watch-3.jpg"],
+		"category": "Books",
+		"type": "Digital"
+	},
+	{
+		"id": "Product 18",
+		"name": "Product 18",
+		"description": "This is a description of product 18. Perfect for both personal and professional use.",
+		"price": 299.99,
+		"popularity": 88,
+		"image": "/watch.jpg",
+		"images": ["/watch-1.jpg", "/watch-2.jpg", "/watch-3.jpg"],
+		"category": "Electronics",
+		"type": "Physical"
+	},
+	{
+		"id": "Product 19",
+		"name": "Product 19",
+		"description": "This is a description of product 19. Perfect for both personal and professional use.",
+		"price": 120.0,
+		"popularity": 62,
+		"image": "/watch.jpg",
+		"images": ["/watch-1.jpg", "/watch-2.jpg", "/watch-3.jpg"],
+		"category": "Books",
+		"type": "Physical"
+	},
+	{
+		"id": "Product 20",
+		"name": "Product 20",
+		"description": "This is a description of product 20. Perfect for both personal and professional use.",
+		"price": 210.99,
+		"popularity": 73,
+		"image": "/watch.jpg",
+		"images": ["/watch-1.jpg", "/watch-2.jpg", "/watch-3.jpg"],
+		"category": "Software",
+		"type": "Digital"
+	}
+]

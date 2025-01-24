@@ -1,17 +1,44 @@
-import ProductItem from '@/components/ProductItem'
-import { mockProducts } from '@/utils/mockData'
+'use client'
 
-export default async function ProductPage({
+import ProductItem from '@/components/product/ProductItem'
+import { Product } from '@/types'
+import { getProductsFromLocalStorage } from '@/utils/localStorageProducts'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+
+export default function ProductPage({
 	params,
 }: {
-	params: { id: string }
+	params: Promise<{ id: string }>
 }) {
-	const { id } = await params
-	const decodedId = decodeURIComponent(id)
-	const product = mockProducts.find(p => p.id === decodedId)
+	const [product, setProduct] = useState<Product | null>(null)
+	const [loading, setLoading] = useState(true)
+	const router = useRouter()
+
+	useEffect(() => {
+		const fetchParams = async () => {
+			const { id } = await params
+			const decodedId = decodeURIComponent(id)
+			const products = getProductsFromLocalStorage()
+
+			const foundProduct = products.find((p: Product) => p.id === decodedId)
+			if (foundProduct) {
+				setProduct(foundProduct)
+			} else {
+				router.replace('/404')
+			}
+			setLoading(false)
+		}
+
+		fetchParams()
+	}, [params, router])
+
+	if (loading) {
+		return <p>Loading product...</p>
+	}
 
 	if (!product) {
-		return <p>Product not found</p>
+		return null
 	}
 
 	return (
