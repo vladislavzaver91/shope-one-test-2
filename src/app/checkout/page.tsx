@@ -44,7 +44,7 @@ export default function CheckoutPage() {
 
 	const handleCompleteOrder = () => {
 		if (!shippingData || !paymentMethod || cart.length === 0) {
-			alert('Please, fill in all details.')
+			console.log('Please, fill in all details.')
 			return
 		}
 

@@ -17,7 +17,7 @@ const StripeCheckout = ({ onCompleteOrder }: StripeCheckoutProps) => {
 	const { clearCart } = useCart()
 
 	const handleConfirmPayment = () => {
-		alert('Payment completed successfully!')
+		console.log('Payment completed successfully!')
 		onCompleteOrder()
 		clearCart()
 		router.push('/')
