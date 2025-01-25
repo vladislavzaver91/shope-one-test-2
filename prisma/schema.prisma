@@ -13,62 +13,70 @@ enum OrderStatus {
   Canceled
 }
 
+enum ProductType {
+  Digital
+  Physical
+}
+
 model User {
-  id          String        @id @default(uuid())
-  email       String        @unique
-  password    String
-  name        String
-  accessToken String?       
-  orders      Order[]       @relation("UserOrders")
+  id             String          @id @default(uuid())
+  email          String          @unique
+  password       String
+  name           String
+  accessToken    String?
+  refreshToken   String? // Add this line
+  orders         Order[]         @relation("UserOrders")
   paymentIntents PaymentIntent[] @relation("UserPayments")
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
 }
 
 model Order {
-  id              String        @id @default(uuid())
+  id              String      @id @default(uuid())
   userId          String
-  user            User          @relation("UserOrders", fields: [userId], references: [id])
+  user            User        @relation("UserOrders", fields: [userId], references: [id])
   productIds      String[]
-  products        Product[]     @relation("ProductOrders")
+  products        Product[]   @relation("ProductOrders")
   deliveryAddress String
-  status          OrderStatus   @default(Pending)
-  delivery        Delivery?     @relation("OrderDelivery")
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
+  status          OrderStatus @default(Pending)
+  delivery        Delivery?   @relation("OrderDelivery")
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
 }
 
 model Product {
-  id          String        @id @default(uuid())
+  id          String   @id @default(uuid())
   title       String
   description String
   price       Float
+  type        ProductType
   category    String
   image       String
-  orders      Order[]       @relation("ProductOrders")
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  weight      Float?   // Вес продукта, необязательный
+  dimensions  String?  // Размеры продукта в формате "ДxШxВ", необязательный
+  orders      Order[]  @relation("ProductOrders")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
-
 model PaymentIntent {
-  id              String        @id @default(uuid())
-  userId          String
-  user            User          @relation("UserPayments", fields: [userId], references: [id])
-  amount          Float         // Сумма платежа
-  currency        String        // Валюта платежа, например, "USD"
-  status          String        // Статус платежа: "Pending", "Succeeded", "Failed"
-  stripeIntentId  String        // ID намерения платежа из Stripe
-  createdAt       DateTime      @default(now())
+  id             String   @id @default(uuid())
+  userId         String
+  user           User     @relation("UserPayments", fields: [userId], references: [id])
+  amount         Float // Сумма платежа
+  currency       String // Валюта платежа, например, "USD"
+  status         String // Статус платежа: "Pending", "Succeeded", "Failed"
+  stripeIntentId String // ID намерения платежа из Stripe
+  createdAt      DateTime @default(now())
 }
 
 model Delivery {
-  id          String        @id @default(uuid())
-  orderId     String        @unique
-  order       Order         @relation("OrderDelivery", fields: [orderId], references: [id])
-  cost        Float
-  carrier     String
-  trackingId  String?
-  status      String        @default("Pending")
-  createdAt   DateTime      @default(now())
+  id         String   @id @default(uuid())
+  orderId    String   @unique
+  order      Order    @relation("OrderDelivery", fields: [orderId], references: [id])
+  cost       Float
+  carrier    String
+  trackingId String?
+  status     String   @default("Pending")
+  createdAt  DateTime @default(now())
 }
