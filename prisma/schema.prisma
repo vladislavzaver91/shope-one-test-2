@@ -13,6 +13,11 @@ enum OrderStatus {
   Canceled
 }
 
+enum ProductType {
+  Digital
+  Physical
+}
+
 model User {
   id             String          @id @default(uuid())
   email          String          @unique
@@ -44,9 +49,11 @@ model Product {
   title       String
   description String
   price       Float
-  type        String
+  type        ProductType
   category    String
   image       String
+  weight      Float?   // Вес продукта, необязательный
+  dimensions  String?  // Размеры продукта в формате "ДxШxВ", необязательный
   orders      Order[]  @relation("ProductOrders")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
