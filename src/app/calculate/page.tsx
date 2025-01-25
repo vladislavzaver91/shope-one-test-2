@@ -34,6 +34,7 @@ const Calculate = () => {
     countryCode: '',
     addressLine1: '',
   });
+  
   const [destination, setDestination] = useState<Address>({
     name: '',
     cityName: '',
@@ -41,10 +42,12 @@ const Calculate = () => {
     countryCode: '',
     addressLine1: '',
   });
+  
   const [packageDetails, setPackageDetails] = useState<Package>({
     weight: 0,
     dimensions: { length: 0, width: 0, height: 0 },
   });
+  
   const [loading, setLoading] = useState<boolean>(false);
   const [shippingRates, setShippingRates] = useState<ShippingRate[] | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -147,7 +150,51 @@ const Calculate = () => {
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-semibold mb-4">Destination Address</h2>
             <div className="space-y-4">
-              {/* Similar fields as origin */}
+              <div>
+                <label className="block text-sm font-medium mb-1">Name</label>
+                <input
+                  type="text"
+                  className="w-full p-2 border rounded"
+                  value={destination.name}
+                  onChange={(e) => setDestination({ ...destination, name: e.target.value })}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">City</label>
+                <input
+                  type="text"
+                  className="w-full p-2 border rounded"
+                  value={destination.cityName}
+                  onChange={(e) => setDestination({ ...destination, cityName: e.target.value })}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Postal Code</label>
+                <input
+                  type="text"
+                  className="w-full p-2 border rounded"
+                  value={destination.postalCode}
+                  onChange={(e) => setDestination({ ...destination, postalCode: e.target.value })}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Country Code</label>
+                <input
+                  type="text"
+                  className="w-full p-2 border rounded"
+                  value={destination.countryCode}
+                  onChange={(e) => setDestination({ ...destination, countryCode: e.target.value })}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Address</label>
+                <input
+                  type="text"
+                  className="w-full p-2 border rounded"
+                  value={destination.addressLine1}
+                  onChange={(e) => setDestination({ ...destination, addressLine1: e.target.value })}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -183,43 +230,79 @@ const Calculate = () => {
                 })}
               />
             </div>
-            {/* Similar inputs for width and height */}
+
+            {/* Width Input */}
+            <div>
+              <label className="block text-sm font-medium mb-1">Width (cm)</label>
+              <input
+                type="number"
+                className="w-full p-2 border rounded"
+                value={packageDetails.dimensions.width}
+                onChange={(e) => setPackageDetails({
+                  ...packageDetails,
+                  dimensions: {
+                    ...packageDetails.dimensions,
+                    width: parseFloat(e.target.value)
+                  }
+                })}
+              />
+            </div>
+
+            {/* Height Input */}
+            <div>
+              <label className="block text-sm font-medium mb-1">Height (cm)</label>
+              <input
+                type="number"
+                className="w-full p-2 border rounded"
+                value={packageDetails.dimensions.height}
+                onChange={(e) => setPackageDetails({
+                  ...packageDetails,
+                  dimensions: {
+                    ...packageDetails.dimensions,
+                    height: parseFloat(e.target.value)
+                  }
+                })}
+              />
+            </div>
+
           </div>
         </div>
 
+        {/* Submit Button */}
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-blue-300"
+          className={`w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 ${loading ? 'disabled:bg-blue-300' : ''}`}
         >
           {loading ? 'Calculating...' : 'Calculate Rates'}
         </button>
+
       </form>
 
+      {/* Error Message */}
       {error && (
-        <div className="mt-6 p-4 bg-red-100 text-red-700 rounded-lg">
+        <div className={`mt-6 p-4 bg-red-100 text-red-700 rounded-lg`}>
           {error}
         </div>
       )}
 
+      {/* Shipping Rates Display */}
       {shippingRates && (
-        <div className="mt-6 bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4">Shipping Rates</h2>
-          <div className="space-y-2">
-            {shippingRates.map((rate) => (
-              <div
-                key={rate.serviceCode}
-                className="flex justify-between items-center p-3 bg-gray-50 rounded"
-              >
-                <span className="font-medium">{rate.serviceName}</span>
-                <span className="text-lg font-semibold">${rate.totalPrice}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+        <div className={`mt-6 bg-white p-6 rounded-lg shadow-md`}>
+          <h2 className={`text-xl font-semibold mb-4`}>Shipping Rates</h2>
+          {shippingRates.map((rate) => (
+            <div key={rate.serviceCode} 
+                 className={`flex justify-between items-center p-3 bg-gray-50 rounded`}>
+              {/* Service Name and Price */}
+              <span className={`font-medium`}>{rate.serviceName}</span> 
+              {/* Total Price */}
+              <span className={`text-lg font-semibold`}>${rate.totalPrice}</span> 
+            </div> 
+          ))}
+        </div> 
       )}
-    </div>
-  );
+    </div> 
+  ); 
 };
 
 export default Calculate;

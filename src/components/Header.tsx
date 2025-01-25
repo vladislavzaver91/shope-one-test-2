@@ -6,7 +6,7 @@ import { FaShoppingCart } from 'react-icons/fa'
 import UserMenu from './ui/UserMenu'
 
 const Header = () => {
-	const isAuth = Boolean(true)
+	const isAuth = Boolean(true) // Replace with actual authentication logic
 	const { cart } = useCart()
 
 	return (
@@ -19,6 +19,12 @@ const Header = () => {
 					shop
 				</Link>
 
+				<nav className='flex items-center space-x-4'>
+					<Link href='/products' className='text-gray-800 hover:text-blue-500'>Products</Link>
+					<Link href='/about' className='text-gray-800 hover:text-blue-500'>About Us</Link>
+					<Link href='/contact' className='text-gray-800 hover:text-blue-500'>Contact</Link>
+				</nav>
+
 				{isAuth ? (
 					<div className='flex items-center space-x-4'>
 						<Link href='/cart'>
@@ -28,7 +34,7 @@ const Header = () => {
 							>
 								<FaShoppingCart className='w-6 h-6 text-gray-700' />
 								{cart.length > 0 && (
-									<span className='w-5 h-5 text-center -right-2 bottom-0 rounded-full absolute bg-blue-600 text-sm font-medium'>
+									<span className='w-5 h-5 text-center -right-2 bottom-0 rounded-full absolute bg-blue-600 text-sm font-medium text-white'>
 										{cart.length}
 									</span>
 								)}
@@ -58,4 +64,4 @@ const Header = () => {
 	)
 }
 
-export default Header
+export default Header;

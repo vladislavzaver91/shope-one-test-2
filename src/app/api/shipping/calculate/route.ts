@@ -37,10 +37,20 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const { origin, destination, packages } = ShippingRateSchema.parse(body);
+    console.log("Request body:", {
+      customerDetails: {
+        shipperDetails: origin,
+        receiverDetails: destination,
+      },
+      plannedShippingDateAndTime: new Date().toISOString(),
+      unitOfMeasurement: 'SI',
+      packages: packages,
+    });
+    
 
     // Запрос к DHL API для расчета стоимости
     const response = await axios.post(
-      'https://api-mock.dhl.com/mydhlapi/rates',
+      'https://api.dhl.com/smartrucking/v1/rates',
       {
         customerDetails: {
           shipperDetails: origin,

@@ -55,6 +55,8 @@ export async function GET(request: NextRequest) {
     }
 
     const totalPages = Math.ceil(totalCount / limit);
+    console.log(products);
+    
 
     return NextResponse.json({
       products,

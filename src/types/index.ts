@@ -1,17 +1,17 @@
 export interface Product {
-	id: string
-	name: string
-	description: string
-	price: number
-	popularity: number
-	color: string
-	capacityAvailable: string[]
-	colorsAvailable: string[]
-	image: string
-	images: string[]
-	category: string
-	type: string
-	quantity?: number
+  id: string;
+  title: string;
+  description: string;
+  price: number;
+  type: "Digital" | "Physical";
+  category: string;
+  images: string[];
+  colorsAvailable: string[],
+  quantity: number;
+  weight?: number;
+  dimensions?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export type Order = {

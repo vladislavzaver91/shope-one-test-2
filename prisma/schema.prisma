@@ -51,7 +51,10 @@ model Product {
   price       Float
   type        ProductType
   category    String
-  image       String
+  images       String[]
+  colorsAvailable       String[]
+  quantity Int? // Количество в наличии (опционально)
+
   weight      Float?   // Вес продукта, необязательный
   dimensions  String?  // Размеры продукта в формате "ДxШxВ", необязательный
   orders      Order[]  @relation("ProductOrders")
