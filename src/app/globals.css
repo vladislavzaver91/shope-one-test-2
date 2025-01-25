@@ -77,11 +77,11 @@ body {
 	}
 }
 
-.custom-btn-next {
+.custom-btn-prev {
 	@apply z-10 absolute top-0 right-0 md:right-1/4 transform -translate-y-1/2 text-gray-500 p-3 rounded-full shadow-md hover:bg-[#0e62e4] backdrop-blur-md hover:text-gray-300 transition-all cursor-pointer;
 }
 
-.custom-btn-prev {
+.custom-btn-next {
 	@apply z-10 absolute top-0 left-0 md:left-1/4 transform -translate-y-1/2 text-gray-500 p-3 rounded-full shadow-md hover:bg-[#0e62e4] backdrop-blur-md hover:text-gray-300 transition-all cursor-pointer;
 }
 

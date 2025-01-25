@@ -117,7 +117,7 @@ interface ProductListProps {
 const ProductList = ({ filters }: ProductListProps) => {
 	const [products, setProducts] = useState<Product[]>([])
 	const [page, setPage] = useState<number>(1)
-	const productsPerPage = 9
+	const productsPerPage = 12
 
 	useEffect(() => {
 		initializeProducts()
@@ -163,7 +163,7 @@ const ProductList = ({ filters }: ProductListProps) => {
 
 	return (
 		<div className='p-4'>
-			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
 				{currentPageProducts.map((product, index) => (
 					<motion.div
 						key={product.id}

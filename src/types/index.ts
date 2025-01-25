@@ -4,8 +4,11 @@ export interface Product {
 	description: string
 	price: number
 	popularity: number
-	image?: string
-	images?: string[]
+	color: string
+	capacityAvailable: string[]
+	colorsAvailable: string[]
+	image: string
+	images: string[]
 	category: string
 	type: string
 	quantity?: number

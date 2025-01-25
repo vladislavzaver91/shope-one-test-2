@@ -1,6 +1,7 @@
 'use client'
 
 import ProductItem from '@/components/product/ProductItem'
+import ProductPopularSlider from '@/components/product/ProductPopularSlider'
 import { Product } from '@/types'
 import { getProductsFromLocalStorage } from '@/utils/localStorageProducts'
 import { useRouter } from 'next/navigation'
@@ -44,6 +45,7 @@ export default function ProductPage({
 	return (
 		<div className='container'>
 			<ProductItem product={product} />
+			<ProductPopularSlider />
 		</div>
 	)
 }
