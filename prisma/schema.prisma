@@ -53,8 +53,7 @@ model Product {
   category    String
   images       String[]
   colorsAvailable       String[]
-  quantity Int? // Количество в наличии (опционально)
-
+  quantity Int // Количество в наличии (опционально)
   weight      Float?   // Вес продукта, необязательный
   dimensions  String?  // Размеры продукта в формате "ДxШxВ", необязательный
   orders      Order[]  @relation("ProductOrders")

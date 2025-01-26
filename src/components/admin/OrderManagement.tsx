@@ -7,18 +7,18 @@ import Image from "next/image";
 import { useState } from "react";
 
 interface OrderManagementProps {
-  orderData: Order[]; // Assuming orderData is passed as a prop now.
+  orders: Order[]; // Assuming orders is passed as a prop now.
 }
 
-const OrderManagement = ({ orderData }: OrderManagementProps) => {
+const OrderManagement = ({ orders }: OrderManagementProps) => {
   const [openOrderId, setOpenOrderId] = useState<string | null>(null);
 
   return (
     <div className="bg-white p-4 rounded-lg shadow-md">
       <h2 className="text-xl font-semibold mb-4">Orders</h2>
-      {orderData && orderData.length > 0 ? (
+      {orders && orders.length > 0 ? (
         <ul className="space-y-2">
-          {orderData.map((order) => {
+          {orders.map((order) => {
             const totalAmount = order.cartItems.reduce(
               (total, item) => total + item.price * item.quantity,
               0

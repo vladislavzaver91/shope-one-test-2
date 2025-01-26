@@ -13,6 +13,8 @@ interface ProductItemProps {
 const ProductItem = ({ product }: ProductItemProps) => {
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
+  const imageSrc =
+    product.images.length > 0 ? product.images[0] : "/placeholder.jpg";
 
   const handleAddToCart = () => {
     addToCart(product, quantity);
@@ -31,7 +33,7 @@ const ProductItem = ({ product }: ProductItemProps) => {
               className="relative w-12 h-12 flex items-center justify-center border border-gray-400 rounded-lg cursor-pointer hover:border-gray-800 transition"
             >
               <Image
-                src={img}
+                src={`/${imageSrc}.jpg`}
                 alt={`Thumbnail ${index}`}
                 width={42}
                 height={42}
@@ -44,7 +46,7 @@ const ProductItem = ({ product }: ProductItemProps) => {
         {/* main img */}
         <div className="relative sm:col-start-3 sm:col-end-10 flex justify-center items-center h-96 border rounded-lg sm:h-[464px] mb-4">
           <Image
-            src={product.images[0]}
+            src={`/${imageSrc}.jpg`}
             alt="Main product image"
             fill
             className="h-full w-full object-cover object-center"
@@ -129,26 +131,7 @@ const ProductItem = ({ product }: ProductItemProps) => {
           <h3 className="my-4">Tech specs</h3>
           {/* line */}
           <div className="w-full mb-4 border-t border-gray-300"></div>
-          <div className="flex justify-between mb-4">
-            <p className="text-sm font-semibold text-gray-500">Screen</p>
-            <p className="text-sm font-semibold">Screen</p>
-          </div>
-          <div className="flex justify-between mb-4">
-            <p className="text-sm font-semibold text-gray-500">Screen</p>
-            <p className="text-sm font-semibold">Screen</p>
-          </div>
-          <div className="flex justify-between mb-4">
-            <p className="text-sm font-semibold text-gray-500">Screen</p>
-            <p className="text-sm font-semibold">Screen</p>
-          </div>
-          <div className="flex justify-between mb-4">
-            <p className="text-sm font-semibold text-gray-500">Screen</p>
-            <p className="text-sm font-semibold">Screen</p>
-          </div>
-          <div className="flex justify-between mb-4">
-            <p className="text-sm font-semibold text-gray-500">Screen</p>
-            <p className="text-sm font-semibold">Screen</p>
-          </div>
+          {/* Здесь можно добавить спецификации продукта */}
         </div>
       </div>
     </div>

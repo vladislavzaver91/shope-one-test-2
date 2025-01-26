@@ -8,12 +8,15 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
+  // Проверяем наличие изображений и используем первое изображение или плейсхолдер
+  const imageSrc = product.images.length > 0 ? product.images[0] : "/placeholder.jpg";
+
   return (
     <div className="p-4 bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow">
       <div className="space-y-2 mb-2">
         <div className="relative w-full h-40 aspect-square">
           <Image
-            src={`${product.images ? product.images : "/placeholder.jpg"}`}
+            src={`/${imageSrc}.jpg`} // Убедитесь, что путь начинается с /
             alt={product.title}
             fill
             className="w-full object-cover object-center rounded-lg"
@@ -32,6 +35,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
       <div className="flex justify-between items-center mb-2">
         <p className="text-gray-500 text-sm">Type:</p>
         <p className="text-sm">{product.type}</p>
+      </div>
+      <div className="flex justify-between items-center mb-2">
+        <p className="text-gray-500 text-sm">ID:</p>
+        <p className="text-sm">{product.id}</p>
       </div>
       <div className="mt-4">
         <Link href={`/product/${product.id}`}>

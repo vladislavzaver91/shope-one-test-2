@@ -7,11 +7,11 @@ export interface Product {
   category: string;
   images: string[];
   colorsAvailable: string[],
-  quantity: number;
-  weight?: number;
-  dimensions?: string;
-  createdAt?: string;
-  updatedAt?: string;
+	quantity: number
+	weight?: number | null
+	dimensions?: string | null
+  createdAt: Date; // Измените на Date
+  updatedAt: Date; // Измените на Date
 }
 
 export type Order = {

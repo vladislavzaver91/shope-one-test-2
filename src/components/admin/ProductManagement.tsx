@@ -14,12 +14,15 @@ const ProductManagement = ({ products }: ProductManagementProps) => {
     title: "",
     description: "",
     price: 0,
-    image: "",
+    images: [],
     category: "",
     type: "Digital", // Default type can be Digital or Physical
     weight: undefined,
     dimensions: undefined,
     quantity: 0,
+    colorsAvailable: [], // Добавлено поле для доступных цветов
+    createdAt: new Date(), // Добавьте текущую дату
+    updatedAt: new Date(), // Добавьте текущую дату
   });
 
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -40,12 +43,15 @@ const ProductManagement = ({ products }: ProductManagementProps) => {
       title: "",
       description: "",
       price: 0,
-      images: "",
+      images: [],
       category: "",
       type: "Digital",
       weight: undefined,
       dimensions: undefined,
       quantity: 0,
+      colorsAvailable: [], // Сброс массива доступных цветов
+      createdAt: new Date(), // Добавьте текущую дату
+      updatedAt: new Date(), // Добавьте текущую дату
     });
     setIsEditing(false);
   };
@@ -141,9 +147,30 @@ const ProductManagement = ({ products }: ProductManagementProps) => {
 
         <input
           type="text"
-          placeholder="Image URL"
-          value={form.images}
-          onChange={(e) => setForm({ ...form, images: e.target.value })}
+          placeholder="Image URLs (comma separated)"
+          value={form.images.join(", ")}
+          onChange={(e) =>
+            setForm({
+              ...form,
+              images: e.target.value.split(",").map((url) => url.trim()),
+            })
+          }
+          className="w-full p-2 border rounded-lg"
+        />
+
+        {/* Поле для ввода доступных цветов */}
+        <input
+          type="text"
+          placeholder="Available Colors (comma separated)"
+          value={form.colorsAvailable.join(", ")} // Преобразуем массив в строку для отображения
+          onChange={(e) =>
+            setForm({
+              ...form,
+              colorsAvailable: e.target.value
+                .split(",")
+                .map((color) => color.trim()), // Преобразуем строку обратно в массив
+            })
+          }
           className="w-full p-2 border rounded-lg"
         />
         <input
