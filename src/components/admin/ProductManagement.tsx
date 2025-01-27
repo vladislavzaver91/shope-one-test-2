@@ -82,7 +82,6 @@ const ProductManagement = ({ products }: ProductManagementProps) => {
       // Optionally, refresh the product list here by re-fetching or updating state.
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("There was an error processing your request.");
     }
   };
 
@@ -92,7 +91,6 @@ const ProductManagement = ({ products }: ProductManagementProps) => {
       // Optionally refresh the product list after deletion
     } catch (error) {
       console.error("Error deleting product:", error);
-      alert("Failed to delete the product.");
     }
   };
 

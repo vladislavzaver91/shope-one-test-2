@@ -28,7 +28,6 @@ const ProductList = ({ filters }: ProductListProps) => {
       setProducts(response.data.products); // Assuming API returns products in response.data.products
     } catch (error) {
       console.error("Error fetching products:", error);
-      alert("Failed to fetch products.");
     }
   };
 
