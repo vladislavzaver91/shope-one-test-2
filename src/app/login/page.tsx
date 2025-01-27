@@ -40,6 +40,7 @@ export default function LoginPage() {
 			localStorage.setItem('accessToken', responseData.accessToken)
 			localStorage.setItem('refreshToken', responseData.refreshToken)
 			localStorage.setItem('userName', responseData.user.name || '')
+			console.log(responseData)
 
 			router.push('/')
 		} catch (error) {

@@ -1,5 +1,6 @@
 'use client'
 
+import { jwtDecode } from 'jwt-decode'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { HiOutlineUser } from 'react-icons/hi'
@@ -8,6 +9,10 @@ interface RegisterFormInputs {
 	name: string
 	email: string
 	password: string
+}
+
+interface DecodedToken {
+	userId: string
 }
 
 export default function RegisterPage() {
@@ -28,8 +33,13 @@ export default function RegisterPage() {
 
 			const result = await response.json()
 			if (response.ok) {
+				const decodedToken = jwtDecode<DecodedToken>(result.accessToken)
+				console.log(decodedToken)
+
+				const userId = decodedToken.userId
 				localStorage.setItem('accessToken', result.accessToken)
 				localStorage.setItem('userName', result.user.name)
+				localStorage.setItem('userId', userId)
 				console.log('Registration successfully!', result)
 				router.push('/')
 			} else {

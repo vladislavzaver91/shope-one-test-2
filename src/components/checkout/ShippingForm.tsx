@@ -21,7 +21,6 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 
 		const isDuplicate = existingAddresses.some(
 			address =>
-				address.fullName === data.fullName &&
 				address.address === data.address &&
 				address.city === data.city &&
 				address.zipCode === data.zipCode &&
@@ -44,21 +43,6 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 
 	return (
 		<form onSubmit={handleSubmit(handleFormSubmit)} className='space-y-4'>
-			<div>
-				<label htmlFor='fullName' className='block text-gray-700 font-medium'>
-					Full Name
-				</label>
-				<input
-					type='text'
-					id='fullName'
-					className='w-full border rounded-lg px-4 py-2 mt-1'
-					placeholder='Enter your full name'
-					{...register('fullName', { required: 'Full name is required' })}
-				/>
-				{errors.fullName && (
-					<p className='text-red-500 text-sm mt-1'>{errors.fullName.message}</p>
-				)}
-			</div>
 			<div>
 				<label htmlFor='address' className='block text-gray-700 font-medium'>
 					Address

@@ -43,7 +43,7 @@ model Order {
   user            User        @relation("UserOrders", fields: [userId], references: [id])
   productIds      String[]
   products        Product[]   @relation("ProductOrders")
-  deliveryAddress String
+  deliveryAddress String[]
   status          OrderStatus @default(Pending)
   delivery        Delivery?   @relation("OrderDelivery")
   createdAt       DateTime    @default(now())
