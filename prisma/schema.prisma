@@ -7,6 +7,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserType {
+  Admin
+  User
+}
+
 enum OrderStatus {
   Pending
   Completed
@@ -23,6 +28,7 @@ model User {
   email          String          @unique
   password       String
   name           String
+  type           UserType        @default(User)
   accessToken    String?
   refreshToken   String? // Add this line
   orders         Order[]         @relation("UserOrders")

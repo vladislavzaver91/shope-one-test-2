@@ -1,5 +1,7 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 interface LoginFormInputs {
@@ -13,9 +15,37 @@ export default function LoginPage() {
 		handleSubmit,
 		formState: { errors },
 	} = useForm<LoginFormInputs>()
+	const [serverError, setServerError] = useState<string | null>(null)
+	const router = useRouter()
 
-	const onSubmit = (data: LoginFormInputs) => {
-		console.log('Login Data:', data)
+	const onSubmit = async (data: LoginFormInputs) => {
+		setServerError(null)
+
+		try {
+			const response = await fetch('/api/auth/login', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(data),
+			})
+
+			if (!response.ok) {
+				const errorData = await response.json()
+				setServerError(errorData.error || 'Failed to log in.')
+				return
+			}
+
+			const responseData = await response.json()
+			localStorage.setItem('accessToken', responseData.accessToken)
+			localStorage.setItem('refreshToken', responseData.refreshToken)
+			localStorage.setItem('userName', responseData.user.name || '')
+
+			router.push('/')
+		} catch (error) {
+			console.error('Login error:', error)
+			setServerError('An unexpected error occurred. Please try again later.')
+		}
 	}
 
 	return (
@@ -77,6 +107,9 @@ export default function LoginPage() {
 							</p>
 						)}
 					</div>
+					{serverError && (
+						<p className='text-sm text-red-500 mt-2'>{serverError}</p>
+					)}
 					<button
 						type='submit'
 						className='w-full py-2 px-4 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 transition'
@@ -86,7 +119,7 @@ export default function LoginPage() {
 				</form>
 				<p className='text-sm text-center text-gray-600 mt-6'>
 					Don’t have an account?{' '}
-					<a href='/signup' className='text-blue-500 hover:underline'>
+					<a href='/register' className='text-blue-500 hover:underline'>
 						Sign Up
 					</a>
 				</p>

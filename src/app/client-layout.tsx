@@ -11,7 +11,7 @@ export default function ClientLayout({
 }) {
 	const pathname = usePathname()
 	const hideHeader =
-		pathname === '/login' || pathname === '/signup' || pathname === '/admin'
+		pathname === '/login' || pathname === '/register' || pathname === '/admin'
 
 	return !hideHeader ? (
 		<>

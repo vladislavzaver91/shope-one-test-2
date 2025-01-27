@@ -1,20 +1,47 @@
 'use client'
 
+import {
+	getRandomColor,
+	getUserInitials,
+} from '@/helpers/functions/stringAvatar'
 import useModal from '@/helpers/hooks/useModal'
 import { Transition } from '@headlessui/react'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import { FaCog, FaSignOutAlt, FaUser, FaUserPlus } from 'react-icons/fa'
 
-const UserMenu = () => {
+interface UserMenuProps {
+	userName: string | null
+	onLogout: () => void
+}
+
+const UserMenu = ({ userName, onLogout }: UserMenuProps) => {
+	const [bgColor, setBgColor] = useState<string>('')
 	const { isOpen, menuRef, toggleMenu } = useModal()
+
+	useEffect(() => {
+		setBgColor(getRandomColor())
+	}, [])
+
+	const handleLogout = () => {
+		localStorage.removeItem('accessToken')
+		localStorage.removeItem('userName')
+		toggleMenu()
+		onLogout()
+	}
 
 	return (
 		<div className='relative' ref={menuRef}>
 			<button
 				onClick={toggleMenu}
 				className='flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full'
+				style={{
+					backgroundColor: bgColor,
+				}}
 			>
-				<span className='text-lg font-semibold text-gray-700'>A</span>
+				<span className='text-lg font-semibold text-gray-700'>
+					{getUserInitials(userName || '')}
+				</span>
 			</button>
 			<Transition
 				show={isOpen}
@@ -62,8 +89,8 @@ const UserMenu = () => {
 						</li>
 						<li>
 							<Link
-								href='#'
-								onClick={toggleMenu}
+								href='/'
+								onClick={handleLogout}
 								className='flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100'
 							>
 								<FaSignOutAlt className='w-5 h-5 mr-3' />

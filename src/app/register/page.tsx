@@ -1,23 +1,43 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { HiOutlineUser } from 'react-icons/hi'
 
-interface SignupFormInputs {
+interface RegisterFormInputs {
 	name: string
 	email: string
 	password: string
 }
 
-export default function SignupPage() {
+export default function RegisterPage() {
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<SignupFormInputs>()
+	} = useForm<RegisterFormInputs>()
+	const router = useRouter()
 
-	const onSubmit = (data: SignupFormInputs) => {
-		console.log('Signup Data:', data)
+	const onSubmit = async (data: RegisterFormInputs) => {
+		try {
+			const response = await fetch('/api/auth/register', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(data),
+			})
+
+			const result = await response.json()
+			if (response.ok) {
+				localStorage.setItem('accessToken', result.accessToken)
+				localStorage.setItem('userName', result.user.name)
+				console.log('Registration successfully!', result)
+				router.push('/')
+			} else {
+				console.error('Registration error:', result.error)
+			}
+		} catch (error) {
+			console.error('Network error:', error)
+		}
 	}
 
 	return (

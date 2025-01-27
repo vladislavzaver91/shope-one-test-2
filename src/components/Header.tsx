@@ -2,12 +2,29 @@
 
 import { useCart } from '@/helpers/context/CartContext'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import { FaShoppingCart } from 'react-icons/fa'
 import UserMenu from './ui/UserMenu'
 
 const Header = () => {
-	const isAuth = Boolean(true) // Replace with actual authentication logic
+	const [isAuth, setIsAuth] = useState<boolean>(false)
+	const [userName, setUserName] = useState<string | null>(null)
 	const { cart } = useCart()
+
+	useEffect(() => {
+		const accessToken = localStorage.getItem('accessToken')
+		const userName = localStorage.getItem('userName')
+
+		if (accessToken) {
+			setIsAuth(true)
+			setUserName(userName)
+		}
+	}, [])
+
+	const handleLogout = () => {
+		setIsAuth(false)
+		setUserName(null)
+	}
 
 	return (
 		<header className='bg-white shadow-md fixed w-full z-10'>
@@ -20,9 +37,15 @@ const Header = () => {
 				</Link>
 
 				<nav className='flex items-center space-x-4'>
-					<Link href='/products' className='text-gray-800 hover:text-blue-500'>Products</Link>
-					<Link href='/about' className='text-gray-800 hover:text-blue-500'>About Us</Link>
-					<Link href='/contact' className='text-gray-800 hover:text-blue-500'>Contact</Link>
+					<Link href='/products' className='text-gray-800 hover:text-blue-500'>
+						Products
+					</Link>
+					<Link href='/about' className='text-gray-800 hover:text-blue-500'>
+						About Us
+					</Link>
+					<Link href='/contact' className='text-gray-800 hover:text-blue-500'>
+						Contact
+					</Link>
 				</nav>
 
 				{isAuth ? (
@@ -41,7 +64,7 @@ const Header = () => {
 							</button>
 						</Link>
 
-						<UserMenu />
+						<UserMenu userName={userName} onLogout={handleLogout} />
 					</div>
 				) : (
 					<div className='flex items-center space-x-4'>
@@ -52,7 +75,7 @@ const Header = () => {
 							Log In
 						</Link>
 						<Link
-							href='/signup'
+							href='/register'
 							className='px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition'
 						>
 							Sign Up
@@ -64,4 +87,4 @@ const Header = () => {
 	)
 }
 
-export default Header;
+export default Header
