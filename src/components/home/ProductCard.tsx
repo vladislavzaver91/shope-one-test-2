@@ -1,52 +1,49 @@
 import { Product } from "@/types";
+import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
-import { TbExternalLink } from "react-icons/tb";
 
 interface ProductCardProps {
-  product: Product;
+  product: Product; // Указываем, что компонент принимает объект product типа Product
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
-  // Проверяем наличие изображений и используем первое изображение или плейсхолдер
-  const imageSrc = product.images.length > 0 ? product.images[0] : "/placeholder.jpg";
+  const imageSrc =
+    product.images.length > 0 ? product.images[0] : "/placeholder.jpg";
 
   return (
-    <div className="p-4 bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow">
-      <div className="space-y-2 mb-2">
-        <div className="relative w-full h-40 aspect-square">
-          <Image
-            src={`/${imageSrc}.jpg`} // Убедитесь, что путь начинается с /
-            alt={product.title}
-            fill
-            className="w-full object-cover object-center rounded-lg"
-          />
-        </div>
-        <h2 className="text-lg font-semibold">{product.title}</h2>
-        <p className="text-gray-700 font-bold">${product.price}</p>
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden group">
+      {/* Image Container */}
+      <div className="relative aspect-square">
+        <Image
+          src={`/${imageSrc}.jpg`}
+          alt={product.title}
+          fill
+          className="object-cover group-hover:scale-105 transition-transform duration-300"
+        />
       </div>
 
-      {/* line */}
-      <div className="w-full mb-4 border-t border-gray-300"></div>
-      <div className="flex justify-between items-center mb-2">
-        <p className="text-gray-500 text-sm">Category:</p>
-        <p className="text-sm">{product.category}</p>
-      </div>
-      <div className="flex justify-between items-center mb-2">
-        <p className="text-gray-500 text-sm">Type:</p>
-        <p className="text-sm">{product.type}</p>
-      </div>
-      <div className="flex justify-between items-center mb-2">
-        <p className="text-gray-500 text-sm">ID:</p>
-        <p className="text-sm">{product.id}</p>
-      </div>
-      <div className="mt-4">
-        <Link href={`/product/${product.id}`}>
-          <button className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-lg flex items-center space-x-2">
-            <span>Details</span>
-            <TbExternalLink />
+      {/* Content */}
+      <div className="p-4">
+        <div className="mb-2">
+          <span className="text-sm text-blue-600 font-medium">
+            {product.category}
+          </span>
+        </div>
+        <h3 className="font-semibold text-gray-800 mb-2 line-clamp-2">
+          {product.title}
+        </h3>
+        <p className="text-sm text-gray-500 mb-4 line-clamp-2">
+          {product.description}
+        </p>
+        <div className="flex items-center justify-between">
+          <span className="text-lg font-bold text-gray-900">
+            ${product.price.toLocaleString()}
+          </span>
+          <button className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+            <ShoppingCart className="w-4 h-4" />
+            Add
           </button>
-        </Link>
+        </div>
       </div>
     </div>
   );

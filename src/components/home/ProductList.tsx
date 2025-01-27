@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const ProductCard = dynamic(() => import("./ProductCard"), { ssr: false });
 
@@ -19,16 +21,18 @@ interface ProductListProps {
 const ProductList = ({ filters }: ProductListProps) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [page, setPage] = useState<number>(1);
+  const [loading, setLoading] = useState(true);
   const productsPerPage = 12;
 
-  // Fetch products from the database
   const fetchProducts = async () => {
     try {
+      setLoading(true);
       const response = await axios.get("/api/products");
-      setProducts(response.data.products); // Assuming API returns products in response.data.products
+      setProducts(response.data.products);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching products:", error);
-      alert("Failed to fetch products.");
+      setLoading(false);
     }
   };
 
@@ -53,23 +57,40 @@ const ProductList = ({ filters }: ProductListProps) => {
 
   return (
     <div className="p-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {currentPageProducts.map((product, index) => (
-          <motion.div
-            key={product.id}
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: "easeOut", delay: index * 0.1 }}
-          >
-            <ProductCard product={product} />
-          </motion.div>
-        ))}
-        {products.length === 0 && (
-          <p className="col-span-full text-center text-gray-500">
-            No products found.
-          </p>
-        )}
-      </div>
+      {loading ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {Array.from({ length: productsPerPage }).map((_, index) => (
+            <div key={index} className="p-4">
+              <Skeleton height={200} className="mb-4" />
+              <Skeleton width="60%" className="mb-2" />
+              <Skeleton width="80%" className="mb-2" />
+              <Skeleton width="40%" />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {currentPageProducts.map((product, index) => (
+            <motion.div
+              key={product.id}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.5,
+                ease: "easeOut",
+                delay: index * 0.1,
+              }}
+            >
+              <ProductCard product={product} />
+            </motion.div>
+          ))}
+          {products.length === 0 && (
+            <p className="col-span-full text-center text-gray-500">
+              No products found.
+            </p>
+          )}
+        </div>
+      )}
 
       <div className="flex justify-center mt-6">
         {totalPages > 1 && (
