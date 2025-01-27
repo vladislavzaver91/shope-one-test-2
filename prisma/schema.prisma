@@ -30,7 +30,7 @@ model User {
   name           String
   type           UserType        @default(User)
   accessToken    String?
-  refreshToken   String? // Add this line
+  refreshToken   String?
   orders         Order[]         @relation("UserOrders")
   paymentIntents PaymentIntent[] @relation("UserPayments")
   createdAt      DateTime        @default(now())

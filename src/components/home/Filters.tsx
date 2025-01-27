@@ -1,38 +1,68 @@
+'use client'
+
+import { Sliders } from 'lucide-react'
+
 interface FiltersProps {
-	onFilter: (key: string, value: string) => void
+  onFilter: (key: string, value: string) => void
 }
 
 const Filters = ({ onFilter }: FiltersProps) => {
-	return (
-		<div className='p-2 bg-white rounded-lg shadow-md flex gap-4 justify-between items-center'>
-			<h3 className='text-lg font-semibold'>Filters</h3>
-			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-				<select
-					className='w-full h-full p-2 border rounded mb-4'
-					onChange={e => onFilter('category', e.target.value)}
-				>
-					<option value=''>All Categories</option>
-					<option value='Electronics'>Electronics</option>
-					<option value='Books'>Books</option>
-					<option value='Software'>Software</option>
-				</select>
-				<input
-					type='number'
-					placeholder='Max Price'
-					className='w-full h-full p-2 border rounded'
-					onChange={e => onFilter('price', e.target.value)}
-				/>
-				<select
-					className='w-full h-full p-2 border rounded'
-					onChange={e => onFilter('sort', e.target.value)}
-				>
-					<option value=''>Sort By</option>
-					<option value='price'>Price (Low to High)</option>
-					<option value='popularity'>Popularity</option>
-				</select>
-			</div>
-		</div>
-	)
+  return (
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+      <div className="flex items-center gap-2 mb-6">
+        <Sliders className="w-5 h-5 text-blue-600" />
+        <h3 className="text-lg font-semibold">Filters</h3>
+      </div>
+
+      <div className="space-y-6">
+        {/* Categories */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Category
+          </label>
+          <select
+            className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+            onChange={e => onFilter('category', e.target.value)}
+          >
+            <option value="">All Categories</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Books">Books</option>
+            <option value="Software">Software</option>
+          </select>
+        </div>
+
+        {/* Price Range */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Max Price
+          </label>
+          <input
+            type="number"
+            placeholder="Enter maximum price"
+            className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+            onChange={e => onFilter('price', e.target.value)}
+          />
+        </div>
+
+        {/* Sort */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Sort By
+          </label>
+          <select
+            className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+            onChange={e => onFilter('sort', e.target.value)}
+          >
+            <option value="">Featured</option>
+            <option value="price">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="popularity">Most Popular</option>
+            <option value="newest">Newest First</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export default Filters
