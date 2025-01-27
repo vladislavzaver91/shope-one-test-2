@@ -1,29 +1,19 @@
 import { Product } from '@/types'
-import Pagination from '@mui/material/Pagination'
 import axios from 'axios'
 import { motion } from 'framer-motion'
+import { ChevronRight } from 'lucide-react'
 import dynamic from 'next/dynamic'
-import { useEffect, useMemo, useState } from 'react'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
 const ProductCard = dynamic(() => import('./ProductCard'), { ssr: false })
 
-interface ProductListProps {
-	filters: {
-		category: string
-		search: string
-		minPrice: string
-		maxPrice: string
-		sort: string
-	}
-}
-
-const ProductList = ({ filters }: ProductListProps) => {
+const Stock = () => {
 	const [products, setProducts] = useState<Product[]>([])
-	const [page, setPage] = useState<number>(1)
 	const [loading, setLoading] = useState(true)
-	const productsPerPage = 12
+	const productsPerPage = 4
 
 	const fetchProducts = async () => {
 		try {
@@ -39,48 +29,23 @@ const ProductList = ({ filters }: ProductListProps) => {
 
 	useEffect(() => {
 		fetchProducts()
-	}, [filters])
-
-	const totalPages = Math.ceil(products.length / productsPerPage)
-
-	const currentPageProducts = useMemo(() => {
-		let filteredProducts = products
-
-		if (filters.minPrice) {
-			const minPrice = parseFloat(filters.minPrice)
-			filteredProducts = filteredProducts.filter(
-				product => product.price >= minPrice
-			)
-		}
-
-		if (filters.maxPrice) {
-			const maxPrice = parseFloat(filters.maxPrice)
-			filteredProducts = filteredProducts.filter(
-				product => product.price <= maxPrice
-			)
-		}
-
-		if (filters.category) {
-			filteredProducts = filteredProducts.filter(
-				product => product.category === filters.category
-			)
-		}
-
-		const startIndex = (page - 1) * productsPerPage
-		const endIndex = startIndex + productsPerPage
-
-		return filteredProducts.slice(startIndex, endIndex)
-	}, [page, products, filters])
-
-	const handlePageChange = (
-		event: React.ChangeEvent<unknown>,
-		value: number
-	) => {
-		setPage(value)
-	}
+	}, [])
 
 	return (
 		<div className='p-4'>
+			<div className='mb-5 flex items-center justify-between'>
+				<h2 className='tracking-widest text-xl font-medium text-black'>
+					Stock
+				</h2>
+				<Link
+					href='/'
+					className='flex items-center gap-3 tracking-widest text-sm text-black'
+				>
+					<span>All stocks</span>
+					<ChevronRight size={20} />
+				</Link>
+			</div>
+
 			{loading ? (
 				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
 					{Array.from({ length: productsPerPage }).map((_, index) => (
@@ -94,7 +59,7 @@ const ProductList = ({ filters }: ProductListProps) => {
 				</div>
 			) : (
 				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
-					{currentPageProducts.map((product, index) => (
+					{products.map((product, index) => (
 						<motion.div
 							key={product.id}
 							initial={{ opacity: 0, y: 50 }}
@@ -115,20 +80,8 @@ const ProductList = ({ filters }: ProductListProps) => {
 					)}
 				</div>
 			)}
-
-			<div className='flex justify-center mt-6'>
-				{totalPages > 1 && (
-					<Pagination
-						count={totalPages}
-						page={page}
-						onChange={handlePageChange}
-						color='primary'
-						size='large'
-					/>
-				)}
-			</div>
 		</div>
 	)
 }
 
-export default ProductList
+export default Stock
