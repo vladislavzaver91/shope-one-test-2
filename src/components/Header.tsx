@@ -1,15 +1,55 @@
 'use client'
 
 import { useCart } from '@/helpers/context/CartContext'
-import { Search, ShoppingCart } from 'lucide-react'
+import { Product } from '@/types'
+import { ShoppingCart } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import SearchBar from './ui/SearchBar'
 import UserMenu from './ui/UserMenu'
 
 const Header = () => {
 	const [isAuth, setIsAuth] = useState<boolean>(false)
 	const [userName, setUserName] = useState<string | null>(null)
+	const [products, setProducts] = useState<Product[]>([])
+	const [isLoading, setIsLoading] = useState(true)
+	const [searchQuery, setSearchQuery] = useState('')
+
 	const { cart } = useCart()
+
+	useEffect(() => {
+		const fetchProducts = async () => {
+			setIsLoading(true)
+			try {
+				const response = await fetch('/api/products/search', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({ searchQuery }),
+				})
+
+				const data = await response.json()
+
+				if (!response.ok) {
+					throw new Error(data.message || 'Failed to fetch products')
+				}
+
+				setProducts(data.products || [])
+			} catch (error) {
+				console.log('Error:', error)
+				setProducts([])
+			} finally {
+				setIsLoading(false)
+			}
+		}
+
+		if (searchQuery) {
+			fetchProducts()
+		}
+	}, [searchQuery])
+
+	console.log(products)
 
 	useEffect(() => {
 		const accessToken = localStorage.getItem('accessToken')
@@ -50,15 +90,11 @@ const Header = () => {
 
 				{isAuth ? (
 					<div className='flex items-center space-x-4'>
-						<div className='relative'>
-							<input
-								type='text'
-								placeholder='Search products...'
-								className='max-w-48 pl-12 pr-4 py-3 rounded-full border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none'
-								// onChange={(e) => onSearch(e.target.value)}
-							/>
-							<Search className='absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5' />
-						</div>
+						<SearchBar
+							onSearch={value => setSearchQuery(value)}
+							products={products}
+							isLoading={isLoading}
+						/>
 						<Link href='/cart'>
 							<button className='p-2 hover:bg-gray-100 rounded-full relative'>
 								<ShoppingCart className='w-6 h-6' />

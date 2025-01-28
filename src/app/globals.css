@@ -52,7 +52,7 @@ body {
 
 .heading-section {
 	padding: 80px 0;
-  min-height: 100vh;
+	min-height: 100vh;
 }
 
 .section {
@@ -85,13 +85,5 @@ body {
 .custom-btn-next {
 	@apply z-10 absolute top-0 left-0 md:left-1/4 transform -translate-y-1/2 text-gray-500 p-3 rounded-full shadow-md hover:bg-[#0e62e4] backdrop-blur-md hover:text-gray-300 transition-all cursor-pointer;
 }
-
-/* .banner-btn-prev {
-	@apply z-10 absolute top-1/2 left-0 transform -translate-y-1/2 text-gray-500 p-3 rounded-full shadow-md hover:bg-[#0e62e4] hover:text-gray-300 transition-all cursor-pointer;
-}
-
-.banner-btn-next {
-	@apply z-10 absolute top-1/2 right-0 transform -translate-y-1/2 text-gray-500 p-3 rounded-full shadow-md hover:bg-[#0e62e4] hover:text-gray-300 transition-all cursor-pointer;
-} */
 
 /* font-[family-name:var(--font-nunito-sans)] */

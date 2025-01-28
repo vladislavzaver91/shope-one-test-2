@@ -10,28 +10,46 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 
 const bannerImages = [
 	{
-		name: 'banner_1',
-		href: '/banner_1.png',
-		title: 'Умная колонка',
-		discount: 'Скидка 30%',
+		title: 'E-books',
+		descr:
+			'Discover a vast collection of e-books across all genres. Instant access, no shipping required.',
+		image: '/ebooks.png',
 	},
 	{
-		name: 'banner_2',
-		href: '/laptop.png',
-		title: 'Монитор',
-		discount: 'Скидка 25%',
+		title: 'Software',
+		descr:
+			'From productivity tools to creative software, get the apps you need to achieve your goals.',
+		image: '/software.png',
 	},
 	{
-		name: 'banner_3',
-		href: '/pc.png',
-		title: 'Ноутбук',
-		discount: 'Скидка 10%',
+		title: 'Music',
+		descr:
+			'Download high-quality music tracks or albums. Your favorite tunes, always with you.',
+		image: '/music.png',
+	},
+	{
+		title: 'Electronics',
+		descr:
+			'Upgrade your tech with the latest gadgets and devices for work or entertainment.',
+		image: '/electronics.png',
+	},
+	{
+		title: 'Clothing',
+		descr:
+			'Stay stylish with our premium clothing selection. Fashion for every season and occasion.',
+		image: '/clothing.png',
+	},
+	{
+		title: 'Home Goods',
+		descr:
+			'Transform your space with high-quality home essentials and decor. Comfort meets design.',
+		image: '/homegoods.png',
 	},
 ]
 
 const Hero = () => {
 	return (
-		<div className='relative'>
+		<div className='relative max-w-3xl mx-auto'>
 			<Swiper
 				modules={[Navigation]}
 				spaceBetween={40}
@@ -44,32 +62,32 @@ const Hero = () => {
 				className='rounded-lg overflow-hidden h-64'
 			>
 				{bannerImages.map(bannerImg => (
-					<SwiperSlide key={bannerImg.name}>
-						<div className='flex gap-10 items-center justify-center rounded-lg w-full h-full bg-[#0c0c0c]'>
-							<div>
-								<h2 className='text-white text-4xl font-medium tracking-wider'>
+					<SwiperSlide key={bannerImg.title}>
+						<div className='flex gap-6 items-center justify-center rounded-lg w-full h-full bg-gradient-to-r from-blue-600 to-indigo-600'>
+							<div className='w-2/3 pl-8 space-y-2'>
+								<h2 className='text-white text-xl md:text-3xl font-medium tracking-wider'>
 									{bannerImg.title}
 								</h2>
-								<p className='text text-yellow-300 text-3xl font-normal tracking-wider'>
-									{bannerImg.discount}
+								<p className='text text-yellow-300 text-lg md:text-2xl font-normal tracking-wider'>
+									{bannerImg.descr}
 								</p>
 							</div>
-							<div className='relative top-5 w-96 h-64'>
+							<div className='relative w-1/3 h-64'>
 								<Image
-									src={bannerImg.href}
-									alt={bannerImg.name}
+									src={bannerImg.image}
+									alt={bannerImg.title}
 									fill
-									className='w-full h-full object-scale-down object-center'
+									className='w-full h-full object-contain object-center'
 								/>
 							</div>
 						</div>
 					</SwiperSlide>
 				))}
 			</Swiper>
-			<button className='banner-btn-next z-10 absolute top-1/2 right-0 transform -translate-y-1/2 text-white p-3 border border-white rounded-full shadow-md hover:text-gray-400 hover:border-gray-400 transition-all cursor-pointer'>
+			<button className='banner-btn-next z-10 absolute top-1/2 -right-16 transform -translate-y-1/2 text-[#0c0c0c] p-3 border border-[#0c0c0c] rounded-full shadow-md hover:text-gray-600 hover:border-gray-600 transition-all cursor-pointer'>
 				<ChevronRight />
 			</button>
-			<button className='banner-btn-prev z-10 absolute top-1/2 left-0 transform -translate-y-1/2 text-white p-3 border border-white rounded-full shadow-md hover:text-gray-400 hover:border-gray-400  transition-all cursor-pointer;'>
+			<button className='banner-btn-prev z-10 absolute top-1/2 -left-16 transform -translate-y-1/2 text-[#0c0c0c] p-3 border border-[#0c0c0c] rounded-full shadow-md hover:text-gray-600 hover:border-gray-600  transition-all cursor-pointer;'>
 				<ChevronLeft />
 			</button>
 		</div>
