@@ -34,7 +34,7 @@ const OrderHistory = ({ orders }: OrderHistoryProps) => {
               className="bg-white p-4 rounded-lg shadow-md border border-gray-200"
             >
               <h3 className="font-semibold text-lg">Order #{order.id}</h3>
-              <p>Date: {order.date}</p>
+              <p>Date: {order.createdAt}</p>
               <p>Total amount: ${totalAmount.toFixed(2)}</p>
               <button
                 onClick={() => setOpenOrderId(isDetailsOpen ? null : order.id)}
@@ -57,7 +57,7 @@ const OrderHistory = ({ orders }: OrderHistoryProps) => {
                       <h3 className="font-semibold text-lg mb-4">
                         Order #{order.id}
                       </h3>
-                      <p className="mb-4">Date: {order.date}</p>
+                      <p className="mb-4">Date: {order.createdAt}</p>
                       <p>Payment method: {order.paymentMethod}</p>
                     </div>
                     <p className="font-semibold text-lg">

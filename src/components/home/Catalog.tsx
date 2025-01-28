@@ -77,7 +77,7 @@ const Catalog = () => {
 				{catalogItems.map((item, index) => (
 					<SwiperSlide key={index}>
 						<div className='space-y-6 w-full h-full'>
-							<div className='relative bg-[#bcc5ff] rounded-lg top-5 w-full max-w-[200] h-[212px]'>
+							<div className='relative bg-gradient-to-r from-blue-600 to-indigo-600  rounded-lg top-5 w-full max-w-[200] h-[212px]'>
 								<Image
 									src={item.href}
 									alt={item.name}

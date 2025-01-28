@@ -1,5 +1,6 @@
 "use client";
 
+import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -17,6 +18,7 @@ export default function ClientLayout({
   return !hideHeader ? (
     <>
       <Header />
+
       {hideHi && (
         <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-8">
           <div className="container mx-auto px-4 py-16">
@@ -38,6 +40,7 @@ export default function ClientLayout({
         </div>
       )}
       <main className="heading-section">{children}</main>
+      <Footer />
     </>
   ) : (
     <main>{children}</main>
