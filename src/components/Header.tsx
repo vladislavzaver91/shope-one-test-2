@@ -4,7 +4,7 @@ import { useCart } from '@/helpers/context/CartContext'
 import useModal from '@/helpers/hooks/useModal'
 import { Product } from '@/types'
 import { motion } from 'framer-motion'
-import { CircleChevronDown, CircleChevronUp, ShoppingCart } from 'lucide-react'
+import { ChevronDown, ChevronUp, ShoppingCart } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import SearchBar from './ui/SearchBar'
@@ -110,9 +110,13 @@ const Header = () => {
 							</Link>
 							<button onClick={toggleMenu} className='block md:hidden'>
 								{isOpen ? (
-									<CircleChevronUp size={32} />
+									<button className='flex items-center justify-center w-8 h-8 border border-[#0c0c0c] rounded-full'>
+										<ChevronUp size={24} />
+									</button>
 								) : (
-									<CircleChevronDown size={32} />
+									<button className='flex items-center justify-center w-8 h-8 border border-[#0c0c0c] rounded-full'>
+										<ChevronDown size={24} />
+									</button>
 								)}
 							</button>
 
