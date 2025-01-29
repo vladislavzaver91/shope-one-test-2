@@ -1,5 +1,6 @@
 'use client'
 
+import Footer from '@/components/Footer'
 import Header from '@/components/Header'
 import { usePathname } from 'next/navigation'
 import React from 'react'
@@ -39,7 +40,7 @@ export default function ClientLayout({
 				</div>
 			)}
 			<main className='heading-section'>{children}</main>
-			{/* <Footer /> */}
+			<Footer />
 		</>
 	) : (
 		<main>{children}</main>

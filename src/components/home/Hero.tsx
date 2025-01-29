@@ -49,12 +49,19 @@ const bannerImages = [
 
 const Hero = () => {
 	return (
-		<div className='relative max-w-3xl mx-auto'>
+		<div className='relative max-w-4xl pb-16 md:px-16 md:pb-0 mx-auto'>
 			<Swiper
 				modules={[Navigation]}
-				spaceBetween={40}
 				loop={true}
-				slidesPerView={1}
+				slidesPerView={1.2}
+				spaceBetween={10}
+				breakpoints={{
+					768: {
+						slidesPerView: 1,
+						spaceBetween: 0,
+					},
+				}}
+				centeredSlides={true}
 				navigation={{
 					nextEl: '.banner-btn-next',
 					prevEl: '.banner-btn-prev',
@@ -84,10 +91,10 @@ const Hero = () => {
 					</SwiperSlide>
 				))}
 			</Swiper>
-			<button className='banner-btn-next z-10 absolute top-1/2 -right-16 transform -translate-y-1/2 text-[#0c0c0c] p-3 border border-[#0c0c0c] rounded-full shadow-md hover:text-gray-600 hover:border-gray-600 transition-all cursor-pointer'>
+			<button className='banner-btn-next z-10 absolute top-72 md:top-1/2 right-1/3 md:right-0 transform -translate-y-1/2 text-[#0c0c0c] p-3 border border-[#0c0c0c] rounded-full shadow-md hover:text-gray-600 hover:border-gray-600 transition-all cursor-pointer'>
 				<ChevronRight />
 			</button>
-			<button className='banner-btn-prev z-10 absolute top-1/2 -left-16 transform -translate-y-1/2 text-[#0c0c0c] p-3 border border-[#0c0c0c] rounded-full shadow-md hover:text-gray-600 hover:border-gray-600  transition-all cursor-pointer;'>
+			<button className='banner-btn-prev z-10 absolute top-72 md:top-1/2 left-1/3 md:left-0 transform -translate-y-1/2 text-[#0c0c0c] p-3 border border-[#0c0c0c] rounded-full shadow-md hover:text-gray-600 hover:border-gray-600  transition-all cursor-pointer;'>
 				<ChevronLeft />
 			</button>
 		</div>

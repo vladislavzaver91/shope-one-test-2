@@ -6,22 +6,24 @@ import Stock from '@/components/home/Stock'
 
 export default function Home() {
 	return (
-		<div className='container mx-auto p-4'>
-			<div className='section'>
+		<>
+			<div className='section md:container md:mx-auto md:p-4'>
 				<Hero />
 			</div>
-			{/* <div className="section">
+			<div className='container mx-auto p-4'>
+				{/* <div className="section">
         <Catalog />
       </div> */}
-			<div className='section'>
-				<Stock />
+				<div className='section'>
+					<Stock />
+				</div>
+				<div className='section'>
+					<NewItems />
+				</div>
+				<div className='section'>
+					<SpecialOffer />
+				</div>
 			</div>
-			<div className='section'>
-				<NewItems />
-			</div>
-			<div className='section'>
-				<SpecialOffer />
-			</div>
-		</div>
+		</>
 	)
 }
