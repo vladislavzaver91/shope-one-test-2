@@ -1,8 +1,10 @@
 'use client'
 
 import { useCart } from '@/helpers/context/CartContext'
+import useModal from '@/helpers/hooks/useModal'
 import { Product } from '@/types'
-import { ShoppingCart } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { CircleChevronDown, CircleChevronUp, ShoppingCart } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import SearchBar from './ui/SearchBar'
@@ -14,7 +16,7 @@ const Header = () => {
 	const [products, setProducts] = useState<Product[]>([])
 	const [isLoading, setIsLoading] = useState(true)
 	const [searchQuery, setSearchQuery] = useState('')
-
+	const { isOpen, toggleMenu } = useModal()
 	const { cart } = useCart()
 
 	useEffect(() => {
@@ -67,8 +69,8 @@ const Header = () => {
 	}
 
 	return (
-		<header className='bg-white shadow-md fixed w-full z-10'>
-			<div className='container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16'>
+		<header className='bg-white shadow-md fixed w-full z-20'>
+			<div className='container w-full mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16'>
 				<Link
 					href='/'
 					className='text-2xl font-bold uppercase tracking-widest text-gray-800 font-[family-name:var(--font-quicksand-sans)]'
@@ -76,7 +78,7 @@ const Header = () => {
 					shop
 				</Link>
 
-				<nav className='flex items-center space-x-4'>
+				<nav className='hidden md:flex items-center space-x-4'>
 					<Link href='/products' className='text-gray-800 hover:text-blue-500'>
 						Products
 					</Link>
@@ -89,27 +91,36 @@ const Header = () => {
 				</nav>
 
 				{isAuth ? (
-					<div className='flex items-center space-x-4'>
+					<div className='flex items-center gap-2'>
 						<SearchBar
 							onSearch={value => setSearchQuery(value)}
 							products={products}
 							isLoading={isLoading}
 						/>
-						<Link href='/cart'>
-							<button className='p-2 hover:bg-gray-100 rounded-full relative'>
-								<ShoppingCart className='w-6 h-6' />
-								{cart.length > 0 && (
-									<span className='w-5 h-5 text-center -right-2 top-0 rounded-full absolute bg-blue-600 text-sm font-medium text-white'>
-										{cart.length}
-									</span>
+						<div className='flex gap-2'>
+							<Link href='/cart' className='hidden md:block'>
+								<button className='p-2 hover:bg-gray-100 rounded-full relative'>
+									<ShoppingCart className='w-6 h-6' />
+									{cart.length > 0 && (
+										<span className='w-5 h-5 text-center -right-2 top-0 rounded-full absolute bg-blue-600 text-sm font-medium text-white'>
+											{cart.length}
+										</span>
+									)}
+								</button>
+							</Link>
+							<button onClick={toggleMenu} className='block md:hidden'>
+								{isOpen ? (
+									<CircleChevronUp size={32} />
+								) : (
+									<CircleChevronDown size={32} />
 								)}
 							</button>
-						</Link>
 
-						<UserMenu userName={userName} onLogout={handleLogout} />
+							<UserMenu userName={userName} onLogout={handleLogout} />
+						</div>
 					</div>
 				) : (
-					<div className='flex items-center space-x-4'>
+					<div className='hidden md:flex items-center space-x-4'>
 						<Link
 							href='/login'
 							className='px-4 py-2 text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-100 transition'
@@ -125,6 +136,60 @@ const Header = () => {
 					</div>
 				)}
 			</div>
+
+			{/* mobile nav */}
+			{isOpen && (
+				<motion.div
+					initial={{ y: '-100%', opacity: 0 }}
+					animate={{ y: isOpen ? '0%' : '-100%', opacity: isOpen ? 1 : 0 }}
+					transition={{ duration: 0.3, ease: 'easeInOut' }}
+					className='fixed top-16 left-0 w-full h-screen bg-white shadow-lg md:hidden'
+				>
+					<div className='overflow-y-auto h-screen flex flex-col items-center py-6 space-y-6'>
+						<Link
+							href='/products'
+							className='text-xl text-gray-800 hover:text-blue-500'
+						>
+							Products
+						</Link>
+						<Link
+							href='/about'
+							className='text-xl text-gray-800 hover:text-blue-500'
+						>
+							About Us
+						</Link>
+						<Link
+							href='/contact'
+							className='text-xl text-gray-800 hover:text-blue-500'
+						>
+							Contact
+						</Link>
+
+						<Link
+							href='/cart'
+							className='relative flex items-center space-x-2 text-gray-800 hover:text-blue-500'
+						>
+							<ShoppingCart className='w-6 h-6' />
+						</Link>
+						{!isAuth && (
+							<div className='flex items-center space-x-2'>
+								<Link
+									href='/login'
+									className='px-4 py-2 text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-100 transition'
+								>
+									Log In
+								</Link>
+								<Link
+									href='/register'
+									className='px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition'
+								>
+									Sign Up
+								</Link>
+							</div>
+						)}
+					</div>
+				</motion.div>
+			)}
 		</header>
 	)
 }

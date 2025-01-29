@@ -25,12 +25,12 @@ const UserMenu = ({ userName, onLogout }: UserMenuProps) => {
 		<div className='relative' ref={menuRef}>
 			<button
 				onClick={toggleMenu}
-				className='flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full'
+				className='flex items-center justify-center w-8 h-8 md:w-10 md:h-10 bg-gray-200 rounded-full'
 				style={{
 					backgroundColor: '#4A90E2',
 				}}
 			>
-				<span className='text-lg font-semibold text-gray-700'>
+				<span className='text-base md:text-lg font-semibold text-gray-700'>
 					{getUserInitials(userName || '')}
 				</span>
 			</button>
