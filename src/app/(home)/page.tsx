@@ -6,7 +6,7 @@ import Stock from '@/components/home/Stock'
 
 export default function Home() {
 	return (
-		<>
+		<div className='heading-section'>
 			<div className='section md:container md:mx-auto md:p-4'>
 				<Hero />
 			</div>
@@ -24,6 +24,6 @@ export default function Home() {
 					<SpecialOffer />
 				</div>
 			</div>
-		</>
+		</div>
 	)
 }

@@ -1,5 +1,6 @@
 'use client'
 
+import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -51,7 +52,12 @@ export default function LoginPage() {
 
 	return (
 		<div className='min-h-screen flex items-center justify-center bg-gray-100 px-4 sm:px-0'>
-			<div className='bg-white w-full max-w-md rounded-lg shadow-lg p-8'>
+			<motion.div
+				initial={{ y: -20, opacity: 0 }}
+				animate={{ y: 0, opacity: 1 }}
+				transition={{ duration: 0.5 }}
+				className='bg-white w-full max-w-md rounded-lg shadow-lg p-8'
+			>
 				<h2 className='text-2xl font-bold text-center text-gray-900 mb-6'>
 					Log In
 				</h2>
@@ -124,7 +130,7 @@ export default function LoginPage() {
 						Sign Up
 					</a>
 				</p>
-			</div>
+			</motion.div>
 		</div>
 	)
 }

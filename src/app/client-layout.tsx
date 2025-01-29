@@ -39,7 +39,7 @@ export default function ClientLayout({
 					</div>
 				</div>
 			)}
-			<main className='heading-section'>{children}</main>
+			<main>{children}</main>
 			<Footer />
 		</>
 	) : (

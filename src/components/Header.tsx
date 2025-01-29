@@ -152,18 +152,21 @@ const Header = () => {
 					<div className='overflow-y-auto h-screen flex flex-col items-center py-6 space-y-6'>
 						<Link
 							href='/products'
+							onClick={toggleMenu}
 							className='text-xl text-gray-800 hover:text-blue-500'
 						>
 							Products
 						</Link>
 						<Link
 							href='/about'
+							onClick={toggleMenu}
 							className='text-xl text-gray-800 hover:text-blue-500'
 						>
 							About Us
 						</Link>
 						<Link
 							href='/contact'
+							onClick={toggleMenu}
 							className='text-xl text-gray-800 hover:text-blue-500'
 						>
 							Contact
@@ -171,6 +174,7 @@ const Header = () => {
 
 						<Link
 							href='/cart'
+							onClick={toggleMenu}
 							className='relative flex items-center space-x-2 text-gray-800 hover:text-blue-500'
 						>
 							<ShoppingCart className='w-6 h-6' />
@@ -179,12 +183,14 @@ const Header = () => {
 							<div className='flex items-center space-x-2'>
 								<Link
 									href='/login'
+									onClick={toggleMenu}
 									className='px-4 py-2 text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-100 transition'
 								>
 									Log In
 								</Link>
 								<Link
 									href='/register'
+									onClick={toggleMenu}
 									className='px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition'
 								>
 									Sign Up

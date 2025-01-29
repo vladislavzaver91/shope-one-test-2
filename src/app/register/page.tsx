@@ -1,5 +1,6 @@
 'use client'
 
+import { motion } from 'framer-motion'
 import { jwtDecode } from 'jwt-decode'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
@@ -52,7 +53,12 @@ export default function RegisterPage() {
 
 	return (
 		<div className='min-h-screen flex items-center justify-center bg-gray-100 px-4 sm:px-0'>
-			<div className='bg-white w-full max-w-md rounded-lg shadow-lg p-8'>
+			<motion.div
+				initial={{ y: -20, opacity: 0 }}
+				animate={{ y: 0, opacity: 1 }}
+				transition={{ duration: 0.5 }}
+				className='bg-white w-full max-w-md rounded-lg shadow-lg p-8'
+			>
 				<div className='flex flex-col items-center mb-4'>
 					<h2 className='text-2xl font-bold text-gray-900 mb-6'>Sign Up</h2>
 					<div className='flex items-center justify-center w-24 h-24 bg-gray-100 rounded-full text-center'>
@@ -144,7 +150,7 @@ export default function RegisterPage() {
 						Log In
 					</a>
 				</p>
-			</div>
+			</motion.div>
 		</div>
 	)
 }

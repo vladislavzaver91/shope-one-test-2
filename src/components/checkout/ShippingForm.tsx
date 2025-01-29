@@ -1,6 +1,9 @@
 'use client'
 
 import { Address } from '@/types'
+import { motion } from 'framer-motion'
+import { ChevronDown, ChevronUp } from 'lucide-react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 interface ShippingFormProps {
@@ -13,6 +16,15 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 		handleSubmit,
 		formState: { errors },
 	} = useForm<Address>()
+
+	const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false)
+	const [selectedCountry, setSelectedCountry] = useState<string>('')
+
+	const countries = [
+		{ value: 'US', label: 'United States' },
+		{ value: 'CA', label: 'Canada' },
+		{ value: 'GB', label: 'United Kingdom' },
+	]
 
 	const saveAddressToLocalStorage = (data: Address) => {
 		const existingAddresses = JSON.parse(
@@ -42,15 +54,44 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 	}
 
 	return (
-		<form onSubmit={handleSubmit(handleFormSubmit)} className='space-y-4'>
+		<motion.form
+			initial={{ opacity: 0, y: 10 }}
+			animate={{ opacity: 1, y: 0 }}
+			transition={{ duration: 0.3, delay: 0.2 }}
+			onSubmit={handleSubmit(handleFormSubmit)}
+			className='relative space-y-6 bg-white rounded-xl shadow-md p-6'
+		>
+			{/* Background elements */}
+			<motion.div
+				initial={{ opacity: 0, scale: 0.8 }}
+				animate={{ opacity: 0.1, scale: 1 }}
+				transition={{ duration: 1 }}
+				className='absolute inset-0 bg-gradient-to-br from-blue-100 via-white to-blue-50 rounded-xl -z-10'
+			/>
+			<motion.div
+				initial={{ x: -50, opacity: 0 }}
+				animate={{ x: 0, opacity: 0.15 }}
+				transition={{ duration: 1.2, delay: 0.3 }}
+				className='absolute -top-10 -left-10 w-40 h-40 bg-blue-200 rounded-full -z-10'
+			/>
+			<motion.div
+				initial={{ x: 50, opacity: 0 }}
+				animate={{ x: 0, opacity: 0.15 }}
+				transition={{ duration: 1.2, delay: 0.5 }}
+				className='absolute -bottom-10 -right-10 w-32 h-32 bg-blue-300 rounded-full -z-10'
+			/>
+			{/* Address */}
 			<div>
-				<label htmlFor='address' className='block text-gray-700 font-medium'>
+				<label
+					htmlFor='address'
+					className='font-[family-name:var(--font-nunito-sans)] tracking-wider block text-sm font-medium text-gray-700'
+				>
 					Address
 				</label>
 				<input
 					type='text'
 					id='address'
-					className='w-full border rounded-lg px-4 py-2 mt-1'
+					className='w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500'
 					placeholder='Enter your address'
 					{...register('address', { required: 'Address is required' })}
 				/>
@@ -58,15 +99,20 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 					<p className='text-red-500 text-sm mt-1'>{errors.address.message}</p>
 				)}
 			</div>
+
+			{/* City and ZIP Code */}
 			<div className='grid grid-cols-2 gap-4'>
 				<div>
-					<label htmlFor='city' className='block text-gray-700 font-medium'>
+					<label
+						htmlFor='city'
+						className='font-[family-name:var(--font-nunito-sans)] tracking-wider block text-sm font-medium text-gray-700'
+					>
 						City
 					</label>
 					<input
 						type='text'
 						id='city'
-						className='w-full border rounded-lg px-4 py-2 mt-1'
+						className='w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500'
 						placeholder='City'
 						{...register('city', { required: 'City is required' })}
 					/>
@@ -75,13 +121,16 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 					)}
 				</div>
 				<div>
-					<label htmlFor='zipCode' className='block text-gray-700 font-medium'>
+					<label
+						htmlFor='zipCode'
+						className='font-[family-name:var(--font-nunito-sans)] tracking-wider block text-sm font-medium text-gray-700'
+					>
 						ZIP Code
 					</label>
 					<input
 						type='text'
 						id='zipCode'
-						className='w-full border rounded-lg px-4 py-2 mt-1'
+						className='w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500'
 						placeholder='ZIP Code'
 						{...register('zipCode', { required: 'ZIP Code is required' })}
 					/>
@@ -92,30 +141,67 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 					)}
 				</div>
 			</div>
-			<div>
-				<label htmlFor='country' className='block text-gray-700 font-medium'>
+
+			{/* Country */}
+			<div className='relative'>
+				<label
+					htmlFor='country'
+					className='font-[family-name:var(--font-nunito-sans)] tracking-wider block text-sm font-medium text-gray-700'
+				>
 					Country
 				</label>
-				<select
-					id='country'
-					className='w-full border rounded-lg px-4 py-2 mt-1'
-					{...register('country', { required: 'Country is required' })}
+				<div
+					className='w-full p-3 bg-gray-50 rounded-lg border flex justify-between items-center cursor-pointer'
+					onClick={() => setIsCountryDropdownOpen(!isCountryDropdownOpen)}
 				>
-					<option value=''>Select country</option>
-					<option value='US'>United States</option>
-					<option value='CA'>Canada</option>
-				</select>
+					<span className={selectedCountry ? '' : 'text-gray-400'}>
+						{selectedCountry || 'Select country'}
+					</span>
+					{isCountryDropdownOpen ? (
+						<ChevronUp className='w-5 h-5 text-gray-500' />
+					) : (
+						<ChevronDown className='w-5 h-5 text-gray-500' />
+					)}
+				</div>
+				<motion.ul
+					initial={{ opacity: 0, y: -10 }}
+					animate={{
+						opacity: isCountryDropdownOpen ? 1 : 0,
+						y: isCountryDropdownOpen ? 0 : -10,
+					}}
+					className={`absolute top-14 left-0 right-0 bg-white border rounded-lg shadow-lg overflow-hidden ${
+						isCountryDropdownOpen ? 'block' : 'hidden'
+					}`}
+				>
+					{countries.map(country => (
+						<li
+							key={country.value}
+							className='px-4 py-2 hover:bg-gray-100 cursor-pointer'
+							onClick={() => {
+								setSelectedCountry(country.label)
+								setIsCountryDropdownOpen(false)
+							}}
+						>
+							{country.label}
+						</li>
+					))}
+				</motion.ul>
 				{errors.country && (
 					<p className='text-red-500 text-sm mt-1'>{errors.country.message}</p>
 				)}
 			</div>
-			<button
+
+			{/* Submit Button */}
+			<motion.button
+				initial={{ opacity: 0, y: 20 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ duration: 0.5, delay: 0.3 }}
 				type='submit'
-				className='w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition'
+				className='w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors'
 			>
 				Continue to Payment
-			</button>
-		</form>
+			</motion.button>
+		</motion.form>
 	)
 }
 

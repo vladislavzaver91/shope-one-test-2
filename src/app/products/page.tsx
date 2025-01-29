@@ -36,7 +36,7 @@ export default function Products() {
 	}
 
 	return (
-		<main className='min-h-screen bg-gray-50'>
+		<main className='heading-section min-h-screen bg-gray-50'>
 			<div className='container mx-auto px-4 py-8'>
 				<div className='grid grid-cols-1 lg:grid-cols-4 gap-8'>
 					<div className='lg:col-span-1'>
