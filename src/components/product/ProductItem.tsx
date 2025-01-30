@@ -6,7 +6,7 @@ import { Product } from '@/types'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface ProductItemProps {
 	product: Product
@@ -17,6 +17,9 @@ const ProductItem = ({ product }: ProductItemProps) => {
 	const [mainImage, setMainImage] = useState(
 		product.images.length > 0 ? product.images[0] : '/placeholder.jpg'
 	)
+	const [isColorSelectOpen, setIsColorSelectOpen] = useState<boolean>(false)
+	const [selectedColor, setSelectedColor] = useState<string | null>(null)
+
 	const imageUrl = mainImage.startsWith('/')
 		? mainImage
 		: `/uploads/${mainImage}`
@@ -26,6 +29,17 @@ const ProductItem = ({ product }: ProductItemProps) => {
 	const handleAddToCart = () => {
 		addToCart(product, quantity)
 		console.log(`${product.title} added to cart!`)
+	}
+
+	useEffect(() => {
+		if (product.colorsAvailable.length > 0) {
+			setSelectedColor(product.colorsAvailable[0])
+		}
+	}, [product.colorsAvailable])
+
+	const handleColorSelect = (color: string) => {
+		setSelectedColor(color)
+		setIsColorSelectOpen(false)
 	}
 
 	return (
@@ -188,7 +202,7 @@ const ProductItem = ({ product }: ProductItemProps) => {
 						src={imageUrl}
 						alt='Main product image'
 						fill
-						className='h-full w-full object-cover object-center'
+						className='h-full w-full object-contain object-center'
 					/>
 				</motion.div>
 
@@ -199,27 +213,58 @@ const ProductItem = ({ product }: ProductItemProps) => {
 					transition={{ duration: 0.6 }}
 					className='sm:col-start-11 sm:col-end-20 space-y-6'
 				>
-					<div>
-						<p className='text-sm text-gray-500 mb-1'>Available Colors</p>
-						<div className='flex space-x-2'>
-							{product.colorsAvailable.map((color, index) => (
-								<Link
-									key={index}
-									href={`/product/${product.id}?color=${encodeURIComponent(
-										color
-									)}`}
-									className='w-8 h-8 rounded-full border hover:border-gray-800 transition'
-									style={{
-										backgroundColor: COLORS[color as keyof typeof COLOR],
-									}}
-								>
-									<span className='sr-only'>Select color {color}</span>
-								</Link>
-							))}
-						</div>
-					</div>
+					{product.colorsAvailable && product.colorsAvailable.length > 0 && (
+						<div>
+							<p className='text-sm text-gray-500 mb-1'>Available Colors</p>
 
-					<div className='w-full mb-4 border-t border-gray-300'></div>
+							<div className='relative flex flex-col'>
+								<div
+									className='w-8 h-8 rounded-full border border-gray-400 flex items-center justify-center cursor-pointer'
+									style={{
+										backgroundColor: selectedColor
+											? COLORS[selectedColor as keyof typeof COLORS]
+											: COLORS.black,
+									}}
+									onClick={() => setIsColorSelectOpen(prev => !prev)}
+								>
+									<span className='sr-only'>
+										{selectedColor ? selectedColor : 'Select color'}
+									</span>
+								</div>
+								{product.colorsAvailable.length > 1 && (
+									<motion.div
+										initial={{ opacity: 0, height: 0 }}
+										animate={{
+											opacity: isColorSelectOpen ? 1 : 0,
+											height: isColorSelectOpen ? 'auto' : 0,
+										}}
+										transition={{ duration: 0.3 }}
+										className='absolute top-10 -left-2 grid grid-cols-3 gap-2 bg-white shadow-md rounded-lg p-2 z-10'
+									>
+										{product.colorsAvailable.map((color, index) =>
+											color !== selectedColor ? (
+												<div
+													key={index}
+													onClick={() => handleColorSelect(color)}
+													className='flex flex-col space-y-2 cursor-pointer'
+												>
+													<div
+														className='w-8 h-8 rounded-full border border-gray-400'
+														style={{
+															backgroundColor:
+																COLORS[color as keyof typeof COLORS],
+														}}
+													/>
+													<span className='text-sm'>{color}</span>
+												</div>
+											) : null
+										)}
+									</motion.div>
+								)}
+							</div>
+							<div className='w-full my-4 border-t border-gray-300'></div>
+						</div>
+					)}
 
 					<div className='flex items-center mb-4'>
 						<label htmlFor='quantity' className='mr-4'>

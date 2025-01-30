@@ -10,16 +10,14 @@ const UserInfoForm = dynamic(
 		ssr: false,
 	}
 )
-
-const OrderHistory = dynamic(
-	() => import('../../components/user-account/OrderHistory'),
+const AddressManager = dynamic(
+	() => import('../../components/user-account/AddressManager'),
 	{
 		ssr: false,
 	}
 )
-
-const AddressManager = dynamic(
-	() => import('../../components/user-account/AddressManager'),
+const OrderHistory = dynamic(
+	() => import('../../components/user-account/OrderHistory'),
 	{
 		ssr: false,
 	}
@@ -30,20 +28,52 @@ export default function UserAccountPage() {
 	const [addresses, setAddresses] = useState<Address[]>([]) // addresses
 
 	useEffect(() => {
-		const savedOrders = localStorage.getItem('orders')
-		const savedAddresses = localStorage.getItem('addresses')
-		if (savedOrders) setOrders(JSON.parse(savedOrders))
-		if (savedAddresses) setAddresses(JSON.parse(savedAddresses))
+		const fetchOrders = async () => {
+			try {
+				const response = await fetch('/api/orders')
+				if (response.ok) {
+					const data = await response.json()
+					setOrders(data.orders)
+				}
+			} catch (error) {
+				console.error('Error fetching orders:', error)
+			}
+		}
+
+		const fetchAddresses = async () => {
+			try {
+				const userId = localStorage.getItem('userId')
+				if (!userId) {
+					console.log('User ID not found')
+					return
+				}
+				const response = await fetch('/api/shipping/addresses', {
+					method: 'GET',
+					headers: {
+						'user-id': userId,
+					},
+				})
+				if (response.ok) {
+					const data = await response.json()
+					console.log(data)
+					setAddresses(data)
+				}
+			} catch (error) {
+				console.error('Error fetching addresses:', error)
+			}
+		}
+
+		fetchOrders()
+		fetchAddresses()
 	}, [])
 
 	const handleUpdateAddresses = (newAddress: Address) => {
 		const updatedAddresses = [...addresses, newAddress]
 		setAddresses(updatedAddresses)
-		localStorage.setItem('addresses', JSON.stringify(updatedAddresses))
 	}
 
 	return (
-		<div className='max-w-5xl mx-auto p-6 space-y-8'>
+		<div className='max-w-2xl mx-auto p-6 space-y-8'>
 			<h1 className='text-2xl text-center font-bold text-gray-800'>
 				Personal account
 			</h1>

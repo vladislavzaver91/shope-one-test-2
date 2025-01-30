@@ -124,19 +124,32 @@ const Header = () => {
 						</div>
 					</div>
 				) : (
-					<div className='hidden md:flex items-center space-x-4'>
-						<Link
-							href='/login'
-							className='px-4 py-2 text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-100 transition'
-						>
-							Log In
-						</Link>
-						<Link
-							href='/register'
-							className='px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition'
-						>
-							Sign Up
-						</Link>
+					<div className='flex items-center space-x-4'>
+						<button onClick={toggleMenu} className='block md:hidden'>
+							{isOpen ? (
+								<button className='flex items-center justify-center w-8 h-8 border border-[#0c0c0c] rounded-full'>
+									<ChevronUp size={24} />
+								</button>
+							) : (
+								<button className='flex items-center justify-center w-8 h-8 border border-[#0c0c0c] rounded-full'>
+									<ChevronDown size={24} />
+								</button>
+							)}
+						</button>
+						<div className='hidden md:block space-x-4'>
+							<Link
+								href='/login'
+								className='px-4 py-2 text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-100 transition'
+							>
+								Log In
+							</Link>
+							<Link
+								href='/register'
+								className='px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition'
+							>
+								Sign Up
+							</Link>
+						</div>
 					</div>
 				)}
 			</div>

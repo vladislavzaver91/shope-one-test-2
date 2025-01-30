@@ -1,9 +1,6 @@
-import { PrismaClient } from '@prisma/client'
 import axios from 'axios'
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
-
-const prisma = new PrismaClient()
 
 const ShippingRateSchema = z.object({
 	origin: z.object({
@@ -79,31 +76,6 @@ export async function POST(request: NextRequest) {
 		console.error('Error calculating shipping rates:', error)
 		return NextResponse.json(
 			{ error: `Failed to calculate shipping rates: ${error}` },
-			{ status: 500 }
-		)
-	}
-}
-
-export async function GET(request: NextRequest) {
-	try {
-		const userId = request.headers.get('user-id') // Получаем userId из заголовков
-		if (!userId) {
-			return NextResponse.json(
-				{ error: 'User ID is required' },
-				{ status: 400 }
-			)
-		}
-
-		const addresses = await prisma.address.findMany({
-			where: { userId },
-			orderBy: { createdAt: 'desc' }, // Сортируем по дате создания
-		})
-
-		return NextResponse.json(addresses, { status: 200 })
-	} catch (error) {
-		console.error('Error fetching addresses:', error)
-		return NextResponse.json(
-			{ error: 'Failed to fetch addresses' },
 			{ status: 500 }
 		)
 	}

@@ -4,40 +4,81 @@
 import OrderManagement from '@/components/admin/OrderManagement'
 import ProductManagement from '@/components/admin/ProductManagement'
 import { Order, Product } from '@/types'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 export default function AdminPage() {
 	const [products, setProducts] = useState<Product[]>([])
 	const [orders, setOrders] = useState<Order[]>([])
+	const [loading, setLoading] = useState(true)
+	const router = useRouter()
 
 	useEffect(() => {
-		const fetchProducts = async () => {
+		const fetchUser = async () => {
 			try {
-				const response = await fetch('/api/products') // Adjust the endpoint as needed
-				if (response.ok) {
-					const data = await response.json()
-					setProducts(data.products)
+				const response = await fetch('/api/users/me', {
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+					},
+				})
+
+				if (!response.ok) {
+					if (response.status === 401 || response.status === 403) {
+						router.push('/login')
+					}
+					throw new Error('Failed to fetch user')
+				}
+
+				const user = await response.json()
+
+				if (user.type !== 'Admin') {
+					router.push('/')
+				} else {
+					setLoading(false)
 				}
 			} catch (error) {
-				console.error('Error fetching products:', error)
+				console.error('Error fetching user:', error)
+				router.push('/login')
 			}
 		}
 
-		const fetchOrders = async () => {
-			try {
-				const response = await fetch('/api/order') // Adjust the endpoint as needed
-				if (response.ok) {
-					const data = await response.json()
-					setOrders(data.orders)
-				}
-			} catch (error) {
-				console.error('Error fetching orders:', error)
-			}
-		}
+		fetchUser()
+	}, [router])
 
-		fetchProducts()
-		fetchOrders()
-	}, [])
+	useEffect(() => {
+		if (!loading) {
+			const fetchProducts = async () => {
+				try {
+					const response = await fetch('/api/products')
+					if (response.ok) {
+						const data = await response.json()
+						setProducts(data.products)
+					}
+				} catch (error) {
+					console.error('Error fetching products:', error)
+				}
+			}
+
+			const fetchOrders = async () => {
+				try {
+					const response = await fetch('/api/order')
+					if (response.ok) {
+						const data = await response.json()
+						setOrders(data.orders)
+					}
+				} catch (error) {
+					console.error('Error fetching orders:', error)
+				}
+			}
+
+			fetchProducts()
+			fetchOrders()
+		}
+	}, [loading])
+
+	if (loading) {
+		return <p>Loading...</p>
+	}
 
 	return (
 		<div className='min-h-screen bg-gray-100 p-4 text-gray-900'>

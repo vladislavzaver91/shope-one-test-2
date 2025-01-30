@@ -4,7 +4,7 @@ import getUserInitials from '@/helpers/functions/stringAvatar'
 import useModal from '@/helpers/hooks/useModal'
 import { Transition } from '@headlessui/react'
 import Link from 'next/link'
-import { FaCog, FaSignOutAlt, FaUser, FaUserPlus } from 'react-icons/fa'
+import { FaSignOutAlt, FaUser } from 'react-icons/fa'
 
 interface UserMenuProps {
 	userName: string | null
@@ -56,27 +56,7 @@ const UserMenu = ({ userName, onLogout }: UserMenuProps) => {
 							</Link>
 						</li>
 						<li>
-							<Link
-								href='#'
-								onClick={toggleMenu}
-								className='flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100'
-							>
-								<FaUserPlus className='w-5 h-5 mr-3' />
-								My Account
-							</Link>
-						</li>
-						<li>
 							<hr className='my-2 border-gray-300' />
-						</li>
-						<li>
-							<Link
-								href='#'
-								onClick={toggleMenu}
-								className='flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100'
-							>
-								<FaCog className='w-5 h-5 mr-3' />
-								Settings
-							</Link>
 						</li>
 						<li>
 							<Link

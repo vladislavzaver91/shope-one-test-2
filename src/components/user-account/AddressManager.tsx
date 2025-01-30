@@ -11,7 +11,7 @@ interface AddressManagerProps {
 interface AddressFormData {
 	address: string
 	city: string
-	zipCode: string
+	postalCode: string
 	country: string
 }
 
@@ -33,26 +33,29 @@ const AddressManager = ({ addresses, onUpdate }: AddressManagerProps) => {
 			<h2 className='text-xl font-semibold text-gray-700 mb-4'>
 				Delivery addresses
 			</h2>
-			<ul className='space-y-2'>
-				{addresses.map((address, index) => (
-					<li
-						key={index}
-						className='bg-white p-4 rounded-lg shadow-md border border-gray-200'
-					>
-						<p>{address.address}</p>
-						<p>{address.city}</p>
-						<p>{address.country}</p>
-						<p>{address?.fullName}</p>
-						<p>{address.zipCode}</p>
-					</li>
-				))}
-			</ul>
-			<button
-				onClick={() => setIsOpen(true)}
-				className='mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700'
-			>
-				Add address
-			</button>
+
+			<div className='bg-white p-6 rounded-lg shadow-md'>
+				<ul className='space-y-2'>
+					{addresses.map((address, index) => (
+						<li
+							key={index}
+							className='p-4 rounded-lg shadow-sm border border-gray-200 text-sm font-medium text-gray-700'
+						>
+							<p>{address.address}</p>
+							<p>{address.city}</p>
+							<p>{address.country}</p>
+							<p>{address?.name}</p>
+							<p>{address.postalCode}</p>
+						</li>
+					))}
+				</ul>
+				<button
+					onClick={() => setIsOpen(true)}
+					className='mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700'
+				>
+					Add address
+				</button>
+			</div>
 
 			<Modal
 				isOpen={isOpen}
@@ -120,18 +123,20 @@ const AddressManager = ({ addresses, onUpdate }: AddressManagerProps) => {
 						</div>
 						<div>
 							<label htmlFor='zipCode' className='block text-gray-700'>
-								ZIP Code
+								Postal Code
 							</label>
 							<input
 								type='text'
-								id='zipCode'
+								id='postalCode'
 								className='w-full border rounded-lg px-4 py-2 mt-1'
-								placeholder='ZIP Code'
-								{...register('zipCode', { required: 'ZIP Code is required' })}
+								placeholder='Postal Code'
+								{...register('postalCode', {
+									required: 'Postal Code is required',
+								})}
 							/>
-							{errors.zipCode && (
+							{errors.postalCode && (
 								<p className='text-red-500 text-sm mt-1'>
-									{errors.zipCode.message}
+									{errors.postalCode.message}
 								</p>
 							)}
 						</div>

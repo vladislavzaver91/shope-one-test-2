@@ -32,52 +32,56 @@ export default function CartPage() {
 				) : (
 					<>
 						<ul className='space-y-4'>
-							{cart.map(item => (
-								<li
-									key={item.id}
-									className='flex items-center justify-between p-4 bg-white rounded-lg shadow-md transition duration-200 hover:shadow-lg'
-								>
-									<div className='relative flex-shrink-0 w-24 h-24'>
-										<Image
-											src={`${
-												item.images.length > 0
-													? `/${item.images[0]}.jpg`
-													: '/placeholder.jpg'
-											}`}
-											alt={item.title}
-											fill
-											className='w-full h-full object-cover object-center rounded-lg'
-										/>
-									</div>
-									<div className='flex flex-col flex-1 md:flex-row justify-between md:items-center ml-4'>
-										<div className='mb-2 md:mb-0 md:mr-4'>
-											<p className='font-semibold text-lg'>{item.title}</p>
-											<p className='text-gray-600 text-base'>
-												${item.price.toFixed(2)}
-											</p>
-										</div>
+							{cart.map(item => {
+								const imageSrc =
+									item.images.length > 0 ? item.images[0] : '/placeholder.jpg'
 
-										<div className='flex items-center space-x-4'>
-											<input
-												type='number'
-												value={item.quantity}
-												min={1}
-												onChange={e =>
-													updateQuantity(item.id, Number(e.target.value))
-												}
-												className='w-16 border border-gray-300 rounded-lg text-center focus:outline-none focus:ring focus:ring-blue-500'
+								const imageUrl = imageSrc.startsWith('/')
+									? imageSrc
+									: `/uploads/${imageSrc}`
+								return (
+									<li
+										key={item.id}
+										className='flex items-center justify-between p-4 bg-white rounded-lg shadow-md transition duration-200 hover:shadow-lg'
+									>
+										<div className='relative flex-shrink-0 w-24 h-24'>
+											<Image
+												src={imageUrl}
+												alt={item.title}
+												fill
+												className='w-full h-full object-contain object-center rounded-lg'
 											/>
-											<button
-												onClick={() => removeFromCart(item.id)}
-												className='text-red-600 hover:text-red-800 flex items-center space-x-1'
-											>
-												<FaTrash />
-												<span>Delete</span>
-											</button>
 										</div>
-									</div>
-								</li>
-							))}
+										<div className='flex flex-col flex-1 md:flex-row justify-between md:items-center ml-4'>
+											<div className='mb-2 md:mb-0 md:mr-4'>
+												<p className='font-semibold text-lg'>{item.title}</p>
+												<p className='text-gray-600 text-base'>
+													${item.price.toFixed(2)}
+												</p>
+											</div>
+
+											<div className='flex items-center space-x-4'>
+												<input
+													type='number'
+													value={item.quantity}
+													min={1}
+													onChange={e =>
+														updateQuantity(item.id, Number(e.target.value))
+													}
+													className='w-16 border border-gray-300 rounded-lg text-center focus:outline-none focus:ring focus:ring-blue-500'
+												/>
+												<button
+													onClick={() => removeFromCart(item.id)}
+													className='text-red-600 hover:text-red-800 flex items-center space-x-1'
+												>
+													<FaTrash />
+													<span>Delete</span>
+												</button>
+											</div>
+										</div>
+									</li>
+								)
+							})}
 						</ul>
 
 						<div className='mt-6 flex justify-between items-center'>

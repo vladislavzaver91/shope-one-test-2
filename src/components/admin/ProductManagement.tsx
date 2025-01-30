@@ -175,20 +175,22 @@ const ProductManagement = ({ products }: ProductManagementProps) => {
 				/>
 
 				{/* Поле для ввода доступных цветов */}
-				<input
-					type='text'
-					placeholder='Available Colors (comma separated)'
-					value={form.colorsAvailable.join(', ')} // Преобразуем массив в строку для отображения
-					onChange={e =>
-						setForm({
-							...form,
-							colorsAvailable: e.target.value
-								.split(',')
-								.map(color => color.trim()), // Преобразуем строку обратно в массив
-						})
-					}
-					className='w-full p-2 border rounded-lg'
-				/>
+				{form.type === 'Physical' && (
+					<input
+						type='text'
+						placeholder='Available Colors (comma separated)'
+						value={form.colorsAvailable.join(', ')}
+						onChange={e =>
+							setForm({
+								...form,
+								colorsAvailable: e.target.value
+									.split(',')
+									.map(color => color.trim()),
+							})
+						}
+						className='w-full p-2 border rounded-lg'
+					/>
+				)}
 				<input
 					type='number'
 					placeholder='Weight (optional)'

@@ -1,17 +1,39 @@
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 const UserInfoForm = () => {
+	const [userEmail, setUserEmail] = useState<string | ''>('')
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
 	} = useForm({
 		defaultValues: {
-			name: 'John',
-			email: 'john@gmail.com',
+			name: localStorage.getItem('userName') || '',
+			email: userEmail,
 			phone: '+199999999',
 		},
 	})
+
+	useEffect(() => {
+		// Получение email по токену
+		const fetchUserEmail = async () => {
+			try {
+				const response = await fetch('/api/users/me', {
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+					},
+				})
+				if (response.ok) {
+					const data = await response.json()
+					setUserEmail(data.email)
+				}
+			} catch (error) {
+				console.error('Error fetching user email:', error)
+			}
+		}
+		fetchUserEmail()
+	}, [])
 
 	const onSubmit = (data: unknown) => {
 		console.log('Updated User Info:', data)
@@ -19,7 +41,7 @@ const UserInfoForm = () => {
 	}
 
 	return (
-		<section className='max-w-2xl mx-auto'>
+		<section>
 			<h2 className='text-xl font-semibold text-gray-700 mb-4'>
 				Personal information
 			</h2>
@@ -52,6 +74,7 @@ const UserInfoForm = () => {
 								message: 'Enter a correct email',
 							},
 						})}
+						readOnly
 						className='mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500'
 					/>
 					{errors.email && (

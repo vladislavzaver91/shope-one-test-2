@@ -1,3 +1,4 @@
+import { useCart } from '@/helpers/context/CartContext'
 import { Product } from '@/types'
 import { ShoppingCart } from 'lucide-react'
 import Image from 'next/image'
@@ -13,6 +14,13 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
 	const imageUrl = imageSrc.startsWith('/') ? imageSrc : `/uploads/${imageSrc}`
 
+	const { addToCart } = useCart()
+
+	const handleAddToCart = () => {
+		addToCart(product)
+		console.log(`${product.title} added to cart!`)
+	}
+
 	return (
 		<div className='bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden group'>
 			{/* Image Container */}
@@ -22,7 +30,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 						src={imageUrl}
 						alt={product.title}
 						fill
-						className='object-cover group-hover:scale-105 transition-transform duration-300'
+						className='object-contain group-hover:scale-105 transition-transform duration-300'
 					/>
 				</div>
 			</Link>
@@ -43,7 +51,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
 					<span className='text-lg font-bold text-gray-900'>
 						${product.price.toLocaleString()}
 					</span>
-					<button className='flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors'>
+					<button
+						onClick={handleAddToCart}
+						className='flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors'
+					>
 						<ShoppingCart className='w-4 h-4' />
 						Add
 					</button>

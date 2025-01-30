@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { jwtDecode } from 'jwt-decode'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -8,6 +9,10 @@ import { useForm } from 'react-hook-form'
 interface LoginFormInputs {
 	email: string
 	password: string
+}
+
+interface DecodedToken {
+	userId: string
 }
 
 export default function LoginPage() {
@@ -38,9 +43,13 @@ export default function LoginPage() {
 			}
 
 			const responseData = await response.json()
+			const decodedToken = jwtDecode<DecodedToken>(responseData.accessToken)
+			const userId = decodedToken.userId
+
 			localStorage.setItem('accessToken', responseData.accessToken)
 			localStorage.setItem('refreshToken', responseData.refreshToken)
 			localStorage.setItem('userName', responseData.user.name || '')
+			localStorage.setItem('userId', userId)
 			console.log(responseData)
 
 			router.push('/')

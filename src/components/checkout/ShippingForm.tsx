@@ -37,7 +37,7 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 					return
 				}
 
-				const response = await fetch('/api/shipping/calculate', {
+				const response = await fetch('/api/shipping/addresses', {
 					method: 'GET',
 					headers: {
 						'user-id': userId,
@@ -49,7 +49,7 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 				}
 
 				const data = await response.json()
-				console.log(data);
+				console.log(data)
 				setAddresses(data)
 			} catch (error) {
 				console.error('Error fetching addresses:', error)
