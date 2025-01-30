@@ -3,7 +3,7 @@
 import { Address } from '@/types'
 import { motion } from 'framer-motion'
 import { ChevronDown, ChevronUp } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 interface ShippingFormProps {
@@ -19,6 +19,8 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 
 	const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false)
 	const [selectedCountry, setSelectedCountry] = useState<string>('')
+	const [addresses, setAddresses] = useState<Address[]>([])
+	const [selectedAddress, setSelectedAddress] = useState<string | null>(null)
 
 	const countries = [
 		{ value: 'US', label: 'United States' },
@@ -26,30 +28,38 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 		{ value: 'GB', label: 'United Kingdom' },
 	]
 
-	const saveAddressToLocalStorage = (data: Address) => {
-		const existingAddresses = JSON.parse(
-			localStorage.getItem('addresses') || '[]'
-		) as Address[]
+	useEffect(() => {
+		const fetchAddresses = async () => {
+			try {
+				const userId = localStorage.getItem('userId')
+				if (!userId) {
+					console.log('User ID not found')
+					return
+				}
 
-		const isDuplicate = existingAddresses.some(
-			address =>
-				address.address === data.address &&
-				address.city === data.city &&
-				address.zipCode === data.zipCode &&
-				address.country === data.country
-		)
+				const response = await fetch('/api/shipping/calculate', {
+					method: 'GET',
+					headers: {
+						'user-id': userId,
+					},
+				})
 
-		if (isDuplicate) {
-			console.log('Duplicate address detected. Not saving.')
-			return
+				if (!response.ok) {
+					throw new Error('Failed to fetch addresses')
+				}
+
+				const data = await response.json()
+				console.log(data);
+				setAddresses(data)
+			} catch (error) {
+				console.error('Error fetching addresses:', error)
+			}
 		}
 
-		const updatedAddresses = [...existingAddresses, data]
-		localStorage.setItem('addresses', JSON.stringify(updatedAddresses))
-	}
+		fetchAddresses()
+	}, [])
 
 	const handleFormSubmit = (data: Address) => {
-		saveAddressToLocalStorage(data)
 		onSubmit(data)
 	}
 
@@ -100,7 +110,7 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 				)}
 			</div>
 
-			{/* City and ZIP Code */}
+			{/* City and Postal Code */}
 			<div className='grid grid-cols-2 gap-4'>
 				<div>
 					<label
@@ -125,18 +135,18 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 						htmlFor='zipCode'
 						className='font-[family-name:var(--font-nunito-sans)] tracking-wider block text-sm font-medium text-gray-700'
 					>
-						ZIP Code
+						Postal Code
 					</label>
 					<input
 						type='text'
 						id='zipCode'
 						className='w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500'
 						placeholder='ZIP Code'
-						{...register('zipCode', { required: 'ZIP Code is required' })}
+						{...register('postalCode', { required: 'Postal Code is required' })}
 					/>
-					{errors.zipCode && (
+					{errors.postalCode && (
 						<p className='text-red-500 text-sm mt-1'>
-							{errors.zipCode.message}
+							{errors.postalCode.message}
 						</p>
 					)}
 				</div>

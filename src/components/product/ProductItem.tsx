@@ -1,6 +1,7 @@
 'use client'
 
 import { useCart } from '@/helpers/context/CartContext'
+import { COLORS } from '@/helpers/variables/colors'
 import { Product } from '@/types'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
@@ -13,9 +14,14 @@ interface ProductItemProps {
 
 const ProductItem = ({ product }: ProductItemProps) => {
 	const [quantity, setQuantity] = useState(1)
-	const { addToCart } = useCart()
-	const imageSrc =
+	const [mainImage, setMainImage] = useState(
 		product.images.length > 0 ? product.images[0] : '/placeholder.jpg'
+	)
+	const imageUrl = mainImage.startsWith('/')
+		? mainImage
+		: `/uploads/${mainImage}`
+
+	const { addToCart } = useCart()
 
 	const handleAddToCart = () => {
 		addToCart(product, quantity)
@@ -158,9 +164,10 @@ const ProductItem = ({ product }: ProductItemProps) => {
 						<div
 							key={index}
 							className='relative w-12 h-12 flex items-center justify-center border border-gray-400 rounded-lg cursor-pointer hover:border-gray-800 transition'
+							onClick={() => setMainImage(img)}
 						>
 							<Image
-								src={`/${imageSrc}.jpg`}
+								src={img}
 								alt={`Thumbnail ${index}`}
 								width={42}
 								height={42}
@@ -178,7 +185,7 @@ const ProductItem = ({ product }: ProductItemProps) => {
 					className='relative sm:col-start-3 sm:col-end-10 flex justify-center items-center h-96 border rounded-lg sm:h-[464px] mb-4 overflow-hidden shadow-md'
 				>
 					<Image
-						src={`/${imageSrc}.jpg`}
+						src={imageUrl}
 						alt='Main product image'
 						fill
 						className='h-full w-full object-cover object-center'
@@ -196,11 +203,18 @@ const ProductItem = ({ product }: ProductItemProps) => {
 						<p className='text-sm text-gray-500 mb-1'>Available Colors</p>
 						<div className='flex space-x-2'>
 							{product.colorsAvailable.map((color, index) => (
-								<div
+								<Link
 									key={index}
+									href={`/product/${product.id}?color=${encodeURIComponent(
+										color
+									)}`}
 									className='w-8 h-8 rounded-full border hover:border-gray-800 transition'
-									style={{ backgroundColor: color }}
-								></div>
+									style={{
+										backgroundColor: COLORS[color as keyof typeof COLOR],
+									}}
+								>
+									<span className='sr-only'>Select color {color}</span>
+								</Link>
 							))}
 						</div>
 					</div>

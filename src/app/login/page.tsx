@@ -58,7 +58,7 @@ export default function LoginPage() {
 				transition={{ duration: 0.5 }}
 				className='bg-white w-full max-w-md rounded-lg shadow-lg p-8'
 			>
-				<h2 className='text-2xl font-bold text-center text-gray-900 mb-6'>
+				<h2 className='text-2xl font-bold text-center text-[#1a237e] mb-6'>
 					Log In
 				</h2>
 				<form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>

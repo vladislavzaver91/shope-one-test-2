@@ -53,7 +53,7 @@ export default function CheckoutPage() {
 
 		const userId = localStorage.getItem('userId')
 		const productIds = cart.map(product => product.id)
-		const deliveryAddress = shippingData.address
+		const deliveryAddress = shippingData
 
 		const newOrder = {
 			userId: userId,
@@ -90,12 +90,14 @@ export default function CheckoutPage() {
 	}
 
 	return (
-		<div className='max-w-2xl mx-auto p-6 space-y-6'>
-			{step === 1 && <ShippingForm onSubmit={handleShippingSubmit} />}
-			{/* {step === 2 && (
+		<section className='heading-section'>
+			<div className='max-w-2xl mx-auto p-6 space-y-6'>
+				{step === 1 && <ShippingForm onSubmit={handleShippingSubmit} />}
+				{/* {step === 2 && (
 				<PaymentMethodSelector onSelect={handlePaymentMethodSelect} />
 			)} */}
-			{step === 2 && <StripeCheckout onCompleteOrder={handleCompleteOrder} />}
-		</div>
+				{step === 2 && <StripeCheckout onCompleteOrder={handleCompleteOrder} />}
+			</div>
+		</section>
 	)
 }

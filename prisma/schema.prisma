@@ -33,8 +33,23 @@ model User {
   refreshToken   String?
   orders         Order[]         @relation("UserOrders")
   paymentIntents PaymentIntent[] @relation("UserPayments")
+  addresses      Address[]       @relation("UserAddresses")
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
+}
+
+model Address {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation("UserAddresses", fields: [userId], references: [id])
+  name       String   // Имя получателя
+  address    String   // Основная строка адреса
+  city       String   // Город
+  postalCode String   // Почтовый индекс
+  country    String   // Код страны, например, "US"
+  isDefault  Boolean  @default(false) // Указывает, является ли адрес основным
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model Order {

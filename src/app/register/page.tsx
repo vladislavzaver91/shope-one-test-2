@@ -60,7 +60,7 @@ export default function RegisterPage() {
 				className='bg-white w-full max-w-md rounded-lg shadow-lg p-8'
 			>
 				<div className='flex flex-col items-center mb-4'>
-					<h2 className='text-2xl font-bold text-gray-900 mb-6'>Sign Up</h2>
+					<h2 className='text-2xl font-bold text-[#1a237e] mb-6'>Sign Up</h2>
 					<div className='flex items-center justify-center w-24 h-24 bg-gray-100 rounded-full text-center'>
 						<HiOutlineUser className='w-20 h-20 text-gray-400' />
 					</div>

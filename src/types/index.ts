@@ -7,6 +7,7 @@ export interface Product {
 	category: string
 	images: string[]
 	colorsAvailable: string[]
+	color: string
 	quantity: number
 	weight?: number | null
 	dimensions?: string | null
@@ -28,8 +29,11 @@ export type Order = {
 }
 
 export type Address = {
+	id?: string
+	name: string
 	address: string
 	city: string
+	postalCode: string
 	country: string
-	zipCode: string
+	isDefault?: boolean
 }

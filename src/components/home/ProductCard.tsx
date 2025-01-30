@@ -11,13 +11,15 @@ const ProductCard = ({ product }: ProductCardProps) => {
 	const imageSrc =
 		product.images.length > 0 ? product.images[0] : '/placeholder.jpg'
 
+	const imageUrl = imageSrc.startsWith('/') ? imageSrc : `/uploads/${imageSrc}`
+
 	return (
 		<div className='bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden group'>
 			{/* Image Container */}
 			<Link href={`/product/${product.id}`}>
 				<div className='relative aspect-square'>
 					<Image
-						src={`/${imageSrc}.jpg`}
+						src={imageUrl}
 						alt={product.title}
 						fill
 						className='object-cover group-hover:scale-105 transition-transform duration-300'
