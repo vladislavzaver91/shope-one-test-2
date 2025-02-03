@@ -1,93 +1,110 @@
 // AdminPage.js
 'use client'
 
-import OrderManagement from '@/components/admin/OrderManagement'
-import ProductManagement from '@/components/admin/ProductManagement'
+import AdminSidebar from '@/components/admin/AdminSidebar'
+import OrderList from '@/components/admin/OrderList'
+import ProductPage from '@/components/admin/ProductPage'
+// const router = useRouter()
+
+// useEffect(() => {
+// 	const fetchUser = async () => {
+// 		try {
+// 			const response = await fetch('/api/users/me', {
+// 				headers: {
+// 					Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+// 				},
+// 			})
+
+// 			if (!response.ok) {
+// 				if (response.status === 401 || response.status === 403) {
+// 					router.push('/login')
+// 				}
+// 				throw new Error('Failed to fetch user')
+// 			}
+
+// 			const user = await response.json()
+
+// 			if (user.type !== 'Admin') {
+// 				router.push('/')
+// 			} else {
+// 				setLoading(false)
+// 			}
+// 		} catch (error) {
+// 			console.error('Error fetching user:', error)
+// 			router.push('/login')
+// 		}
+// 	}
+
+// 	fetchUser()
+// }, [router])
+
 import { Order, Product } from '@/types'
-import { useRouter } from 'next/navigation'
+import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 
 export default function AdminPage() {
 	const [products, setProducts] = useState<Product[]>([])
 	const [orders, setOrders] = useState<Order[]>([])
 	const [loading, setLoading] = useState(true)
-	const router = useRouter()
+	const [activePage, setActivePage] = useState<
+		'products' | 'orders' | 'statistics'
+	>('products')
 
 	useEffect(() => {
-		const fetchUser = async () => {
+		const fetchProducts = async () => {
 			try {
-				const response = await fetch('/api/users/me', {
-					headers: {
-						Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-					},
-				})
-
-				if (!response.ok) {
-					if (response.status === 401 || response.status === 403) {
-						router.push('/login')
-					}
-					throw new Error('Failed to fetch user')
-				}
-
-				const user = await response.json()
-
-				if (user.type !== 'Admin') {
-					router.push('/')
-				} else {
-					setLoading(false)
+				const response = await fetch('/api/products')
+				if (response.ok) {
+					const data = await response.json()
+					setProducts(data.products)
+					console.log(data.products)
 				}
 			} catch (error) {
-				console.error('Error fetching user:', error)
-				router.push('/login')
+				console.error('Error fetching products:', error)
 			}
 		}
 
-		fetchUser()
-	}, [router])
-
-	useEffect(() => {
-		if (!loading) {
-			const fetchProducts = async () => {
-				try {
-					const response = await fetch('/api/products')
-					if (response.ok) {
-						const data = await response.json()
-						setProducts(data.products)
-					}
-				} catch (error) {
-					console.error('Error fetching products:', error)
-				}
-			}
-
-			const fetchOrders = async () => {
-				try {
-					const response = await fetch('/api/order')
-					if (response.ok) {
-						const data = await response.json()
+		const fetchOrders = async () => {
+			try {
+				const response = await fetch('/api/order')
+				if (response.ok) {
+					const data = await response.json()
+					if (data.orders && Array.isArray(data.orders)) {
 						setOrders(data.orders)
+						console.log(data.orders)
+					} else {
+						console.error('Invalid data format:', data)
 					}
-				} catch (error) {
-					console.error('Error fetching orders:', error)
 				}
+			} catch (error) {
+				console.error('Error fetching orders:', error)
+			} finally {
+				setLoading(false)
 			}
-
-			fetchProducts()
-			fetchOrders()
 		}
-	}, [loading])
+
+		fetchProducts()
+		fetchOrders()
+	}, [])
 
 	if (loading) {
-		return <p>Loading...</p>
+		return <p className='text-center mt-10 text-gray-600'>Loading...</p>
 	}
 
 	return (
-		<div className='min-h-screen bg-gray-100 p-4 text-gray-900'>
-			<h1 className='text-3xl font-bold text-center mb-6'>Admin Panel</h1>
-
-			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-				<ProductManagement products={products} />
-				<OrderManagement orders={orders} />
-			</div>
+		<div className='flex min-h-screen bg-gray-100 text-gray-900'>
+			<AdminSidebar activePage={activePage} setActivePage={setActivePage} />
+			<motion.div
+				initial={{ opacity: 0, x: 50 }}
+				animate={{ opacity: 1, x: 0 }}
+				transition={{ duration: 0.3 }}
+				className='flex-1 p-6 pl-28'
+			>
+				{activePage === 'products' && (
+					<ProductPage products={products} setProducts={setProducts} />
+				)}
+				{activePage === 'orders' && <OrderList orders={orders} />}
+			</motion.div>
 		</div>
 	)
 }

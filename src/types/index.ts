@@ -29,7 +29,7 @@ export type Order = {
 }
 
 export type Address = {
-	id?: string
+	id: string
 	name: string
 	address: string
 	city: string

@@ -86,4 +86,14 @@ body {
 	@apply z-10 absolute top-0 left-0 md:left-1/4 transform -translate-y-1/2 text-gray-500 p-3 rounded-full shadow-md hover:bg-[#0e62e4] backdrop-blur-md hover:text-gray-300 transition-all cursor-pointer;
 }
 
+/* Tailwind CSS для адаптивности и стилей */
+@media (max-width: 768px) {
+	.sidebar {
+		width: 4rem; /* Сужаем для мобильных */
+	}
+	.sidebar.open {
+		width: 16rem; /* Расширяем при открытии */
+	}
+}
+
 /* font-[family-name:var(--font-nunito-sans)] */

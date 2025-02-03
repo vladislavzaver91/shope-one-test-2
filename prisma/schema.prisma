@@ -47,7 +47,8 @@ model Address {
   city       String   // Город
   postalCode String   // Почтовый индекс
   country    String   // Код страны, например, "US"
-  isDefault  Boolean  @default(false) // Указывает, является ли адрес основным
+  isDefault  Boolean?  @default(false) // Указывает, является ли адрес основным
+  orders     Order[]   @relation("AddressOrders") // Связь с заказами
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
@@ -58,7 +59,8 @@ model Order {
   user            User        @relation("UserOrders", fields: [userId], references: [id])
   productIds      String[]
   products        Product[]   @relation("ProductOrders")
-  deliveryAddress String[]
+  deliveryAddress Address     @relation("AddressOrders", fields: [deliveryAddressId], references: [id]) // Ссылка на один адрес
+  deliveryAddressId String     // ID адреса
   status          OrderStatus @default(Pending)
   delivery        Delivery?   @relation("OrderDelivery")
   createdAt       DateTime    @default(now())

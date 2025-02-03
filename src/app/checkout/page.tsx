@@ -52,8 +52,16 @@ export default function CheckoutPage() {
 		}
 
 		const userId = localStorage.getItem('userId')
+		if (!userId) {
+			console.log('User ID not found')
+			return
+		}
 		const productIds = cart.map(product => product.id)
 		const deliveryAddress = shippingData
+		const deliveryAddressId = localStorage.getItem('deliveryAddressId')
+
+		console.log('deliveryAddress:', deliveryAddress)
+		console.log('deliveryAddressId:', deliveryAddressId)
 
 		const newOrder = {
 			userId: userId,
@@ -61,7 +69,7 @@ export default function CheckoutPage() {
 			status: 'Pending',
 			createAt: new Date().toISOString(),
 			updateAt: new Date().toISOString(),
-			deliveryAddress: deliveryAddress,
+			deliveryAddressId,
 		}
 
 		console.log(newOrder)
@@ -71,6 +79,7 @@ export default function CheckoutPage() {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
+					'user-id': userId,
 				},
 				body: JSON.stringify(newOrder),
 			})

@@ -3,7 +3,7 @@
 import { Address } from '@/types'
 import { motion } from 'framer-motion'
 import { ChevronDown, ChevronUp } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 interface ShippingFormProps {
@@ -19,8 +19,7 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 
 	const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false)
 	const [selectedCountry, setSelectedCountry] = useState<string>('')
-	const [addresses, setAddresses] = useState<Address[]>([])
-	const [selectedAddress, setSelectedAddress] = useState<string | null>(null)
+	const [isDefault, setIsDefault] = useState<boolean>(false)
 
 	const countries = [
 		{ value: 'US', label: 'United States' },
@@ -28,39 +27,44 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 		{ value: 'GB', label: 'United Kingdom' },
 	]
 
-	useEffect(() => {
-		const fetchAddresses = async () => {
-			try {
-				const userId = localStorage.getItem('userId')
-				if (!userId) {
-					console.log('User ID not found')
-					return
-				}
-
-				const response = await fetch('/api/shipping/addresses', {
-					method: 'GET',
-					headers: {
-						'user-id': userId,
-					},
-				})
-
-				if (!response.ok) {
-					throw new Error('Failed to fetch addresses')
-				}
-
-				const data = await response.json()
-				console.log(data)
-				setAddresses(data)
-			} catch (error) {
-				console.error('Error fetching addresses:', error)
+	const handleSaveAddress = async (data: Address) => {
+		try {
+			const userId = localStorage.getItem('userId')
+			if (!userId) {
+				console.log('User ID not found')
+				return
 			}
-		}
 
-		fetchAddresses()
-	}, [])
+			const response = await fetch('/api/shipping/addresses', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'user-id': userId,
+				},
+				body: JSON.stringify({ ...data, isDefault }),
+			})
+
+			if (!response.ok) {
+				throw new Error('Failed to save address')
+			}
+
+			const savedAddress = await response.json()
+			localStorage.setItem('deliveryAddressId', savedAddress.id)
+			console.log('Address saved:', savedAddress)
+		} catch (error) {
+			console.error('Error saving address:', error)
+		}
+	}
 
 	const handleFormSubmit = (data: Address) => {
-		onSubmit(data)
+		if (!selectedCountry) {
+			console.error('Country is required')
+			return
+		}
+
+		const savedAddress = { ...data, country: selectedCountry }
+		onSubmit(savedAddress)
+		handleSaveAddress(savedAddress)
 	}
 
 	return (
@@ -90,11 +94,31 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 				transition={{ duration: 1.2, delay: 0.5 }}
 				className='absolute -bottom-10 -right-10 w-32 h-32 bg-blue-300 rounded-full -z-10'
 			/>
+			{/* Name */}
+			<div>
+				<label
+					htmlFor='name'
+					className='font-[family-name:var(--font-nunito-sans)] tracking-wider block text-sm font-medium text-gray-700'
+				>
+					Name
+				</label>
+				<input
+					type='text'
+					id='name'
+					className='w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500'
+					placeholder='Enter your name'
+					{...register('name', { required: 'Name is required' })}
+				/>
+				{errors.name && (
+					<p className='text-red-500 text-sm mt-1'>{errors.name.message}</p>
+				)}
+			</div>
+
 			{/* Address */}
 			<div>
 				<label
 					htmlFor='address'
-					className='font-[family-name:var(--font-nunito-sans)] tracking-wider block text-sm font-medium text-gray-700'
+					className='block text-sm font-medium text-gray-700'
 				>
 					Address
 				</label>
@@ -132,16 +156,16 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 				</div>
 				<div>
 					<label
-						htmlFor='zipCode'
+						htmlFor='postalCode'
 						className='font-[family-name:var(--font-nunito-sans)] tracking-wider block text-sm font-medium text-gray-700'
 					>
 						Postal Code
 					</label>
 					<input
 						type='text'
-						id='zipCode'
+						id='postalCode'
 						className='w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500'
-						placeholder='ZIP Code'
+						placeholder='Postal Code'
 						{...register('postalCode', { required: 'Postal Code is required' })}
 					/>
 					{errors.postalCode && (
@@ -165,7 +189,8 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 					onClick={() => setIsCountryDropdownOpen(!isCountryDropdownOpen)}
 				>
 					<span className={selectedCountry ? '' : 'text-gray-400'}>
-						{selectedCountry || 'Select country'}
+						{countries.find(c => c.value === selectedCountry)?.label ||
+							'Select country'}
 					</span>
 					{isCountryDropdownOpen ? (
 						<ChevronUp className='w-5 h-5 text-gray-500' />
@@ -179,7 +204,7 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 						opacity: isCountryDropdownOpen ? 1 : 0,
 						y: isCountryDropdownOpen ? 0 : -10,
 					}}
-					className={`absolute top-14 left-0 right-0 bg-white border rounded-lg shadow-lg overflow-hidden ${
+					className={`absolute top-14 left-0 right-0 bg-white border rounded-lg shadow-lg overflow-hidden z-20 ${
 						isCountryDropdownOpen ? 'block' : 'hidden'
 					}`}
 				>
@@ -188,7 +213,7 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 							key={country.value}
 							className='px-4 py-2 hover:bg-gray-100 cursor-pointer'
 							onClick={() => {
-								setSelectedCountry(country.label)
+								setSelectedCountry(country.value) // Сохраняем value (код страны)
 								setIsCountryDropdownOpen(false)
 							}}
 						>
@@ -199,6 +224,24 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 				{errors.country && (
 					<p className='text-red-500 text-sm mt-1'>{errors.country.message}</p>
 				)}
+			</div>
+
+			{/* Default Address Toggle */}
+			<div className='flex items-center mt-4'>
+				<span className='mr-2 text-sm text-gray-700'>
+					Make this my default address
+				</span>
+				<button
+					type='button'
+					onClick={() => setIsDefault(!isDefault)}
+					className={`relative w-12 h-6 flex items-center rounded-full transition-all duration-300 
+            ${isDefault ? 'bg-blue-500' : 'bg-gray-300'}`}
+				>
+					<span
+						className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow transition-all 
+              ${isDefault ? 'translate-x-6' : 'translate-x-0'}`}
+					/>
+				</button>
 			</div>
 
 			{/* Submit Button */}
