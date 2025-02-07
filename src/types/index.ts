@@ -18,14 +18,15 @@ export interface Product {
 export type Order = {
 	id: string
 	userId: string
-	productId: string
+	productId?: string
 	deliveryAddress: string
 	status: 'Pending' | 'Completed' | 'Canceled'
 	createdAt: string
 	updatedAt: string
 	paymentMethod?: string
+	productIds: string[]
 	// shippingData?: Address
-	cartItems: Product[]
+	// cartItems: Product[]
 }
 
 export type Address = {

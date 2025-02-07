@@ -98,7 +98,7 @@ export default function AdminPage() {
 				initial={{ opacity: 0, x: 50 }}
 				animate={{ opacity: 1, x: 0 }}
 				transition={{ duration: 0.3 }}
-				className='flex-1 p-6 pl-28'
+				className='flex-1 p-6 pl-16 md:pl-20 xl:pl-28'
 			>
 				{activePage === 'products' && (
 					<ProductPage products={products} setProducts={setProducts} />

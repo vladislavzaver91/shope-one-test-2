@@ -213,7 +213,7 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 							key={country.value}
 							className='px-4 py-2 hover:bg-gray-100 cursor-pointer'
 							onClick={() => {
-								setSelectedCountry(country.value) // Сохраняем value (код страны)
+								setSelectedCountry(country.value)
 								setIsCountryDropdownOpen(false)
 							}}
 						>
