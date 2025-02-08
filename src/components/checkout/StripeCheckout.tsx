@@ -6,58 +6,66 @@ import { loadStripe } from '@stripe/stripe-js'
 import { motion } from 'framer-motion'
 import { CreditCard } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-
-const stripePromise = loadStripe('your-stripe-public-key')
+import { useEffect, useState } from 'react'
 
 interface StripeCheckoutProps {
-	onCompleteOrder: () => void
+	paymentMethod: string
+	handleCompleteOrder: () => void
 }
 
-const StripeCheckout = ({ onCompleteOrder }: StripeCheckoutProps) => {
-	const router = useRouter()
-	const { clearCart } = useCart()
+const stripePromise = loadStripe(
+	process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY as string
+)
 
-	const handleConfirmPayment = () => {
-		console.log('Payment completed successfully!')
-		onCompleteOrder()
-		clearCart()
-		router.push('/')
+const StripeCheckout = ({
+	paymentMethod,
+	handleCompleteOrder,
+}: StripeCheckoutProps) => {
+	const router = useRouter()
+	const { cart, clearCart } = useCart()
+	const [loading, setLoading] = useState(false)
+
+	useEffect(() => {
+		const urlParams = new URLSearchParams(window.location.search)
+		if (urlParams.get('session_id')) {
+			clearCart()
+			handleCompleteOrder()
+			router.push('/app/checkout/success')
+		}
+	}, [router, clearCart, handleCompleteOrder])
+
+	const handleCheckout = async () => {
+		setLoading(true)
+		try {
+			const response = await fetch('/api/payment', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ items: cart, paymentMethod }),
+			})
+
+			const { sessionId } = await response.json()
+			if (sessionId) {
+				const stripe = await stripePromise
+				await stripe?.redirectToCheckout({ sessionId })
+			}
+		} catch (error) {
+			console.error('Ошибка при оплате:', error)
+		}
+		setLoading(false)
 	}
 
 	return (
 		<Elements stripe={stripePromise}>
 			<div className='relative p-6 bg-gray-50 rounded-xl shadow-lg space-y-6'>
-				{/* Background Decorations */}
-				<motion.div
-					initial={{ opacity: 0, scale: 0.8 }}
-					animate={{ opacity: 0.1, scale: 1 }}
-					transition={{ duration: 1 }}
-					className='absolute inset-0 bg-gradient-to-br from-blue-100 via-white to-blue-50 rounded-xl -z-10'
-				/>
-				<motion.div
-					initial={{ x: -50, opacity: 0 }}
-					animate={{ x: 0, opacity: 0.15 }}
-					transition={{ duration: 1.2, delay: 0.3 }}
-					className='absolute -top-10 -left-10 w-40 h-40 bg-blue-200 rounded-full -z-10'
-				/>
-				<motion.div
-					initial={{ x: 50, opacity: 0 }}
-					animate={{ x: 0, opacity: 0.15 }}
-					transition={{ duration: 1.2, delay: 0.5 }}
-					className='absolute -bottom-10 -right-10 w-32 h-32 bg-blue-300 rounded-full -z-10'
-				/>
-
-				{/* Header */}
 				<motion.h2
 					initial={{ y: -20, opacity: 0 }}
 					animate={{ y: 0, opacity: 1 }}
 					transition={{ duration: 0.5 }}
-					className='font-[family-name:var(--font-nunito-sans)] tracking-wider text-xl font-semibold text-gray-800 text-center'
+					className='font-nunito tracking-wider text-xl font-semibold text-gray-800 text-center'
 				>
 					Complete Your Payment
 				</motion.h2>
 
-				{/* Stripe Payment Form Placeholder */}
 				<div className='flex flex-col items-center justify-center bg-white rounded-lg shadow-md p-4'>
 					<motion.div
 						initial={{ opacity: 0, scale: 0.9 }}
@@ -68,19 +76,21 @@ const StripeCheckout = ({ onCompleteOrder }: StripeCheckoutProps) => {
 						<CreditCard className='w-8 h-8 text-blue-500' />
 					</motion.div>
 					<p className='text-gray-500 text-center'>
-						Stripe payment form will appear here
+						Proceed with {paymentMethod} Checkout
 					</p>
 				</div>
 
-				{/* Confirm Payment Button */}
 				<motion.button
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.5, delay: 0.3 }}
-					className='w-full py-3 bg-blue-500 text-white rounded-lg shadow-lg hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:outline-none transition'
-					onClick={handleConfirmPayment}
+					className={`w-full py-3 bg-blue-500 text-white rounded-lg shadow-lg hover:bg-blue-600 transition ${
+						loading ? 'opacity-50 cursor-not-allowed' : ''
+					}`}
+					onClick={handleCheckout}
+					disabled={loading}
 				>
-					Confirm Payment
+					{loading ? 'Processing...' : 'Pay Now'}
 				</motion.button>
 			</div>
 		</Elements>

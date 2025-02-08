@@ -38,3 +38,11 @@ export type Address = {
 	country: string
 	isDefault?: boolean
 }
+
+export type CartItem = {
+	title: string
+	description?: string
+	image?: string
+	price: number
+	quantity?: number
+}

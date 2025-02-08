@@ -13,12 +13,12 @@ const ShippingForm = dynamic(
 	}
 )
 
-// const PaymentMethodSelector = dynamic(
-// 	() => import('../../components/checkout/PaymentMethodSelector'),
-// 	{
-// 		ssr: false,
-// 	}
-// )
+const PaymentMethodSelector = dynamic(
+	() => import('../../components/checkout/PaymentMethodSelector'),
+	{
+		ssr: false,
+	}
+)
 
 const StripeCheckout = dynamic(
 	() => import('../../components/checkout/StripeCheckout'),
@@ -30,7 +30,7 @@ const StripeCheckout = dynamic(
 export default function CheckoutPage() {
 	const [step, setStep] = useState(1)
 	const [shippingData, setShippingData] = useState<Address | null>(null)
-	// const [paymentMethod, setPaymentMethod] = useState('')
+	const [paymentMethod, setPaymentMethod] = useState('')
 	const { cart } = useCart()
 	const router = useRouter()
 
@@ -40,13 +40,13 @@ export default function CheckoutPage() {
 		setStep(2)
 	}
 
-	// const handlePaymentMethodSelect = (method: string) => {
-	// 	setPaymentMethod(method)
-	// 	setStep(3)
-	// }
+	const handlePaymentMethodSelect = (method: string) => {
+		setPaymentMethod(method)
+		setStep(3)
+	}
 
 	const handleCompleteOrder = async () => {
-		if (!shippingData || cart.length === 0) {
+		if (!shippingData || cart.length === 0 || !paymentMethod) {
 			console.log('Please, fill in all details.')
 			return
 		}
@@ -70,6 +70,7 @@ export default function CheckoutPage() {
 			createAt: new Date().toISOString(),
 			updateAt: new Date().toISOString(),
 			deliveryAddressId,
+			paymentMethod,
 		}
 
 		console.log(newOrder)
@@ -91,8 +92,8 @@ export default function CheckoutPage() {
 			const result = await response.json()
 			console.log('Order created!', result)
 			setShippingData(null)
-			// setPaymentMethod('')
-			router.push('/')
+			setPaymentMethod('')
+			router.push('/checkout/success')
 		} catch (error) {
 			console.error('Error completing order:', error)
 		}
@@ -102,10 +103,15 @@ export default function CheckoutPage() {
 		<section className='heading-section'>
 			<div className='max-w-2xl mx-auto p-6 space-y-6'>
 				{step === 1 && <ShippingForm onSubmit={handleShippingSubmit} />}
-				{/* {step === 2 && (
-				<PaymentMethodSelector onSelect={handlePaymentMethodSelect} />
-			)} */}
-				{step === 2 && <StripeCheckout onCompleteOrder={handleCompleteOrder} />}
+				{step === 2 && (
+					<PaymentMethodSelector onSelect={handlePaymentMethodSelect} />
+				)}
+				{step === 3 && (
+					<StripeCheckout
+						paymentMethod={paymentMethod}
+						handleCompleteOrder={handleCompleteOrder}
+					/>
+				)}
 			</div>
 		</section>
 	)

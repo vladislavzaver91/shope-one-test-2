@@ -1,6 +1,6 @@
 'use client'
 
-import { Order, Product } from '@/types'
+import { Address, Order, Product } from '@/types'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
@@ -13,6 +13,7 @@ interface OrderDetailsProps {
 const OrderDetails = ({ order, onClose }: OrderDetailsProps) => {
 	const [products, setProducts] = useState<Product[]>([])
 	const [totalPrice, setTotalPrice] = useState<number>(0)
+	const [loading, setLoading] = useState(true)
 
 	const formatDate = (isoString: string) => {
 		return new Date(isoString).toLocaleString('en-US', {
@@ -50,26 +51,34 @@ const OrderDetails = ({ order, onClose }: OrderDetailsProps) => {
 				}
 			} catch (error) {
 				console.error('Error fetching products:', error)
+			} finally {
+				setLoading(false)
 			}
 		}
 
 		if (Array.isArray(order.productIds) && order.productIds.length > 0) {
 			fetchProducts()
+		} else {
+			setLoading(false)
 		}
 	}, [order.productIds])
 
 	console.log(products)
 
+	const deliveryAddress =
+		typeof order.deliveryAddress === 'object'
+			? (order.deliveryAddress as Address)
+			: null
+
 	return (
-		<motion.div
-			initial={{ opacity: 0, scale: 0.95 }}
-			animate={{ opacity: 1, scale: 1 }}
-			transition={{ duration: 0.3 }}
-			className='bg-white p-6 shadow-xl rounded-lg border border-gray-200'
-		>
-			<h2 className='text-2xl font-bold mb-6 text-gray-800'>Order Details</h2>
-			{/* Грид для организации информации */}
-			<div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+		<div className='grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-6'>
+			<motion.div
+				initial={{ opacity: 0, scale: 0.95 }}
+				animate={{ opacity: 1, scale: 1 }}
+				transition={{ duration: 0.3 }}
+				className='bg-white p-6 shadow-xl rounded-lg border border-gray-200 md:col-span-2 xl:col-span-3'
+			>
+				<h2 className='text-2xl font-bold mb-6 text-gray-800'>Order Details</h2>
 				{/* Основная информация */}
 				<div className='space-y-3'>
 					<p className='text-gray-700'>
@@ -95,7 +104,11 @@ const OrderDetails = ({ order, onClose }: OrderDetailsProps) => {
 					<h3 className='text-lg font-semibold mt-6 mb-3 text-gray-900'>
 						Order Items
 					</h3>
-					{products.length > 0 ? (
+					{loading ? (
+						<div className='flex justify-center items-center py-6'>
+							<div className='animate-spin rounded-full h-8 w-8 border-b-2 border-gray-600'></div>
+						</div>
+					) : products.length > 0 ? (
 						<ul className='divide-y divide-gray-200'>
 							{products.map((product, index) => {
 								const imageSrc =
@@ -159,37 +172,48 @@ const OrderDetails = ({ order, onClose }: OrderDetailsProps) => {
 					)}
 				</div>
 
-				{/* Адрес доставки */}
-				<div className='p-4 rounded-lg'>
-					<h3 className='text-lg font-semibold text-gray-900 mb-2'>
-						Delivery Address
-					</h3>
-					<p className='text-gray-700'>
-						<strong>Name:</strong> {order.deliveryAddress.name}
-					</p>
-					<p className='text-gray-700'>
-						<strong>Address:</strong> {order.deliveryAddress.address}
-					</p>
-					<p className='text-gray-700'>
-						<strong>City:</strong> {order.deliveryAddress.city},{' '}
-						{order.deliveryAddress.country}
-					</p>
-					<p className='text-gray-700'>
-						<strong>Postal Code:</strong> {order.deliveryAddress.postalCode}
-					</p>
+				{/* Close Button */}
+				<div className='flex justify-end mt-6'>
+					<button
+						onClick={onClose}
+						className='bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-all'
+					>
+						Close
+					</button>
 				</div>
-			</div>
+			</motion.div>
 
-			{/* Close Button */}
-			<div className='flex justify-end mt-6'>
-				<button
-					onClick={onClose}
-					className='bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-all'
-				>
-					Close
-				</button>
-			</div>
-		</motion.div>
+			{/* Адрес доставки */}
+			<motion.div
+				initial={{ opacity: 0, scale: 0.95 }}
+				animate={{ opacity: 1, scale: 1 }}
+				transition={{ duration: 0.3 }}
+				className='bg-gray-100 p-6 shadow-xl rounded-lg border border-gray-200'
+			>
+				<h3 className='text-lg font-semibold text-gray-900 mb-2'>
+					Delivery Address
+				</h3>
+				{deliveryAddress ? (
+					<>
+						<p className='text-gray-700'>
+							<strong>Name:</strong> {deliveryAddress.name}
+						</p>
+						<p className='text-gray-700'>
+							<strong>Address:</strong> {deliveryAddress.address}
+						</p>
+						<p className='text-gray-700'>
+							<strong>City:</strong> {deliveryAddress.city},{' '}
+							{deliveryAddress.country}
+						</p>
+						<p className='text-gray-700'>
+							<strong>Postal Code:</strong> {deliveryAddress.postalCode}
+						</p>
+					</>
+				) : (
+					<p className='text-gray-500'>No delivery address available.</p>
+				)}
+			</motion.div>
+		</div>
 	)
 }
 

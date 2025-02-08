@@ -2,8 +2,6 @@
 
 import { motion } from 'framer-motion'
 import { CreditCard } from 'lucide-react'
-import { IoLogoApple } from 'react-icons/io5'
-import { PiPaypalLogo } from 'react-icons/pi'
 
 interface PaymentMethodProps {
 	onSelect: (method: string) => void
@@ -13,15 +11,8 @@ const PaymentMethodSelector = ({ onSelect }: PaymentMethodProps) => {
 	const paymentMethods = [
 		{
 			name: 'Credit Card',
+			method: 'card',
 			icon: <CreditCard className='w-6 h-6 text-blue-500' />,
-		},
-		{
-			name: 'PayPal',
-			icon: <PiPaypalLogo className='w-6 h-6 text-blue-700' />,
-		},
-		{
-			name: 'Apple Pay',
-			icon: <IoLogoApple className='w-6 h-6 text-blue-700' />,
 		},
 	]
 
@@ -59,10 +50,10 @@ const PaymentMethodSelector = ({ onSelect }: PaymentMethodProps) => {
 
 			{/* Payment Method Buttons */}
 			<div className='space-y-4'>
-				{paymentMethods.map(({ name, icon }) => (
+				{paymentMethods.map(({ name, icon, method }) => (
 					<motion.button
 						key={name}
-						onClick={() => onSelect(name)}
+						onClick={() => onSelect(method)}
 						initial={{ opacity: 0, y: 10 }}
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.3, delay: 0.2 }}
