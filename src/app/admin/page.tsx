@@ -4,42 +4,9 @@
 import AdminSidebar from '@/components/admin/AdminSidebar'
 import OrderList from '@/components/admin/OrderList'
 import ProductPage from '@/components/admin/ProductPage'
-// const router = useRouter()
-
-// useEffect(() => {
-// 	const fetchUser = async () => {
-// 		try {
-// 			const response = await fetch('/api/users/me', {
-// 				headers: {
-// 					Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-// 				},
-// 			})
-
-// 			if (!response.ok) {
-// 				if (response.status === 401 || response.status === 403) {
-// 					router.push('/login')
-// 				}
-// 				throw new Error('Failed to fetch user')
-// 			}
-
-// 			const user = await response.json()
-
-// 			if (user.type !== 'Admin') {
-// 				router.push('/')
-// 			} else {
-// 				setLoading(false)
-// 			}
-// 		} catch (error) {
-// 			console.error('Error fetching user:', error)
-// 			router.push('/login')
-// 		}
-// 	}
-
-// 	fetchUser()
-// }, [router])
-
 import { Order, Product } from '@/types'
 import { motion } from 'framer-motion'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 export default function AdminPage() {
@@ -49,43 +16,78 @@ export default function AdminPage() {
 	const [activePage, setActivePage] = useState<
 		'products' | 'orders' | 'statistics'
 	>('products')
+	const router = useRouter()
 
 	useEffect(() => {
-		const fetchProducts = async () => {
+		const fetchUser = async () => {
 			try {
-				const response = await fetch('/api/products')
-				if (response.ok) {
-					const data = await response.json()
-					setProducts(data.products)
-					console.log(data.products)
-				}
-			} catch (error) {
-				console.error('Error fetching products:', error)
-			}
-		}
+				const response = await fetch('/api/users/me', {
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+					},
+				})
 
-		const fetchOrders = async () => {
-			try {
-				const response = await fetch('/api/order')
-				if (response.ok) {
-					const data = await response.json()
-					if (data.orders && Array.isArray(data.orders)) {
-						setOrders(data.orders)
-						console.log(data.orders)
-					} else {
-						console.error('Invalid data format:', data)
+				if (!response.ok) {
+					if (response.status === 401 || response.status === 403) {
+						router.push('/login')
 					}
+					throw new Error('Failed to fetch user')
+				}
+
+				const user = await response.json()
+
+				if (user.type !== 'Admin') {
+					router.push('/')
+				} else {
+					setLoading(false)
 				}
 			} catch (error) {
-				console.error('Error fetching orders:', error)
-			} finally {
-				setLoading(false)
+				console.error('Error fetching user:', error)
+				router.push('/login')
 			}
 		}
 
-		fetchProducts()
-		fetchOrders()
-	}, [])
+		fetchUser()
+	}, [router])
+
+	useEffect(() => {
+		if (!loading) {
+			const fetchProducts = async () => {
+				try {
+					const response = await fetch('/api/products')
+					if (response.ok) {
+						const data = await response.json()
+						setProducts(data.products)
+						console.log(data.products)
+					}
+				} catch (error) {
+					console.error('Error fetching products:', error)
+				}
+			}
+
+			const fetchOrders = async () => {
+				try {
+					const response = await fetch('/api/order')
+					if (response.ok) {
+						const data = await response.json()
+						if (data.orders && Array.isArray(data.orders)) {
+							setOrders(data.orders)
+							console.log(data.orders)
+						} else {
+							console.error('Invalid data format:', data)
+						}
+					}
+				} catch (error) {
+					console.error('Error fetching orders:', error)
+				} finally {
+					setLoading(false)
+				}
+			}
+
+			fetchProducts()
+			fetchOrders()
+		}
+	}, [loading])
 
 	if (loading) {
 		return <p className='text-center mt-10 text-gray-600'>Loading...</p>
