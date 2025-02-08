@@ -1,14 +1,32 @@
-import { Order } from "@/types";
+import { Order, Product } from "@/types";
 import clsx from "clsx";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface OrderHistoryProps {
   orders: Order[];
+  products: Product[];
 }
 
 const OrderHistory = ({ orders }: OrderHistoryProps) => {
+  const [products, setProducts] = useState<Product[]>([]); // Local state for products
   const [openOrderId, setOpenOrderId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("/api/products");
+        if (response.ok) {
+          const data = await response.json();
+          setProducts(data.products);
+        }
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   if (!orders.length) {
     return <p className="text-gray-500">You have no orders yet.</p>;
@@ -21,10 +39,13 @@ const OrderHistory = ({ orders }: OrderHistoryProps) => {
       </h2>
       <ul className="space-y-4">
         {orders.map((order) => {
-          const totalAmount = order.cartItems.reduce(
-            (total, item) => total + item.price,
-            0
-          );
+          const totalAmount = order.productIds.reduce((total, productId) => {
+            const product = products.find((p) => p.id === productId); // Find the product details
+            if (product) {
+              return total + product.price * (product.quantity || 1); // Calculate total based on quantity
+            }
+            return total;
+          }, 0);
 
           const isDetailsOpen = openOrderId === order.id;
 
@@ -67,43 +88,48 @@ const OrderHistory = ({ orders }: OrderHistoryProps) => {
 
                   <div>
                     <ul className="space-y-4">
-                      {order.cartItems.map((cartItem) => (
-                        <li
-                          key={cartItem.id}
-                          className="flex bg-white p-4 rounded-lg shadow-md border border-gray-200"
-                        >
-                          <div className="relative flex-shrink-0 w-24 h-24 mr-4">
-                            <Image
-                              src={`${
-                                cartItem.images
-                                  ? cartItem.images
-                                  : "/placeholder.jpg"
-                              }`}
-                              alt={cartItem.title}
-                              fill
-                              className="w-full h-full object-cover object-center rounded-lg shadow-md"
-                            />
-                          </div>
-                          <div className="flex flex-col md:flex-row justify-between flex-1">
-                            <div className="mb-2 md:mb-0 md:mr-4">
-                              <p className="font-bold">{cartItem.title}</p>
-                              <p className="text-gray-600">${cartItem.price}</p>
-                              <p className="text-gray-600">
-                                Quantity: {cartItem.quantity}
-                              </p>
-                            </div>
+                      {order.productIds.map((productId) => {
+                        const product = products.find(
+                          (p) => p.id === productId
+                        );
+                        if (!product) return null;
 
-                            <div>{cartItem.description}</div>
-
-                            <div className="flex flex-col w-20">
-                              <p className="text-gray-600">{cartItem.type}</p>
-                              <p className="text-gray-600">
-                                {cartItem.category}
-                              </p>
+                        return (
+                          <li
+                            key={product.id}
+                            className="flex bg-white p-4 rounded-lg shadow-md border border-gray-200"
+                          >
+                            <div className="relative flex-shrink-0 w-24 h-24 mr-4">
+                              <Image
+                                src={product.images?.[0] || "/placeholder.jpg"}
+                                alt={product.title}
+                                fill
+                                className="w-full h-full object-cover object-center rounded-lg shadow-md"
+                              />
                             </div>
-                          </div>
-                        </li>
-                      ))}
+                            <div className="flex flex-col md:flex-row justify-between flex-1">
+                              <div className="mb-2 md:mb-0 md:mr-4">
+                                <p className="font-bold">{product.title}</p>
+                                <p className="text-gray-600">
+                                  ${product.price}
+                                </p>
+                                <p className="text-gray-600">
+                                  Quantity: {product.quantity}
+                                </p>
+                              </div>
+
+                              <div>{product.description}</div>
+
+                              <div className="flex flex-col w-20">
+                                <p className="text-gray-600">{product.type}</p>
+                                <p className="text-gray-600">
+                                  {product.category}
+                                </p>
+                              </div>
+                            </div>
+                          </li>
+                        );
+                      })}
                     </ul>
                   </div>
                 </div>

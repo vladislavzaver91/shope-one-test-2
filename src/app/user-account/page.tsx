@@ -1,6 +1,5 @@
 "use client";
-
-import { Address, Order } from "@/types";
+import { Address, Order, Product } from "@/types";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 
@@ -26,6 +25,7 @@ const OrderHistory = dynamic(
 export default function UserAccountPage() {
   const [orders, setOrders] = useState<Order[]>([]); // order history
   const [addresses, setAddresses] = useState<Address[]>([]); // addresses
+  const [products, setProducts] = useState<Product[]>([]); // product details
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -63,8 +63,21 @@ export default function UserAccountPage() {
       }
     };
 
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("/api/products");
+        if (response.ok) {
+          const data = await response.json();
+          setProducts(data.products);
+        }
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
     fetchOrders();
     fetchAddresses();
+    fetchProducts(); // Fetch products here
   }, []);
 
   type AddressFormData = {
@@ -73,7 +86,7 @@ export default function UserAccountPage() {
     postalCode: string;
     country: string;
   };
-  
+
   const handleUpdateAddresses = (data: AddressFormData) => {
     const newAddress: Address = {
       id: Date.now().toString(), // Генерируем временный ID
@@ -91,7 +104,8 @@ export default function UserAccountPage() {
       </h1>
       <UserInfoForm />
       <AddressManager addresses={addresses} onUpdate={handleUpdateAddresses} />
-      <OrderHistory orders={orders} />
+      <OrderHistory orders={orders} products={products} />{" "}
+      {/* Pass products here */}
     </div>
   );
 }

@@ -98,7 +98,7 @@ const Header = () => {
 							isLoading={isLoading}
 						/>
 						<div className='flex gap-2'>
-							<Link href='/cart' className='hidden md:block'>
+							<Link href='/cart' className='hidden md:block mr-2'>
 								<button className='p-2 hover:bg-gray-100 rounded-full relative'>
 									<ShoppingCart className='w-6 h-6' />
 									{cart.length > 0 && (

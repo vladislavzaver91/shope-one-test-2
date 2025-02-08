@@ -41,23 +41,14 @@ const ProductPage = ({ products, setProducts }: ProductPageProps) => {
     } else {
       setProducts((prev) => [...prev, newProduct]);
     }
-
     setActivePage("list");
     setEditingProduct(null);
   };
 
   const handleEditProduct = (productId: string) => {
     const productToEdit = products.find((product) => product.id === productId);
-    console.log("Editing product ID:", productId);
-    console.log("Found product:", productToEdit);
-
     if (productToEdit) {
-      // Преобразуем undefined в null
-      const editedProduct = {
-        ...productToEdit,
-        weight: productToEdit.weight ?? null,
-      };
-      setEditingProduct(editedProduct);
+      setEditingProduct(productToEdit); // Передаем сам объект редактируемого продукта
       setActivePage("create");
     }
   };

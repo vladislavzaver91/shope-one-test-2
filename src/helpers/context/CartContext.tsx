@@ -12,12 +12,13 @@ import React, {
 
 interface CartItem extends Product {
   quantity: number;
+  selectedColor?: string; // Добавляем свойство для выбранного цвета
 }
 
 interface CartContextType {
   cart: CartItem[];
-  addToCart: (product: Product, quantity: number) => void;
-  updateQuantity: (id: string, quantity: number) => void;
+  addToCart: (product: Product, quantity: number, selectedColor?: string) => void;
+  updateQuantity: (id: string, quantity: number, selectedColor?: string) => void;
   removeFromCart: (id: string) => void;
   clearCart: () => void;
 }
@@ -41,27 +42,43 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     localStorage.setItem(CART_KEY, JSON.stringify(cart));
   };
 
-  const addToCart = useCallback((product: Product, quantity: number) => {
-    const existingItem = cart.find((item) => item.id === product.id);
-    if (existingItem) {
-      existingItem.quantity += quantity;
-    } else {
-      cart.push({ ...product, quantity });
-    }
-    saveCart([...cart]);
-  }, [cart]);
+  const addToCart = useCallback(
+    (product: Product, quantity: number, selectedColor?: string) => {
+      const existingItem = cart.find((item) => item.id === product.id);
+      let updatedCart;
+      if (existingItem) {
+        // If item exists, update quantity and selectedColor
+        updatedCart = cart.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + quantity, selectedColor: selectedColor || item.selectedColor }
+            : item
+        );
+      } else {
+        // If item doesn't exist, add it with quantity and selectedColor
+        updatedCart = [...cart, { ...product, quantity, selectedColor }];
+      }
+      saveCart(updatedCart);
+    },
+    [cart]
+  );
 
-  const updateQuantity = useCallback((id: string, quantity: number) => {
-    const updatedCart = cart.map((item) =>
-      item.id === id ? { ...item, quantity } : item
-    );
-    saveCart(updatedCart);
-  }, [cart]);
+  const updateQuantity = useCallback(
+    (id: string, quantity: number, selectedColor?: string) => {
+      const updatedCart = cart.map((item) =>
+        item.id === id ? { ...item, quantity, selectedColor } : item
+      );
+      saveCart(updatedCart);
+    },
+    [cart]
+  );
 
-  const removeFromCart = useCallback((id: string) => {
-    const updatedCart = cart.filter((item) => item.id !== id);
-    saveCart(updatedCart);
-  }, [cart]);
+  const removeFromCart = useCallback(
+    (id: string) => {
+      const updatedCart = cart.filter((item) => item.id !== id);
+      saveCart(updatedCart);
+    },
+    [cart]
+  );
 
   const clearCart = useCallback(() => {
     saveCart([]);

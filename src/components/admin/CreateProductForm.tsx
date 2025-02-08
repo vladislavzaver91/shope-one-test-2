@@ -2,7 +2,7 @@
 "use client";
 
 import { COLORS } from "@/helpers/variables/colors";
-import { Product } from "@prisma/client";
+import { Product } from "@/types";
 import { motion } from "framer-motion";
 import { ChevronDown, ChevronUp, X } from "lucide-react";
 import Image from "next/image";
@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 
 interface CreateProductFormProps {
   onCreate: (newProduct: {
-    name: string;
+    name: string; // Missing from the original Product type in ProductPage
     id: string;
     type: "Digital" | "Physical";
     title: string;
@@ -20,10 +20,10 @@ interface CreateProductFormProps {
     category: string;
     images: string[];
     colorsAvailable: string[];
-    color: string;
+    color: string; // Also missing
     quantity: number;
-    weight?: number | null;
-    dimensions?: string | null;
+    weight?: number | null; // Убедитесь, что weight не может быть undefined
+    dimensions?: string | null; // То же для dimensions
     createdAt: Date;
     updatedAt: Date;
   }) => void;
@@ -41,8 +41,9 @@ type ProductType = "Digital" | "Physical";
 const CreateProductForm = ({
   onCreate,
   onCancel,
-  editingProduct,
+  editingProduct = null,
 }: CreateProductFormProps) => {
+  
   const {
     register,
     handleSubmit,
@@ -60,8 +61,8 @@ const CreateProductForm = ({
       images: [] as string[],
       colorsAvailable: [] as string[],
       quantity: 0,
-      weight: null,
-      dimensions: "",
+      weight: null, 
+      dimensions: "", 
     },
   });
 
