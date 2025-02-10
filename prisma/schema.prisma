@@ -65,7 +65,20 @@ model Order {
   delivery        Delivery?   @relation("OrderDelivery")
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
+  orderItems OrderItem[]
 }
+
+model OrderItem {
+  id          String   @id @default(uuid())
+  orderId     String
+  order       Order    @relation(fields: [orderId], references: [id])
+  productId   String
+  product     Product  @relation(fields: [productId], references: [id])
+  quantity    Int
+  selectedColor String?
+}
+
+
 
 model Product {
   id          String   @id @default(uuid())
@@ -82,6 +95,7 @@ model Product {
   orders      Order[]  @relation("ProductOrders")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  orderItems OrderItem[]
 }
 
 model PaymentIntent {

@@ -59,6 +59,11 @@ export default function CheckoutPage() {
 		const productIds = cart.map(product => product.id)
 		const deliveryAddress = shippingData
 		const deliveryAddressId = localStorage.getItem('deliveryAddressId')
+		const cartItems = cart.map(product => ({
+			id: product.id,
+			quantity: product.quantity,
+			selectedColor: product.selectedColor || '',
+		}))
 
 		console.log('deliveryAddress:', deliveryAddress)
 		console.log('deliveryAddressId:', deliveryAddressId)
@@ -66,6 +71,7 @@ export default function CheckoutPage() {
 		const newOrder = {
 			userId: userId,
 			productIds: productIds,
+			cartItems,
 			status: 'Pending',
 			createAt: new Date().toISOString(),
 			updateAt: new Date().toISOString(),

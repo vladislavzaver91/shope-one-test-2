@@ -31,9 +31,15 @@ export async function POST(request: NextRequest) {
 		}
 
 		const body = await request.json()
-		const { productIds, deliveryAddressId } = body
+		const { productIds, deliveryAddressId, cartItems } = body
 
-		if (!productIds || productIds.length === 0 || !deliveryAddressId) {
+		if (
+			!productIds ||
+			productIds.length === 0 ||
+			!cartItems ||
+			cartItems.length === 0 ||
+			!deliveryAddressId
+		) {
 			return NextResponse.json(
 				{ error: 'Product IDs and delivery address are required' },
 				{ status: 400 }
@@ -52,12 +58,20 @@ export async function POST(request: NextRequest) {
 		const newOrder = await prisma.order.create({
 			data: {
 				userId,
-				productIds,
-				deliveryAddressId, // Referring to an address by ID
+				deliveryAddressId,
 				status: 'Pending',
+				productIds, // Directly save the product IDs
+				orderItems: {
+					create: cartItems.map(item => ({
+						product: { connect: { id: item.id } },
+						quantity: item.quantity,
+						selectedColor: item.selectedColor || '',
+					})),
+				},
 			},
 			include: {
-				deliveryAddress: true, // Include the address in the response
+				deliveryAddress: true,
+				orderItems: { include: { product: true } }, // Include related products in orderItems
 			},
 		})
 
@@ -94,8 +108,8 @@ export async function GET() {
 		// Получение всех заказов с деталями о товарах и адресах
 		const orders = await prisma.order.findMany({
 			include: {
-				products: true, // Включаем информацию о продуктах
-				deliveryAddress: true, // Включаем информацию о доставке
+				deliveryAddress: true,
+				orderItems: { include: { product: true } },
 			},
 		})
 
