@@ -27,6 +27,36 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 		{ value: 'GB', label: 'United Kingdom' },
 	]
 
+	// const handleSaveAddress = async (data: Address) => {
+	// 	try {
+	// 		const userId = localStorage.getItem('userId')
+	// 		console.log(userId)
+	// 		if (!userId) {
+	// 			console.log('User ID not found')
+	// 			return
+	// 		}
+
+	// 		const response = await fetch('/api/shipping/addresses', {
+	// 			method: 'POST',
+	// 			headers: {
+	// 				'Content-Type': 'application/json',
+	// 				'user-id': userId,
+	// 			},
+	// 			body: JSON.stringify({ ...data, isDefault }),
+	// 		})
+
+	// 		if (!response.ok) {
+	// 			throw new Error('Failed to save address')
+	// 		}
+
+	// 		const savedAddress = await response.json()
+	// 		localStorage.setItem('deliveryAddressId', savedAddress.id)
+	// 		console.log('Address saved:', savedAddress)
+	// 	} catch (error) {
+	// 		console.error('Error saving address:', error)
+	// 	}
+	// }
+
 	const handleSaveAddress = async (data: Address) => {
 		try {
 			const userId = localStorage.getItem('userId')
@@ -41,7 +71,7 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 					'Content-Type': 'application/json',
 					'user-id': userId,
 				},
-				body: JSON.stringify({ ...data, isDefault }),
+				body: JSON.stringify({ ...data, isDefault: false }),
 			})
 
 			if (!response.ok) {
