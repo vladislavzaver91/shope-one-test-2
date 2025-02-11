@@ -6,7 +6,7 @@ import { loadStripe } from '@stripe/stripe-js'
 import { motion } from 'framer-motion'
 import { CreditCard } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface StripeCheckoutProps {
 	paymentMethod: string
@@ -25,18 +25,14 @@ const StripeCheckout = ({
 	const { cart, clearCart } = useCart()
 	const [loading, setLoading] = useState(false)
 
-	// useEffect(() => {
-	// 	const urlParams = new URLSearchParams(window.location.search)
-	// 	if (urlParams.get('session_id')) {
-	// 		clearCart()
-	// 		handleCompleteOrder()
-	// 		router.push('/app/checkout/success')
-	// 	}
-	// }, [router, clearCart, handleCompleteOrder])
-
-	const handle = () => {
-		handleCompleteOrder()
-	}
+	useEffect(() => {
+		const urlParams = new URLSearchParams(window.location.search)
+		if (urlParams.get('session_id')) {
+			clearCart()
+			handleCompleteOrder()
+			router.push('/app/checkout/success')
+		}
+	}, [router, clearCart, handleCompleteOrder])
 
 	const handleCheckout = async () => {
 		setLoading(true)
@@ -84,8 +80,7 @@ const StripeCheckout = ({
 					</p>
 				</div>
 
-				<button onClick={handle}>handle</button>
-				{/* <motion.button
+				<motion.button
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.5, delay: 0.3 }}
@@ -96,7 +91,7 @@ const StripeCheckout = ({
 					disabled={loading}
 				>
 					{loading ? 'Processing...' : 'Pay Now'}
-				</motion.button> */}
+				</motion.button>
 			</div>
 		</Elements>
 	)
