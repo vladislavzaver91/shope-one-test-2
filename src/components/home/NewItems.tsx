@@ -1,4 +1,4 @@
-"use client"
+'use client'
 import { Product } from '@/types'
 import axios from 'axios'
 import { motion } from 'framer-motion'
@@ -48,7 +48,7 @@ const NewItems = () => {
 			</div>
 
 			{loading ? (
-				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6'>
+				<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6'>
 					{Array.from({ length: productsPerPage }).map((_, index) => (
 						<div key={index} className='p-4'>
 							<Skeleton height={200} className='mb-4' />
@@ -59,7 +59,7 @@ const NewItems = () => {
 					))}
 				</div>
 			) : (
-				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6'>
+				<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6'>
 					{products.map((product, index) => (
 						<motion.div
 							key={product.id}

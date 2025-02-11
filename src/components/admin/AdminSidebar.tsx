@@ -10,6 +10,12 @@ interface AdminSidebarProps {
 	setActivePage: (page: 'products' | 'orders' | 'statistics') => void
 }
 
+const SIDEBAR_NAV_ITEMS = [
+	{ id: 'products', name: 'Products', icon: FaProductHunt },
+	{ id: 'orders', name: 'Orders', icon: FaClipboardList },
+	{ id: 'statistics', name: 'Statistics', icon: FaChartLine },
+] as const
+
 const AdminSidebar = ({ activePage, setActivePage }: AdminSidebarProps) => {
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 
@@ -37,35 +43,21 @@ const AdminSidebar = ({ activePage, setActivePage }: AdminSidebarProps) => {
 				</button>
 
 				<div className='space-y-6'>
-					<button
-						className={`flex items-center space-x-4 text-lg hover:text-gray-400 transition-colors ${
-							activePage === 'products' ? 'text-blue-500' : 'text-gray-700'
-						}`}
-						onClick={() => setActivePage('products')}
-					>
-						<FaProductHunt size={24} />
-						{isOpen && <span>Products</span>}
-					</button>
-
-					<button
-						className={`flex items-center space-x-4 text-xl hover:text-gray-400 transition-colors ${
-							activePage === 'orders' ? 'text-blue-500' : 'text-gray-700'
-						}`}
-						onClick={() => setActivePage('orders')}
-					>
-						<FaClipboardList size={24} />
-						{isOpen && <span>Orders</span>}
-					</button>
-
-					<button
-						className={`flex items-center space-x-4 text-lg hover:text-gray-400 transition-colors ${
-							activePage === 'statistics' ? 'text-blue-500' : 'text-gray-700'
-						}`}
-						onClick={() => setActivePage('statistics')}
-					>
-						<FaChartLine size={24} />
-						{isOpen && <span>Statistics</span>}
-					</button>
+					{SIDEBAR_NAV_ITEMS.map(({ id, name, icon: Icon }) => (
+						<button
+							key={id}
+							className={`flex items-center space-x-4 text-lg hover:text-gray-400 transition-colors ${
+								activePage === id ? 'text-blue-500' : 'text-gray-700'
+							}`}
+							onClick={() => {
+								setActivePage(id)
+								setIsOpen(false)
+							}}
+						>
+							<Icon size={24} />
+							{isOpen && <span>{name}</span>}
+						</button>
+					))}
 				</div>
 			</div>
 		</motion.div>

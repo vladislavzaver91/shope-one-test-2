@@ -190,7 +190,14 @@ const Header = () => {
 							onClick={toggleMenu}
 							className='relative flex items-center space-x-2 text-gray-800 hover:text-blue-500'
 						>
-							<ShoppingCart className='w-6 h-6' />
+							<button className='p-2 hover:bg-gray-100 rounded-full relative'>
+								<ShoppingCart className='w-6 h-6' />
+								{cart.length > 0 && (
+									<span className='w-5 h-5 text-center -right-2 top-0 rounded-full absolute bg-blue-600 text-sm font-medium text-white'>
+										{cart.length}
+									</span>
+								)}
+							</button>
 						</Link>
 						{!isAuth && (
 							<div className='flex items-center space-x-2'>

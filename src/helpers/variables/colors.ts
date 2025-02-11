@@ -4,4 +4,6 @@ export const COLORS = {
 	silver: '#C0C0C0',
 	white: '#FFFFFF',
 	midnight: '#191970',
+	red: '#AA0000',
+	yellow: '#FFFF00',
 }

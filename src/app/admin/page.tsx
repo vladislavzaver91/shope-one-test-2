@@ -20,10 +20,16 @@ export default function AdminPage() {
 
 	useEffect(() => {
 		const fetchUser = async () => {
+			const token = localStorage.getItem('accessToken')
+			if (!token) {
+				router.push('/login')
+				return
+			}
+
 			try {
 				const response = await fetch('/api/users/me', {
 					headers: {
-						Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+						Authorization: `Bearer ${token}`,
 					},
 				})
 

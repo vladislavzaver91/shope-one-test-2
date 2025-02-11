@@ -9,6 +9,16 @@ interface OrderListProps {
 	orders: Order[]
 }
 
+const formatDate = (isoString: string) => {
+	return new Date(isoString).toLocaleString('en-US', {
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric',
+		hour: '2-digit',
+		minute: '2-digit',
+	})
+}
+
 const ITEMS_PER_PAGE_OPTIONS = 12
 
 const OrderList = ({ orders }: OrderListProps) => {
@@ -78,14 +88,15 @@ const OrderList = ({ orders }: OrderListProps) => {
 								transition={{ duration: 0.3 }}
 								className='bg-white p-6 shadow-lg rounded-lg'
 							>
-								<h3 className='text-lg font-semibold mb-2'>{order.id}</h3>
+								<h3 className='text-lg font-semibold mb-2'>
+									Order ID: {order.id}
+								</h3>
 								<p className='text-gray-600 mb-2'>
-									Order created at: {order.createdAt}
+									Order created at: {formatDate(order.createdAt)}
 								</p>
 								<p className='text-gray-600 mb-2'>
-									Order updated at: {order.updatedAt}
+									Order updated at: {formatDate(order.updatedAt)}
 								</p>
-								<p className='text-gray-600 mb-2'>Total Amount: $</p>
 								<p className='text-gray-600 mb-4'>Status: {order.status}</p>
 
 								<button
