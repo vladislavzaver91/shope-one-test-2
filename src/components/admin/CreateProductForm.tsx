@@ -21,6 +21,7 @@ interface CreateProductFormProps {
 		category: string
 		images: string[]
 		colorsAvailable: string[]
+		attributes: string[]
 		color: string // Also missing
 		quantity: number
 		weight?: number | null // Убедитесь, что weight не может быть undefined
@@ -58,6 +59,7 @@ const CreateProductForm = ({
 			description: '',
 			price: 0,
 			category: '',
+			attributes: [] as string[],
 			images: [] as string[],
 			colorsAvailable: [] as string[],
 			quantity: 0,
@@ -67,7 +69,8 @@ const CreateProductForm = ({
 	})
 
 	const [isTypeDropdownOpen, setIsTypeDropdownOpen] = useState<boolean>(false)
-
+	const [attributes, setAttributes] = useState<string[]>([])
+	const [attributeInput, setAttributeInput] = useState<string>('')
 	const [selectedFiles, setSelectedFiles] = useState<File[]>([])
 	const [previews, setPreviews] = useState<string[]>([])
 	const [colorInput, setColorInput] = useState<string>('')
@@ -86,12 +89,27 @@ const CreateProductForm = ({
 				editingProduct.images.map((img: string) => new File([img], img))
 			)
 			setPreviews(editingProduct.images)
+			setAttributes(editingProduct.attributes || [])
+			setValue('attributes', editingProduct.attributes || [])
 		}
 	}, [editingProduct, setValue])
 
+	const addAttribute = () => {
+		if (attributeInput.trim() && !attributes.includes(attributeInput.trim())) {
+			setAttributes(prev => [...prev, attributeInput.trim()])
+			setAttributeInput('')
+		}
+	}
+
+	const removeAttribute = (index: number) => {
+		setAttributes(attributes.filter((_, i) => i !== index))
+	}
+
 	const onSubmit = async (data: any) => {
+		setValue('attributes', attributes)
 		const productToSave = {
 			...data,
+			attributes,
 			id: editingProduct ? editingProduct.id : `product-${Date.now()}`,
 			createdAt: editingProduct ? editingProduct.createdAt : new Date(),
 			updatedAt: new Date(),
@@ -120,6 +138,7 @@ const CreateProductForm = ({
 
 			onCreate(productToSave)
 			reset()
+			setAttributes([])
 		} catch (error) {
 			console.error('Error submitting form:', error)
 		}
@@ -345,6 +364,53 @@ const CreateProductForm = ({
 						className='w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500'
 					/>
 				</div>
+			</div>
+
+			{/* attributes */}
+			<div>
+				<label
+					htmlFor='attributes'
+					className='block text-sm font-medium text-gray-700 mb-2'
+				>
+					Attributes
+				</label>
+				<div className='flex flex-wrap gap-2 mb-2'>
+					{attributes.map((attribute, index) => (
+						<span
+							key={index}
+							className='px-2 py-1 bg-blue-200 text-blue-800 rounded-md flex items-center'
+						>
+							{attribute}
+							<button
+								type='button'
+								onClick={() => removeAttribute(index)}
+								className='ml-2 text-red-500'
+							>
+								<X className='w-4 h-4' />
+							</button>
+						</span>
+					))}
+				</div>
+				<div className='max-w-52 w-full'>
+					<input
+						type='text'
+						id='attributes'
+						value={attributeInput}
+						onChange={e => setAttributeInput(e.target.value)}
+						placeholder='Enter attribute'
+						className='w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500'
+						onKeyDown={e =>
+							e.key === 'Enter' && (e.preventDefault(), addAttribute())
+						}
+					/>
+				</div>
+				<button
+					type='button'
+					onClick={addAttribute}
+					className='mt-2 bg-blue-500 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors'
+				>
+					Add attribute
+				</button>
 			</div>
 
 			{/* upload image */}

@@ -1,12 +1,13 @@
 export interface Product {
 	id: string
-  
+
 	title: string
 	description: string
 	price: number
 	type: 'Digital' | 'Physical'
 	category: string
 	images: string[]
+	attributes?: string[]
 	colorsAvailable: string[]
 	color: string
 	quantity: number

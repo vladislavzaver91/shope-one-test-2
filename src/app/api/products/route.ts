@@ -6,7 +6,12 @@ const prisma = new PrismaClient()
 export async function POST(request: NextRequest) {
 	try {
 		const data = await request.json()
-		const product = await prisma.product.create({ data })
+		const product = await prisma.product.create({
+			data: {
+				...data,
+				attributes: data.attributes || [],
+			},
+		})
 		console.log('Product created:', product)
 		return NextResponse.json(product, { status: 201 })
 	} catch (error) {
