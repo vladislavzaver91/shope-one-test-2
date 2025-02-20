@@ -1,11 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
+import useCategoryDropDownOnAdmin from '@/helpers/hooks/useCategoryDropDownOnAdmin'
 import useColorDropdownOnAdmin from '@/helpers/hooks/useColorDropdownOnAdmin'
 import { COLORS } from '@/helpers/variables/colors'
 import { Product } from '@/types'
 import { motion } from 'framer-motion'
-import { ChevronDown, ChevronUp, X } from 'lucide-react'
+import {
+	ChevronDown,
+	ChevronUp,
+	CircleMinus,
+	CirclePlus,
+	X,
+} from 'lucide-react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -70,13 +77,22 @@ const CreateProductForm = ({
 
 	const [isTypeDropdownOpen, setIsTypeDropdownOpen] = useState<boolean>(false)
 	const [attributes, setAttributes] = useState<string[]>([])
-	const [attributeInput, setAttributeInput] = useState<string>('')
 	const [selectedFiles, setSelectedFiles] = useState<File[]>([])
 	const [previews, setPreviews] = useState<string[]>([])
 	const [colorInput, setColorInput] = useState<string>('')
 
 	const { isColorDropdownOpen, setIsColorDropdownOpen, dropdownRef } =
 		useColorDropdownOnAdmin()
+
+	const {
+		categoryDropdownRef,
+		categoryInput,
+		setCategoryInput,
+		categories,
+		setCategories,
+		setIsCategoryDropdownOpen,
+		isCategoryDropdownOpen,
+	} = useCategoryDropDownOnAdmin()
 
 	useEffect(() => {
 		if (editingProduct) {
@@ -91,18 +107,25 @@ const CreateProductForm = ({
 			setPreviews(editingProduct.images)
 			setAttributes(editingProduct.attributes || [])
 			setValue('attributes', editingProduct.attributes || [])
+			if (editingProduct.category) {
+				setCategoryInput(editingProduct.category)
+				if (!categories.includes(editingProduct.category)) {
+					setCategories(prev => [editingProduct.category, ...prev])
+				}
+			}
 		}
-	}, [editingProduct, setValue])
+	}, [editingProduct, setValue, setCategories, setCategoryInput])
 
 	const addAttribute = () => {
-		if (attributeInput.trim() && !attributes.includes(attributeInput.trim())) {
-			setAttributes(prev => [...prev, attributeInput.trim()])
-			setAttributeInput('')
-		}
+		setAttributes(prev => [...prev, ''])
+	}
+
+	const updateAttribute = (index: number, value: string) => {
+		setAttributes(prev => prev.map((attr, i) => (i === index ? value : attr)))
 	}
 
 	const removeAttribute = (index: number) => {
-		setAttributes(attributes.filter((_, i) => i !== index))
+		setAttributes(prev => prev.filter((_, i) => i !== index))
 	}
 
 	const onSubmit = async (data: any) => {
@@ -314,22 +337,50 @@ const CreateProductForm = ({
 				</div>
 
 				{/* category */}
-				<div>
-					<label
-						htmlFor='category'
-						className='font-[family-name:var(--font-nunito-sans)] tracking-wider block text-sm font-medium text-gray-700'
-					>
+				<div className='relative' ref={categoryDropdownRef}>
+					<label className='block text-sm font-medium text-gray-700'>
 						Category
 					</label>
-					<input
-						id='category'
-						{...register('category', { required: 'Category is required' })}
-						placeholder='Enter category'
-						className='w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500'
-					/>
-					{errors.category && (
-						<p className='text-red-500'>{errors.category.message}</p>
-					)}
+					<div className='relative'>
+						<input
+							type='text'
+							placeholder='Select or add category'
+							value={categoryInput}
+							onChange={e => setCategoryInput(e.target.value)}
+							onFocus={() => setIsCategoryDropdownOpen(true)}
+							className='w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500'
+						/>
+						{isCategoryDropdownOpen && (
+							<ul className='absolute left-0 right-0 mt-1 bg-white border rounded-lg shadow-lg z-20 max-h-48 overflow-auto'>
+								{categoryInput && !categories.includes(categoryInput) && (
+									<li
+										className='px-4 py-2 bg-blue-100 cursor-pointer flex items-center'
+										onClick={() => {
+											setCategories([categoryInput, ...categories])
+											setValue('category', categoryInput)
+											setIsCategoryDropdownOpen(false)
+										}}
+									>
+										<span className='text-blue-500 font-bold mr-2'>+</span> Add
+										&quot;{categoryInput}&quot;
+									</li>
+								)}
+								{categories.map((category, index) => (
+									<li
+										key={index}
+										className='px-4 py-2 hover:bg-gray-100 cursor-pointer'
+										onClick={() => {
+											setValue('category', category)
+											setCategoryInput(category)
+											setIsCategoryDropdownOpen(false)
+										}}
+									>
+										{category}
+									</li>
+								))}
+							</ul>
+						)}
+					</div>
 				</div>
 
 				{/* weight */}
@@ -368,49 +419,42 @@ const CreateProductForm = ({
 
 			{/* attributes */}
 			<div>
-				<label
-					htmlFor='attributes'
-					className='block text-sm font-medium text-gray-700 mb-2'
-				>
-					Attributes
-				</label>
-				<div className='flex flex-wrap gap-2 mb-2'>
-					{attributes.map((attribute, index) => (
-						<span
-							key={index}
-							className='px-2 py-1 bg-blue-200 text-blue-800 rounded-md flex items-center'
-						>
-							{attribute}
+				<div className='flex items-end gap-2 mb-2'>
+					<label
+						htmlFor='attributes'
+						className='block text-sm font-medium text-gray-700'
+					>
+						Attributes
+					</label>
+					<button
+						type='button'
+						onClick={addAttribute}
+						className='mt-2 text-blue-500 hover:text-blue-700 font-medium transition-colors'
+					>
+						<CirclePlus />
+					</button>
+				</div>
+
+				<div className='grid sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-7 gap-2'>
+					{attributes.map((attr, index) => (
+						<div key={index} className='flex items-center gap-2'>
+							<input
+								type='text'
+								value={attr}
+								onChange={e => updateAttribute(index, e.target.value)}
+								placeholder='Enter attribute'
+								className='w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500'
+							/>
 							<button
 								type='button'
 								onClick={() => removeAttribute(index)}
-								className='ml-2 text-red-500'
+								className='text-red-500 hover:text-red-700 transition-colors'
 							>
-								<X className='w-4 h-4' />
+								<CircleMinus className='w-5 h-5' />
 							</button>
-						</span>
+						</div>
 					))}
 				</div>
-				<div className='max-w-52 w-full'>
-					<input
-						type='text'
-						id='attributes'
-						value={attributeInput}
-						onChange={e => setAttributeInput(e.target.value)}
-						placeholder='Enter attribute'
-						className='w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500'
-						onKeyDown={e =>
-							e.key === 'Enter' && (e.preventDefault(), addAttribute())
-						}
-					/>
-				</div>
-				<button
-					type='button'
-					onClick={addAttribute}
-					className='mt-2 bg-blue-500 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors'
-				>
-					Add attribute
-				</button>
 			</div>
 
 			{/* upload image */}
