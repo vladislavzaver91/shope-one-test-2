@@ -2,6 +2,7 @@
 'use client'
 
 import AdminSidebar from '@/components/admin/AdminSidebar'
+import CMSComponent from '@/components/admin/CMSComponent'
 import OrderList from '@/components/admin/OrderList'
 import ProductPage from '@/components/admin/ProductPage'
 import { Order, Product } from '@/types'
@@ -14,7 +15,7 @@ export default function AdminPage() {
 	const [orders, setOrders] = useState<Order[]>([])
 	const [loading, setLoading] = useState(true)
 	const [activePage, setActivePage] = useState<
-		'products' | 'orders' | 'statistics'
+		'products' | 'orders' | 'statistics' | 'cms'
 	>('products')
 	const router = useRouter()
 
@@ -112,6 +113,7 @@ export default function AdminPage() {
 					<ProductPage products={products} setProducts={setProducts} />
 				)}
 				{activePage === 'orders' && <OrderList orders={orders} />}
+				{activePage === 'cms' && <CMSComponent />}
 			</motion.div>
 		</div>
 	)

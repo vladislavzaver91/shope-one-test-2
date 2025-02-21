@@ -3,17 +3,23 @@
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { CgMenuLeftAlt, CgMenuRightAlt } from 'react-icons/cg'
-import { FaChartLine, FaClipboardList, FaProductHunt } from 'react-icons/fa'
+import {
+	FaChartLine,
+	FaClipboardList,
+	FaCogs,
+	FaProductHunt,
+} from 'react-icons/fa'
 
 interface AdminSidebarProps {
-	activePage: 'products' | 'orders' | 'statistics'
-	setActivePage: (page: 'products' | 'orders' | 'statistics') => void
+	activePage: 'products' | 'orders' | 'statistics' | 'cms'
+	setActivePage: (page: 'products' | 'orders' | 'statistics' | 'cms') => void
 }
 
 const SIDEBAR_NAV_ITEMS = [
 	{ id: 'products', name: 'Products', icon: FaProductHunt },
 	{ id: 'orders', name: 'Orders', icon: FaClipboardList },
 	{ id: 'statistics', name: 'Statistics', icon: FaChartLine },
+	{ id: 'cms', name: 'CMS', icon: FaCogs },
 ] as const
 
 const AdminSidebar = ({ activePage, setActivePage }: AdminSidebarProps) => {
