@@ -68,8 +68,9 @@ const ProductList = ({ filters }: ProductListProps) => {
 		}
 
 		if (filters.category) {
-			filteredProducts = filteredProducts.filter(
-				product => product.category === filters.category
+			const selectedCategories = filters.category.split(',')
+			filteredProducts = filteredProducts.filter(product =>
+				selectedCategories.includes(product.category)
 			)
 		}
 
