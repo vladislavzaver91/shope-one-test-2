@@ -48,3 +48,11 @@ export type CartItem = {
 	price: number
 	quantity?: number
 }
+
+export type DefaultCategories = string[]
+
+export type CategoryItems = {
+	title: string
+	descr?: string
+	image: string
+}

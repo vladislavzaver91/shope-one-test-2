@@ -82,6 +82,12 @@ const Header = () => {
 					<Link href='/products' className='text-gray-800 hover:text-blue-500'>
 						Products
 					</Link>
+					<Link
+						href='/categories'
+						className='text-gray-800 hover:text-blue-500'
+					>
+						Categories
+					</Link>
 					<Link href='/about' className='text-gray-800 hover:text-blue-500'>
 						About Us
 					</Link>
@@ -169,6 +175,13 @@ const Header = () => {
 							className='text-xl text-gray-800 hover:text-blue-500'
 						>
 							Products
+						</Link>
+						<Link
+							href='/categories'
+							onClick={toggleMenu}
+							className='text-xl text-gray-800 hover:text-blue-500'
+						>
+							Categories
 						</Link>
 						<Link
 							href='/about'

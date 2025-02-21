@@ -344,40 +344,28 @@ const CreateProductForm = ({
 					<div className='relative'>
 						<input
 							type='text'
-							placeholder='Select or add category'
+							placeholder='Select category'
 							value={categoryInput}
-							onChange={e => setCategoryInput(e.target.value)}
 							onFocus={() => setIsCategoryDropdownOpen(true)}
 							className='w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500'
 						/>
 						{isCategoryDropdownOpen && (
 							<ul className='absolute left-0 right-0 mt-1 bg-white border rounded-lg shadow-lg z-20 max-h-48 overflow-auto'>
-								{categoryInput && !categories.includes(categoryInput) && (
-									<li
-										className='px-4 py-2 bg-blue-100 cursor-pointer flex items-center'
-										onClick={() => {
-											setCategories([categoryInput, ...categories])
-											setValue('category', categoryInput)
-											setIsCategoryDropdownOpen(false)
-										}}
-									>
-										<span className='text-blue-500 font-bold mr-2'>+</span> Add
-										&quot;{categoryInput}&quot;
-									</li>
-								)}
-								{categories.map((category, index) => (
-									<li
-										key={index}
-										className='px-4 py-2 hover:bg-gray-100 cursor-pointer'
-										onClick={() => {
-											setValue('category', category)
-											setCategoryInput(category)
-											setIsCategoryDropdownOpen(false)
-										}}
-									>
-										{category}
-									</li>
-								))}
+								{categories
+									.filter(category => category !== categoryInput)
+									.map((category, index) => (
+										<li
+											key={index}
+											className='px-4 py-2 hover:bg-gray-100 cursor-pointer'
+											onClick={() => {
+												setValue('category', category)
+												setCategoryInput(category)
+												setIsCategoryDropdownOpen(false)
+											}}
+										>
+											{category}
+										</li>
+									))}
 							</ul>
 						)}
 					</div>

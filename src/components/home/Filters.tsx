@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
+import { DEFAULT_CATEGORIES } from '@/helpers/variables/categories'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronDown, ChevronUp, Sliders } from 'lucide-react'
 import { useState } from 'react'
@@ -9,6 +10,7 @@ interface FiltersProps {
 	onFilter: (key: string, value: any) => void
 	filters: {
 		category: string
+		attributes: string[]
 		type: ('Digital' | 'Physical')[]
 		minPrice: string
 		maxPrice: string
@@ -18,6 +20,32 @@ interface FiltersProps {
 
 const Filters = ({ onFilter, filters }: FiltersProps) => {
 	const [showFilters, setShowFilters] = useState<boolean>(false)
+	const [attributeInput, setAttributeInput] = useState<string>('')
+
+	const handleAttributesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setAttributeInput(e.target.value)
+	}
+
+	const handleAttributeKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === 'Enter' && attributeInput.trim() !== '') {
+			const newAttributes = attributeInput
+				.split(',')
+				.map(attr => attr.trim())
+				.filter(attr => attr !== '')
+
+			onFilter('attributes', [
+				...new Set([...filters.attributes, ...newAttributes]),
+			])
+			setAttributeInput('')
+		}
+	}
+
+	const removeAttribute = (attribute: string) => {
+		onFilter(
+			'attributes',
+			filters.attributes.filter(attr => attr !== attribute)
+		)
+	}
 
 	return (
 		<>
@@ -53,11 +81,14 @@ const Filters = ({ onFilter, filters }: FiltersProps) => {
 								<select
 									className='w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none'
 									onChange={e => onFilter('category', e.target.value)}
+									value={filters.category}
 								>
 									<option value=''>All Categories</option>
-									<option value='Electronics'>Electronics</option>
-									<option value='Books'>Books</option>
-									<option value='Software'>Software</option>
+									{DEFAULT_CATEGORIES.map(category => (
+										<option key={category} value={category}>
+											{category}
+										</option>
+									))}
 								</select>
 							</div>
 
@@ -85,6 +116,37 @@ const Filters = ({ onFilter, filters }: FiltersProps) => {
 										/>
 										Physical
 									</label>
+								</div>
+							</div>
+
+							{/* Attributes */}
+							<div>
+								<label className='block text-sm font-medium text-gray-700 mb-2'>
+									Attributes (comma-separated)
+								</label>
+								<input
+									type='text'
+									value={attributeInput}
+									onChange={handleAttributesChange}
+									onKeyDown={handleAttributeKeyDown}
+									placeholder='Enter attributes'
+									className='w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none'
+								/>
+								<div className='mt-2 flex flex-wrap gap-2'>
+									{filters.attributes.map(attr => (
+										<span
+											key={attr}
+											className='flex items-center bg-blue-100 text-blue-700 px-2 py-1 rounded-lg text-sm'
+										>
+											{attr}
+											<button
+												onClick={() => removeAttribute(attr)}
+												className='ml-2 text-blue-500 hover:text-blue-700'
+											>
+												&times;
+											</button>
+										</span>
+									))}
 								</div>
 							</div>
 
@@ -151,11 +213,14 @@ const Filters = ({ onFilter, filters }: FiltersProps) => {
 						<select
 							className='w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none'
 							onChange={e => onFilter('category', e.target.value)}
+							value={filters.category}
 						>
 							<option value=''>All Categories</option>
-							<option value='Electronics'>Electronics</option>
-							<option value='Books'>Books</option>
-							<option value='Software'>Software</option>
+							{DEFAULT_CATEGORIES.map(category => (
+								<option key={category} value={category}>
+									{category}
+								</option>
+							))}
 						</select>
 					</div>
 
@@ -183,6 +248,37 @@ const Filters = ({ onFilter, filters }: FiltersProps) => {
 								/>
 								Physical
 							</label>
+						</div>
+					</div>
+
+					{/* Attributes */}
+					<div>
+						<label className='block text-sm font-medium text-gray-700 mb-2'>
+							Attributes (comma-separated)
+						</label>
+						<input
+							type='text'
+							value={attributeInput}
+							onChange={handleAttributesChange}
+							onKeyDown={handleAttributeKeyDown}
+							placeholder='Enter attributes'
+							className='w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none'
+						/>
+						<div className='mt-2 flex flex-wrap gap-2'>
+							{filters.attributes.map(attr => (
+								<span
+									key={attr}
+									className='flex items-center bg-blue-100 text-blue-700 px-2 py-1 rounded-lg text-sm'
+								>
+									{attr}
+									<button
+										onClick={() => removeAttribute(attr)}
+										className='ml-2 text-blue-500 hover:text-blue-700'
+									>
+										&times;
+									</button>
+								</span>
+							))}
 						</div>
 					</div>
 

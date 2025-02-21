@@ -2,7 +2,8 @@
 'use client'
 
 import dynamic from 'next/dynamic'
-import { useState } from 'react'
+import { useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 const ProductList = dynamic(() => import('@/components/home/ProductList'), {
 	ssr: false,
@@ -12,14 +13,22 @@ const Filters = dynamic(() => import('@/components/home/Filters'), {
 })
 
 export default function Products() {
+	const searchParams = useSearchParams()
+	const categoryFromUrl = searchParams.get('category') || ''
+
 	const [filters, setFilters] = useState({
-		category: '',
+		category: categoryFromUrl,
+		attributes: [],
 		type: [] as ('Digital' | 'Physical')[], // Типы теперь массив
 		search: '',
 		minPrice: '',
 		maxPrice: '',
 		sort: '',
 	})
+
+	useEffect(() => {
+		setFilters(prev => ({ ...prev, category: categoryFromUrl }))
+	}, [categoryFromUrl])
 
 	// Обновление фильтров
 	const handleFilter = (key: string, value: any) => {

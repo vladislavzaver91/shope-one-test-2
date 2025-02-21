@@ -14,6 +14,7 @@ const ProductCard = dynamic(() => import('./ProductCard'), { ssr: false })
 interface ProductListProps {
 	filters: {
 		category: string
+		attributes: string[]
 		search: string
 		minPrice: string
 		maxPrice: string
@@ -69,6 +70,12 @@ const ProductList = ({ filters }: ProductListProps) => {
 		if (filters.category) {
 			filteredProducts = filteredProducts.filter(
 				product => product.category === filters.category
+			)
+		}
+
+		if (filters.attributes.length > 0) {
+			filteredProducts = filteredProducts.filter(product =>
+				product.attributes?.some(attr => filters.attributes.includes(attr))
 			)
 		}
 
