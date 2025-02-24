@@ -189,7 +189,7 @@ const ProductItem = ({ product }: ProductItemProps) => {
 							<button
 								onClick={handleAddToCart}
 								className={`px-4 py-2 w-full text-center ${
-									isInCart ? 'bg-gray-400' : 'bg-green-600'
+									isInCart ? 'bg-gray-400' : 'bg-green-500'
 								} text-white rounded-lg hover:${
 									isInCart ? '' : 'bg-green-700'
 								}`}
@@ -199,7 +199,7 @@ const ProductItem = ({ product }: ProductItemProps) => {
 							</button>
 							<Link
 								href='/checkout'
-								className='px-4 py-2 w-full text-center bg-blue-600 text-white rounded-lg hover:bg-blue-700'
+								className='px-4 py-2 w-full text-center bg-[var(--accent-color)] text-white rounded-lg hover:bg-[var(--accent-color-dark)] transition-colors'
 							>
 								Buy Now
 							</Link>

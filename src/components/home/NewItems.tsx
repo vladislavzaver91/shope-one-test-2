@@ -35,12 +35,20 @@ const NewItems = () => {
 	return (
 		<div className='p-4'>
 			<div className='mb-5 flex items-center justify-between'>
-				<h2 className='tracking-widest text-xl font-medium text-black'>
+				<h2
+					className='tracking-widest text-xl font-medium '
+					style={{
+						color: 'var(--font-color)',
+					}}
+				>
 					New products
 				</h2>
 				<Link
 					href='/'
-					className='flex items-center gap-3 tracking-widest text-sm text-black'
+					className='flex items-center gap-3 tracking-widest text-sm '
+					style={{
+						color: 'var(--font-color)',
+					}}
 				>
 					<span>All new products</span>
 					<ChevronRight size={20} />

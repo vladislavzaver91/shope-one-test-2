@@ -4,7 +4,30 @@
 
 :root {
 	--background: #ffffff;
-	--foreground: #171717;
+	--font-color: #171717;
+	--font-family: Nunito;
+	--accent-color: #2563eb;
+	--accent-gradient: linear-gradient(to right, #2563eb, #4f46e5);
+	--border-product-card: 8px;
+	--border-info-card: 8px;
+	--border-btn: 8px;
+	--border-hero-btn: 50px;
+	--border-header-input: 50px;
+	--border-input: 8px;
+}
+
+body {
+	color: var(--font-color);
+	background: var(--background);
+	font-family: var(--font-family), serif;
+}
+
+.bg-accent {
+	background-color: var(--accent-color);
+}
+
+.bg-accent-gradient {
+	background: var(--accent-gradient);
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -26,12 +49,6 @@ ul {
 
 a {
 	text-decoration: none;
-}
-
-body {
-	color: var(--foreground);
-	background: var(--background);
-	font-family: Nunito, serif;
 }
 
 .container {

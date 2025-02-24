@@ -1,6 +1,13 @@
 import { CartProvider } from '@/helpers/context/CartContext'
 import type { Metadata } from 'next'
-import { Nunito, Quicksand } from 'next/font/google'
+import {
+	Inter,
+	Montserrat,
+	Nunito,
+	Poppins,
+	Quicksand,
+	Roboto,
+} from 'next/font/google'
 import ClientLayout from './client-layout'
 import './globals.css'
 
@@ -11,6 +18,30 @@ const nunitoSans = Nunito({
 
 const quicksandSans = Quicksand({
 	variable: '--font-quicksand-sans',
+	subsets: ['latin'],
+})
+
+const poppins = Poppins({
+	weight: ['300', '400', '500', '600', '700', '800', '900'],
+	style: 'normal',
+	subsets: ['latin'],
+})
+
+const inter = Inter({
+	weight: ['300', '400', '500', '600', '700', '800', '900'],
+	style: 'normal',
+	subsets: ['latin'],
+})
+
+const montserratSans = Montserrat({
+	weight: ['300', '400', '500', '600', '700', '800', '900'],
+	style: 'normal',
+	subsets: ['latin'],
+})
+
+const robotoSerif = Roboto({
+	weight: ['100', '300', '400', '500', '700', '900'],
+	style: 'normal',
 	subsets: ['latin'],
 })
 
@@ -28,7 +59,7 @@ export default function RootLayout({
 		<CartProvider>
 			<html lang='en'>
 				<body
-					className={`${nunitoSans.variable} ${quicksandSans.variable} antialiased`}
+					className={`${nunitoSans.variable} ${quicksandSans.variable} ${montserratSans} ${robotoSerif} ${inter} ${poppins} antialiased`}
 				>
 					<ClientLayout>{children}</ClientLayout>
 				</body>

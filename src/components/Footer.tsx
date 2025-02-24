@@ -5,7 +5,10 @@ import Link from 'next/link'
 
 const Footer = () => {
 	return (
-		<footer className='bg-gradient-to-r from-blue-600 to-indigo-600 shadow-md text-white w-full py-7 px-6 z-10'>
+		<footer
+			className='shadow-md text-white w-full py-7 px-6 z-10'
+			style={{ background: 'var(--accent-gradient)' }}
+		>
 			<div className='max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10'>
 				{/* left section */}
 				<div>
@@ -52,7 +55,7 @@ const Footer = () => {
 							placeholder='Your email'
 							className='px-4 py-2 rounded-md bg-gray-700 focus:ring focus:ring-blue-400 outline-none w-full'
 						/>
-						<button className='flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors'>
+						<button className='flex items-center gap-2 text-white px-4 py-2 rounded-lg bg-[var(--accent-color)] hover:bg-[var(--accent-color-dark)] transition-colors'>
 							Send <Send size={16} />
 						</button>
 					</div>

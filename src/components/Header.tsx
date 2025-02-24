@@ -73,25 +73,50 @@ const Header = () => {
 			<div className='container w-full mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16'>
 				<Link
 					href='/'
-					className='text-2xl font-bold uppercase tracking-widest text-gray-800 font-[family-name:var(--font-quicksand-sans)]'
+					className='text-2xl font-bold uppercase tracking-widest font-[family-name:var(--font-quicksand-sans)] text-gray-800'
 				>
 					shop
 				</Link>
 
 				<nav className='hidden md:flex items-center space-x-4'>
-					<Link href='/products' className='text-gray-800 hover:text-blue-500'>
+					<Link
+						href='/products'
+						className='hover:text-blue-500'
+						style={{
+							color: 'var(--font-color)',
+							fontFamily: 'var(--font-family)',
+						}}
+					>
 						Products
 					</Link>
 					<Link
 						href='/categories'
-						className='text-gray-800 hover:text-blue-500'
+						className='hover:text-blue-500'
+						style={{
+							color: 'var(--font-color)',
+							fontFamily: 'var(--font-family)',
+						}}
 					>
 						Categories
 					</Link>
-					<Link href='/about' className='text-gray-800 hover:text-blue-500'>
+					<Link
+						href='/about'
+						className='hover:text-blue-500'
+						style={{
+							color: 'var(--font-color)',
+							fontFamily: 'var(--font-family)',
+						}}
+					>
 						About Us
 					</Link>
-					<Link href='/contact' className='text-gray-800 hover:text-blue-500'>
+					<Link
+						href='/contact'
+						className='hover:text-blue-500'
+						style={{
+							color: 'var(--font-color)',
+							fontFamily: 'var(--font-family)',
+						}}
+					>
 						Contact
 					</Link>
 				</nav>
@@ -145,13 +170,21 @@ const Header = () => {
 						<div className='hidden md:block space-x-4'>
 							<Link
 								href='/login'
-								className='px-4 py-2 text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-100 transition'
+								className='px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition'
+								style={{
+									color: 'var(--font-color)',
+									fontFamily: 'var(--font-family)',
+								}}
 							>
 								Log In
 							</Link>
 							<Link
 								href='/register'
 								className='px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition'
+								style={{
+									color: 'var(--font-color)',
+									fontFamily: 'var(--font-family)',
+								}}
 							>
 								Sign Up
 							</Link>
@@ -172,28 +205,44 @@ const Header = () => {
 						<Link
 							href='/products'
 							onClick={toggleMenu}
-							className='text-xl text-gray-800 hover:text-blue-500'
+							className='text-xl hover:text-blue-500'
+							style={{
+								color: 'var(--font-color)',
+								fontFamily: 'var(--font-family)',
+							}}
 						>
 							Products
 						</Link>
 						<Link
 							href='/categories'
 							onClick={toggleMenu}
-							className='text-xl text-gray-800 hover:text-blue-500'
+							className='text-xl hover:text-blue-500'
+							style={{
+								color: 'var(--font-color)',
+								fontFamily: 'var(--font-family)',
+							}}
 						>
 							Categories
 						</Link>
 						<Link
 							href='/about'
 							onClick={toggleMenu}
-							className='text-xl text-gray-800 hover:text-blue-500'
+							className='text-xl hover:text-blue-500'
+							style={{
+								color: 'var(--font-color)',
+								fontFamily: 'var(--font-family)',
+							}}
 						>
 							About Us
 						</Link>
 						<Link
 							href='/contact'
 							onClick={toggleMenu}
-							className='text-xl text-gray-800 hover:text-blue-500'
+							className='text-xl hover:text-blue-500'
+							style={{
+								color: 'var(--font-color)',
+								fontFamily: 'var(--font-family)',
+							}}
 						>
 							Contact
 						</Link>
@@ -201,7 +250,7 @@ const Header = () => {
 						<Link
 							href='/cart'
 							onClick={toggleMenu}
-							className='relative flex items-center space-x-2 text-gray-800 hover:text-blue-500'
+							className='relative flex items-center space-x-2 hover:text-blue-500'
 						>
 							<button className='p-2 hover:bg-gray-100 rounded-full relative'>
 								<ShoppingCart className='w-6 h-6' />
@@ -217,7 +266,11 @@ const Header = () => {
 								<Link
 									href='/login'
 									onClick={toggleMenu}
-									className='px-4 py-2 text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-100 transition'
+									className='px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition'
+									style={{
+										color: 'var(--font-color)',
+										fontFamily: 'var(--font-family)',
+									}}
 								>
 									Log In
 								</Link>
@@ -225,6 +278,10 @@ const Header = () => {
 									href='/register'
 									onClick={toggleMenu}
 									className='px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition'
+									style={{
+										color: 'var(--font-color)',
+										fontFamily: 'var(--font-family)',
+									}}
 								>
 									Sign Up
 								</Link>

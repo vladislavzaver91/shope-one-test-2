@@ -32,7 +32,10 @@ const Hero = () => {
 			>
 				{CATEGORY_ITEMS.map(category => (
 					<SwiperSlide key={category.title}>
-						<div className='flex gap-6 items-center justify-center rounded-lg w-full h-full bg-gradient-to-r from-blue-600 to-indigo-600'>
+						<div
+							className='flex gap-6 items-center justify-center rounded-[var(--border-info-card)] w-full h-full'
+							style={{ background: 'var(--accent-gradient)' }}
+						>
 							<div className='w-2/3 pl-8 space-y-2'>
 								<h2 className='text-white text-xl md:text-3xl font-medium tracking-wider'>
 									{category.title}

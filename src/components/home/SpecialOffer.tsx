@@ -22,7 +22,12 @@ const specialProducts = [
 const SpecialOffer = () => {
 	return (
 		<div className='p-4'>
-			<h2 className='tracking-widest text-xl font-medium text-black mb-6'>
+			<h2
+				className='tracking-widest text-xl font-medium  mb-6'
+				style={{
+					color: 'var(--font-color)',
+				}}
+			>
 				Special offers
 			</h2>
 			<div className='grid grid-cols-1 lg:grid-cols-2 gap-10 p-2'>
@@ -36,7 +41,8 @@ const SpecialOffer = () => {
 							ease: 'easeOut',
 							delay: index * 0.1,
 						}}
-						className='flex items-center pr-4 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg h-52'
+						className='flex items-center pr-4 rounded-[var(--border-info-card)] h-52'
+						style={{ background: 'var(--accent-gradient)' }}
 					>
 						<div className='space-y-2 w-2/3 px-4'>
 							<h3 className='text-xl font-semibold text-white'>
