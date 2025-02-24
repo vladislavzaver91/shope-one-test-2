@@ -56,3 +56,19 @@ export type CategoryItems = {
 	descr?: string
 	image: string
 }
+
+export type CMSSettings = {
+	id: string
+	font: string
+	font_color: string
+	accent_color: string
+	accent_color_dark: string
+	border_product_card: string
+	border_info_card: string
+	border_btn: string
+	border_hero_btn: string
+	border_header_input: string
+	border_input: string
+	created_at: string
+	updated_at: string
+}

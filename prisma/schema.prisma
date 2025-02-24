@@ -120,3 +120,20 @@ model Delivery {
   status     String   @default("Pending")
   createdAt  DateTime @default(now())
 }
+
+
+model SiteSettings {
+  id                 String  @id @default(uuid())
+  font               String
+  fontColor          String
+  accentColor        String
+  accentColorDark    String
+  borderProductCard  String
+  borderInfoCard     String
+  borderBtn          String
+  borderHeroBtn      String
+  borderHeaderInput  String
+  borderInput        String
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
