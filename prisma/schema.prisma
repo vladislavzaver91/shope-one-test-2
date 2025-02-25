@@ -125,7 +125,10 @@ model Delivery {
 model SiteSettings {
   id                 String  @id @default(uuid())
   font               String
-  fontColor          String
+  arrowSliderColor   String  @default("#0c0c0c")
+  fontPrimeColor     String  @default("#171717")
+  fontSecondColor    String  @default("#9ca3af")
+  titleColor         String  @default("#1a237e")
   accentColor        String
   accentColorDark    String
   borderProductCard  String

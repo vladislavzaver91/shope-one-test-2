@@ -1,8 +1,13 @@
 'use client'
 
-import CategoriesList from '@/components/categories/CategoriesList'
 import { CATEGORY_ITEMS } from '@/helpers/variables/categories'
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
+
+const CategoriesList = dynamic(
+	() => import('@/components/categories/CategoriesList'),
+	{ ssr: false }
+)
 
 export default function Categories() {
 	const router = useRouter()

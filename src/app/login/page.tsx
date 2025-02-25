@@ -67,7 +67,7 @@ export default function LoginPage() {
 				transition={{ duration: 0.5 }}
 				className='bg-white w-full max-w-md rounded-lg shadow-lg p-8'
 			>
-				<h2 className='text-2xl font-bold text-center text-[#1a237e] mb-6'>
+				<h2 className='text-2xl font-bold text-center text-[var(--title-color)] mb-6'>
 					Log In
 				</h2>
 				<form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
@@ -81,7 +81,7 @@ export default function LoginPage() {
 						<input
 							id='email'
 							type='email'
-							className='w-full px-4 py-2 border rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:outline-none'
+							className='w-full px-4 py-2 border rounded-[var(--border-input)] text-gray-900 focus:ring-2 focus:ring-blue-500 focus:outline-none'
 							placeholder='Enter your email'
 							{...register('email', {
 								required: 'Email is required',
@@ -107,7 +107,7 @@ export default function LoginPage() {
 						<input
 							id='password'
 							type='password'
-							className='w-full px-4 py-2 border rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:outline-none'
+							className='w-full px-4 py-2 border rounded-[var(--border-input)] text-gray-900 focus:ring-2 focus:ring-blue-500 focus:outline-none'
 							placeholder='Enter your password'
 							{...register('password', {
 								required: 'Password is required',
@@ -128,7 +128,7 @@ export default function LoginPage() {
 					)}
 					<button
 						type='submit'
-						className='w-full py-2 px-4 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 transition'
+						className='w-full py-2 px-4 bg-[var(--accent-color)] text-white font-medium rounded-[var(--border-btn)] hover:bg-[var(--accent-color-dark)] transition'
 					>
 						Log In
 					</button>

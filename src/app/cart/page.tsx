@@ -30,7 +30,7 @@ export default function CartPage() {
 					initial={{ x: -20, opacity: 0 }}
 					animate={{ x: 0, opacity: 1 }}
 					transition={{ duration: 0.5 }}
-					className='font-[family-name:var(--font-nunito-sans)] tracking-wider text-4xl font-bold mb-6 text-center text-[#1a237e]'
+					className='font-[family-name:var(--font-nunito-sans)] tracking-wider text-4xl font-bold mb-6 text-center text-[var(--title-color)]'
 				>
 					Cart
 				</motion.h1>
@@ -51,7 +51,7 @@ export default function CartPage() {
 								return (
 									<li
 										key={item.id}
-										className='flex items-center justify-between p-4 bg-white rounded-lg shadow-md transition duration-200 hover:shadow-lg'
+										className='flex items-center justify-between p-4 bg-white rounded-[var(--border-product-card)] shadow-md transition duration-200 hover:shadow-lg'
 									>
 										<div className='relative flex-shrink-0 w-24 h-24'>
 											<Image
@@ -63,7 +63,9 @@ export default function CartPage() {
 										</div>
 										<div className='flex flex-col flex-1 md:flex-row justify-between md:items-center ml-4'>
 											<div className='mb-2 md:mb-0 md:mr-4'>
-												<p className='font-semibold text-lg'>{item.title}</p>
+												<p className='font-semibold text-lg text-[var(--font-prime-color)]'>
+													{item.title}
+												</p>
 												<p className='text-gray-600 text-base'>
 													${item.price.toFixed(2)}
 												</p>
@@ -140,7 +142,7 @@ export default function CartPage() {
 																								],
 																						}}
 																					/>
-																					<span className='text-sm'>
+																					<span className='text-sm text-[var(--font-prime-color)]'>
 																						{color}
 																					</span>
 																				</div>
@@ -181,10 +183,12 @@ export default function CartPage() {
 						</ul>
 
 						<div className='mt-6 flex justify-between items-center'>
-							<p className='text-xl font-bold'>Total: ${total.toFixed(2)}</p>
+							<p className='text-xl font-bold text-[var(--font-prime-color)]'>
+								Total: ${total.toFixed(2)}
+							</p>
 							<Link
 								href='/checkout'
-								className='px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200'
+								className='px-6 py-3 bg-[var(--accent-color)] text-white rounded-[var(--border-btn)] hover:bg-[var(--accent-color-dark)] transition duration-200'
 							>
 								Go to checkout
 							</Link>

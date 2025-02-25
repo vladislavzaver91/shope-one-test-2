@@ -4,10 +4,17 @@
 
 :root {
 	--background: #ffffff;
-	--font-color: #171717;
+	--font-prime-color: #171717;
+	--font-second-color: #9ca3af;
+	--title-color: #1a237e;
+	--arrow-slider-color: #0c0c0c;
 	--font-family: Nunito;
 	--accent-color: #2563eb;
-	--accent-gradient: linear-gradient(to right, #2563eb, #4f46e5);
+	--accent-gradient: linear-gradient(
+		to right,
+		var(--accent-color),
+		var(--accent-color-dark)
+	);
 	--border-product-card: 8px;
 	--border-info-card: 8px;
 	--border-btn: 8px;
@@ -17,7 +24,7 @@
 }
 
 body {
-	color: var(--font-color);
+	color: var(--font-prime-color);
 	background: var(--background);
 	font-family: var(--font-family), serif;
 }

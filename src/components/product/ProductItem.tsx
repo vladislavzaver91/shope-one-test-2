@@ -62,7 +62,7 @@ const ProductItem = ({ product }: ProductItemProps) => {
 				transition={{ duration: 0.5 }}
 				className='max-w-full py-4'
 			>
-				<h1 className='text-3xl font-bold text-[#1a237e] mb-4'>
+				<h1 className='text-3xl font-bold text-[var(--title-color)] mb-4'>
 					{product.title}
 				</h1>
 				<div className='grid sm:grid-cols-12 xl:grid-cols-24 gap-4 items-center'>
@@ -95,7 +95,7 @@ const ProductItem = ({ product }: ProductItemProps) => {
 						initial={{ opacity: 0, scale: 0.9 }}
 						animate={{ opacity: 1, scale: 1 }}
 						transition={{ duration: 0.5 }}
-						className='relative sm:col-start-3 sm:col-end-10 flex justify-center items-center h-96 border rounded-lg sm:h-[464px] mb-4 overflow-hidden shadow-md'
+						className='relative sm:col-start-3 sm:col-end-10 flex justify-center items-center h-96 border rounded-[var(--border-product-card)] sm:h-[464px] mb-4 overflow-hidden shadow-md'
 					>
 						<Image
 							src={imageUrl}
@@ -154,7 +154,9 @@ const ProductItem = ({ product }: ProductItemProps) => {
 																	COLORS[color as keyof typeof COLORS],
 															}}
 														/>
-														<span className='text-sm'>{color}</span>
+														<span className='text-sm text-[var(--font-prime-color)]'>
+															{color}
+														</span>
 													</div>
 												) : null
 											)}
@@ -166,7 +168,10 @@ const ProductItem = ({ product }: ProductItemProps) => {
 						)}
 
 						<div className='flex items-center mb-4'>
-							<label htmlFor='quantity' className='mr-4'>
+							<label
+								htmlFor='quantity'
+								className='mr-4 text-[var(--font-prime-color)]'
+							>
 								Quantity:
 							</label>
 							<input
@@ -175,14 +180,16 @@ const ProductItem = ({ product }: ProductItemProps) => {
 								value={quantity}
 								min={1}
 								onChange={e => setQuantity(Number(e.target.value))}
-								className='w-16 border border-gray-300 rounded-lg text-center'
+								className='w-16 border border-gray-300 rounded-[var(--border-input)] text-center'
 							/>
 						</div>
 
 						<div className='w-full mb-4 border-t border-gray-300'></div>
 
 						<div>
-							<p className='text-lg font-bold'>{product.price}$</p>
+							<p className='text-lg font-bold text-[var(--font-prime-color)]'>
+								{product.price}$
+							</p>
 						</div>
 
 						<div className='flex space-x-4'>
@@ -190,7 +197,7 @@ const ProductItem = ({ product }: ProductItemProps) => {
 								onClick={handleAddToCart}
 								className={`px-4 py-2 w-full text-center ${
 									isInCart ? 'bg-gray-400' : 'bg-green-500'
-								} text-white rounded-lg hover:${
+								} text-white rounded-[var(--border-btn)] hover:${
 									isInCart ? '' : 'bg-green-700'
 								}`}
 								disabled={isInCart}
@@ -199,7 +206,7 @@ const ProductItem = ({ product }: ProductItemProps) => {
 							</button>
 							<Link
 								href='/checkout'
-								className='px-4 py-2 w-full text-center bg-[var(--accent-color)] text-white rounded-lg hover:bg-[var(--accent-color-dark)] transition-colors'
+								className='px-4 py-2 w-full text-center bg-[var(--accent-color)] text-white rounded-[var(--border-btn)] hover:bg-[var(--accent-color-dark)] transition-colors'
 							>
 								Buy Now
 							</Link>
@@ -208,11 +215,13 @@ const ProductItem = ({ product }: ProductItemProps) => {
 						<div className='space-y-2'>
 							<div className='flex justify-between'>
 								<p className='text-sm text-gray-500'>Category</p>
-								<p>{product.category}</p>
+								<p className='text-[var(--font-prime-color)]'>
+									{product.category}
+								</p>
 							</div>
 							<div className='flex justify-between'>
 								<p className='text-sm text-gray-500'>Type</p>
-								<p>{product.type}</p>
+								<p className='text-[var(--font-prime-color)]'>{product.type}</p>
 							</div>
 						</div>
 					</motion.div>
@@ -243,13 +252,17 @@ const ProductItem = ({ product }: ProductItemProps) => {
 					className='grid sm:grid-cols-12 xl:grid-cols-24 xl:gap-4 mt-8'
 				>
 					<div className='sm:col-span-12'>
-						<h3 className='text-lg font-semibold text-[#1a237e] my-4'>About</h3>
+						<h3 className='text-lg font-semibold text-[var(--title-color)] my-4'>
+							About
+						</h3>
 						<div className='w-full mb-4 border-t border-gray-300'></div>
-						<p>{product.description}</p>
+						<p className='text-[var(--font-prime-color)]'>
+							{product.description}
+						</p>
 					</div>
 
 					<div className='sm:col-span-12'>
-						<h3 className='text-lg font-semibold text-[#1a237e] my-4'>
+						<h3 className='text-lg font-semibold text-[var(--title-color)] my-4'>
 							Tech specs
 						</h3>
 						<div className='w-full mb-4 border-t border-gray-300'></div>

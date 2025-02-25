@@ -18,7 +18,7 @@ const Footer = () => {
 					>
 						Shop
 					</Link>
-					<p className='text-gray-400 mt-3'>
+					<p className='text-[var(--font-second-color)] mt-3'>
 						The best store for your shopping. We offer a wide range of products,
 						including both digital downloads and physical products at
 						competitive prices.
@@ -46,14 +46,14 @@ const Footer = () => {
 					<h3 className='text-lg tracking-widest [family-name:var(--font-quicksand-sans)] font-semibold'>
 						Subscribe to news
 					</h3>
-					<p className='text-gray-400'>
+					<p className='text-[var(--font-second-color)]'>
 						Stay up to date with new arrivals and promotions
 					</p>
 					<div className='flex gap-3 mt-3'>
 						<input
 							type='email'
 							placeholder='Your email'
-							className='px-4 py-2 rounded-md bg-gray-700 focus:ring focus:ring-blue-400 outline-none w-full'
+							className='px-4 py-2 rounded-[var(--border-input)] bg-gray-700 focus:ring focus:ring-blue-400 outline-none w-full'
 						/>
 						<button className='flex items-center gap-2 text-white px-4 py-2 rounded-lg bg-[var(--accent-color)] hover:bg-[var(--accent-color-dark)] transition-colors'>
 							Send <Send size={16} />
@@ -64,7 +64,7 @@ const Footer = () => {
 
 			{/* social network */}
 			<div className='mt-10 border-t border-gray-700 pt-5 flex flex-col md:flex-row justify-between items-center'>
-				<p className='text-gray-400 text-sm'>
+				<p className='text-[var(--font-second-color)] text-sm'>
 					© 2024 Shop. All rights reserved.
 				</p>
 				<div className='flex space-x-4 mt-3 md:mt-0'>

@@ -35,7 +35,7 @@ const CategoriesList = ({ categories, onClick }: CategoryListProps) => {
 								className='object-contain object-center group-hover:scale-105 transition-transform duration-300'
 							/>
 						</div>
-						<h2 className='font-semibold text-gray-800 mt-3 line-clamp-2'>
+						<h2 className='font-semibold text-[var(--font-prime-color)] mt-3 line-clamp-2'>
 							{category.title}
 						</h2>
 					</motion.div>

@@ -25,7 +25,7 @@ const SpecialOffer = () => {
 			<h2
 				className='tracking-widest text-xl font-medium  mb-6'
 				style={{
-					color: 'var(--font-color)',
+					color: 'var(--font-prime-color)',
 				}}
 			>
 				Special offers

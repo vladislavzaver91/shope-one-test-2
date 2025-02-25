@@ -1,14 +1,24 @@
 // AdminPage.js
 'use client'
 
-import AdminSidebar from '@/components/admin/AdminSidebar'
-import CMSComponent from '@/components/admin/CMSComponent'
-import OrderList from '@/components/admin/OrderList'
-import ProductPage from '@/components/admin/ProductPage'
 import { Order, Product } from '@/types'
 import { motion } from 'framer-motion'
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+
+const AdminSidebar = dynamic(() => import('@/components/admin/AdminSidebar'), {
+	ssr: false,
+})
+const OrderList = dynamic(() => import('@/components/admin/OrderList'), {
+	ssr: false,
+})
+const ProductPage = dynamic(() => import('@/components/admin/ProductPage'), {
+	ssr: false,
+})
+const CMSComponent = dynamic(() => import('@/components/admin/CMSComponent'), {
+	ssr: false,
+})
 
 export default function AdminPage() {
 	const [products, setProducts] = useState<Product[]>([])

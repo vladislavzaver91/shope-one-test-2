@@ -74,7 +74,9 @@ const Filters = ({ onFilter, filters }: FiltersProps) => {
 				>
 					<div className='flex gap-2'>
 						<Sliders className='w-5 h-5 text-blue-600' />
-						<h3 className='text-lg font-semibold'>Filters</h3>
+						<h3 className='text-lg text-[var(--font-prime-color)] font-semibold'>
+							Filters
+						</h3>
 					</div>
 
 					{!showFilters ? <ChevronDown size={16} /> : <ChevronUp size={16} />}
@@ -97,7 +99,7 @@ const Filters = ({ onFilter, filters }: FiltersProps) => {
 								</label>
 								<div className='relative'>
 									<div
-										className='w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg flex flex-wrap gap-2 cursor-pointer'
+										className='w-full p-2.5 bg-gray-50 border border-gray-200 rounded-[var(--border-input)] flex flex-wrap gap-2 cursor-pointer'
 										onClick={() => setShowDropdown(!showDropdown)}
 									>
 										{selectedCategories.length > 0 ? (
@@ -123,7 +125,7 @@ const Filters = ({ onFilter, filters }: FiltersProps) => {
 									</div>
 
 									{showDropdown && (
-										<ul className='absolute z-10 w-full bg-white border border-gray-200 mt-1 rounded-lg shadow-md max-h-48 overflow-auto'>
+										<ul className='absolute z-10 w-full bg-white border border-gray-200 mt-1 rounded-[var(--border-input)] shadow-md max-h-48 overflow-auto'>
 											{DEFAULT_CATEGORIES.map(category => (
 												<li
 													key={category}
@@ -176,13 +178,13 @@ const Filters = ({ onFilter, filters }: FiltersProps) => {
 									onChange={handleAttributesChange}
 									onKeyDown={handleAttributeKeyDown}
 									placeholder='Enter attributes'
-									className='w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none'
+									className='w-full p-2.5 bg-gray-50 border border-gray-200 rounded-[var(--border-input)] focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none'
 								/>
 								<div className='mt-2 flex flex-wrap gap-2'>
 									{filters.attributes.map(attr => (
 										<span
 											key={attr}
-											className='flex items-center bg-blue-100 text-blue-700 px-2 py-1 rounded-lg text-sm'
+											className='flex items-center bg-blue-100 text-blue-700 px-2 py-1 rounded-[var(--border-input)] text-sm'
 										>
 											{attr}
 											<button
@@ -204,7 +206,7 @@ const Filters = ({ onFilter, filters }: FiltersProps) => {
 								<input
 									type='number'
 									placeholder='Enter minimum price'
-									className='w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none'
+									className='w-full p-2.5 bg-gray-50 border border-gray-200 rounded-[var(--border-input)] focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none'
 									onChange={e => onFilter('minPrice', e.target.value)}
 								/>
 							</div>
@@ -217,7 +219,7 @@ const Filters = ({ onFilter, filters }: FiltersProps) => {
 								<input
 									type='number'
 									placeholder='Enter maximum price'
-									className='w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none'
+									className='w-full p-2.5 bg-gray-50 border border-gray-200 rounded-[var(--border-input)] focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none'
 									onChange={e => onFilter('maxPrice', e.target.value)}
 								/>
 							</div>
@@ -228,7 +230,7 @@ const Filters = ({ onFilter, filters }: FiltersProps) => {
 									Sort By
 								</label>
 								<select
-									className='w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none'
+									className='w-full p-2.5 bg-gray-50 border border-gray-200 rounded-[var(--border-input)] focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none'
 									onChange={e => onFilter('sort', e.target.value)}
 								>
 									<option value=''>Featured</option>
@@ -258,7 +260,7 @@ const Filters = ({ onFilter, filters }: FiltersProps) => {
 						</label>
 						<div className='relative'>
 							<div
-								className='w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg flex flex-wrap gap-2 cursor-pointer'
+								className='w-full p-2.5 bg-gray-50 border border-gray-200 rounded-[var(--border-input)] flex flex-wrap gap-2 cursor-pointer'
 								onClick={() => setShowDropdown(!showDropdown)}
 							>
 								{selectedCategories.length > 0 ? (
@@ -284,7 +286,7 @@ const Filters = ({ onFilter, filters }: FiltersProps) => {
 							</div>
 
 							{showDropdown && (
-								<ul className='absolute z-10 w-full bg-white border border-gray-200 mt-1 rounded-lg shadow-md max-h-48 overflow-auto'>
+								<ul className='absolute z-10 w-full bg-white border border-gray-200 mt-1 rounded-[var(--border-input)] shadow-md max-h-48 overflow-auto'>
 									{DEFAULT_CATEGORIES.map(category => (
 										<li
 											key={category}
@@ -337,13 +339,13 @@ const Filters = ({ onFilter, filters }: FiltersProps) => {
 							onChange={handleAttributesChange}
 							onKeyDown={handleAttributeKeyDown}
 							placeholder='Enter attributes'
-							className='w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none'
+							className='w-full p-2.5 bg-gray-50 border border-gray-200 rounded-[var(--border-input)] focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none'
 						/>
 						<div className='mt-2 flex flex-wrap gap-2'>
 							{filters.attributes.map(attr => (
 								<span
 									key={attr}
-									className='flex items-center bg-blue-100 text-blue-700 px-2 py-1 rounded-lg text-sm'
+									className='flex items-center bg-blue-100 text-blue-700 px-2 py-1 rounded-[var(--border-input)] text-sm'
 								>
 									{attr}
 									<button
@@ -365,7 +367,7 @@ const Filters = ({ onFilter, filters }: FiltersProps) => {
 						<input
 							type='number'
 							placeholder='Enter minimum price'
-							className='w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none'
+							className='w-full p-2.5 bg-gray-50 border border-gray-200 rounded-[var(--border-input)] focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none'
 							onChange={e => onFilter('minPrice', e.target.value)}
 						/>
 					</div>
@@ -378,7 +380,7 @@ const Filters = ({ onFilter, filters }: FiltersProps) => {
 						<input
 							type='number'
 							placeholder='Enter maximum price'
-							className='w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none'
+							className='w-full p-2.5 bg-gray-50 border border-gray-200 rounded-[var(--border-input)] focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none'
 							onChange={e => onFilter('maxPrice', e.target.value)}
 						/>
 					</div>
@@ -389,7 +391,7 @@ const Filters = ({ onFilter, filters }: FiltersProps) => {
 							Sort By
 						</label>
 						<select
-							className='w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none'
+							className='w-full p-2.5 bg-gray-50 border border-gray-200 rounded-[var(--border-input)] focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none'
 							onChange={e => onFilter('sort', e.target.value)}
 						>
 							<option value=''>Featured</option>

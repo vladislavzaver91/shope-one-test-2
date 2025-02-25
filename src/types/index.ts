@@ -58,17 +58,40 @@ export type CategoryItems = {
 }
 
 export type CMSSettings = {
-	id: string
+	id?: string
 	font: string
-	font_color: string
-	accent_color: string
-	accent_color_dark: string
-	border_product_card: string
-	border_info_card: string
-	border_btn: string
-	border_hero_btn: string
-	border_header_input: string
-	border_input: string
-	created_at: string
-	updated_at: string
+	fontPrimeColor: string
+	fontSecondColor: string
+	titleColor: string
+	arrowSliderColor: string
+	accentColor: string
+	accentColorDark: string
+	borderProductCard: string
+	borderInfoCard: string
+	borderBtn: string
+	borderHeroBtn: string
+	borderHeaderInput: string
+	borderInput: string
+	createdAt?: Date
+	updatedAt?: Date
+}
+
+// CSS variable mapping
+export const CSS_VARIABLE_MAP: Record<
+	keyof Omit<CMSSettings, 'id' | 'createdAt' | 'updatedAt'>,
+	string
+> = {
+	font: '--font-family',
+	fontPrimeColor: '--font-prime-color',
+	fontSecondColor: '--font-second-color',
+	titleColor: '--title-color',
+	arrowSliderColor: '--arrow-slider-color',
+	accentColor: '--accent-color',
+	accentColorDark: '--accent-color-dark',
+	borderProductCard: '--border-product-card',
+	borderInfoCard: '--border-info-card',
+	borderBtn: '--border-btn',
+	borderHeroBtn: '--border-hero-btn',
+	borderHeaderInput: '--border-header-input',
+	borderInput: '--border-input',
 }

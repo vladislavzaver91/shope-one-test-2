@@ -60,7 +60,9 @@ export default function RegisterPage() {
 				className='bg-white w-full max-w-md rounded-lg shadow-lg p-8'
 			>
 				<div className='flex flex-col items-center mb-4'>
-					<h2 className='text-2xl font-bold text-[#1a237e] mb-6'>Sign Up</h2>
+					<h2 className='text-2xl font-bold text-[var(--title-color)] mb-6'>
+						Sign Up
+					</h2>
 					<div className='flex items-center justify-center w-24 h-24 bg-gray-100 rounded-full text-center'>
 						<HiOutlineUser className='w-20 h-20 text-gray-400' />
 					</div>
@@ -77,7 +79,7 @@ export default function RegisterPage() {
 						<input
 							id='name'
 							type='text'
-							className='w-full px-4 py-2 border rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:outline-none'
+							className='w-full px-4 py-2 border rounded-[var(--border-input)] text-gray-900 focus:ring-2 focus:ring-blue-500 focus:outline-none'
 							placeholder='Enter your name'
 							{...register('name', { required: 'Name is required' })}
 						/>
@@ -95,7 +97,7 @@ export default function RegisterPage() {
 						<input
 							id='email'
 							type='email'
-							className='w-full px-4 py-2 border rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:outline-none'
+							className='w-full px-4 py-2 border rounded-[var(--border-input)] text-gray-900 focus:ring-2 focus:ring-blue-500 focus:outline-none'
 							placeholder='Enter your email'
 							{...register('email', {
 								required: 'Email is required',
@@ -121,7 +123,7 @@ export default function RegisterPage() {
 						<input
 							id='password'
 							type='password'
-							className='w-full px-4 py-2 border rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:outline-none'
+							className='w-full px-4 py-2 border rounded-[var(--border-input)] text-gray-900 focus:ring-2 focus:ring-blue-500 focus:outline-none'
 							placeholder='Create a password'
 							{...register('password', {
 								required: 'Password is required',
@@ -139,7 +141,7 @@ export default function RegisterPage() {
 					</div>
 					<button
 						type='submit'
-						className='w-full py-2 px-4 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 transition'
+						className='w-full py-2 px-4 bg-[var(--accent-color)] text-white font-medium rounded-[var(--border-btn)] hover:bg-[var(--accent-color-dark)] transition'
 					>
 						Sign Up
 					</button>

@@ -2,8 +2,12 @@
 
 import { Order } from '@/types'
 import { motion } from 'framer-motion'
+import dynamic from 'next/dynamic'
 import { useState } from 'react'
-import OrderDetails from './OrderDetails'
+
+const OrderDetails = dynamic(() => import('./OrderDetails'), {
+	ssr: false,
+})
 
 interface OrderListProps {
 	orders: Order[]

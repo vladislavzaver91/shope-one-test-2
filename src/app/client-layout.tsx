@@ -2,78 +2,10 @@
 
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
+import { applyUserSettings } from '@/helpers/functions/applyUserSettings'
+import { CMSSettings } from '@/types'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-
-const applyUserSettings = (settings: any) => {
-	if (!settings) return
-	console.log('Applying settings:', settings)
-
-	const {
-		accentColor,
-		accentColorDark,
-		font,
-		fontColor,
-		borderProductCard,
-		borderInfoCard,
-		borderBtn,
-		borderHeroBtn,
-		borderHeaderInput,
-		borderInput,
-	} = settings
-
-	if (accentColor) {
-		document.documentElement.style.setProperty('--accent-color', accentColor)
-	}
-	if (accentColorDark) {
-		document.documentElement.style.setProperty(
-			'--accent-color-dark',
-			accentColorDark
-		)
-	}
-	if (accentColor && accentColorDark) {
-		document.documentElement.style.setProperty(
-			'--accent-gradient',
-			`linear-gradient(to right, ${accentColor}, ${accentColorDark})`
-		)
-	}
-	if (font) {
-		document.documentElement.style.setProperty('--font-family', font)
-	}
-	if (fontColor) {
-		document.documentElement.style.setProperty('--font-color', fontColor)
-	}
-	if (borderProductCard) {
-		document.documentElement.style.setProperty(
-			'--border-product-card',
-			borderProductCard
-		)
-	}
-	if (borderInfoCard) {
-		document.documentElement.style.setProperty(
-			'--border-info-card',
-			borderInfoCard
-		)
-	}
-	if (borderBtn) {
-		document.documentElement.style.setProperty('--border-btn', borderBtn)
-	}
-	if (borderHeroBtn) {
-		document.documentElement.style.setProperty(
-			'--border-hero-btn',
-			borderHeroBtn
-		)
-	}
-	if (borderHeaderInput) {
-		document.documentElement.style.setProperty(
-			'--border-header-input',
-			borderHeaderInput
-		)
-	}
-	if (borderInput) {
-		document.documentElement.style.setProperty('--border-input', borderInput)
-	}
-}
 
 export default function ClientLayout({
 	children,
@@ -85,22 +17,36 @@ export default function ClientLayout({
 	const hideHeader =
 		pathname === '/login' || pathname === '/register' || pathname === '/admin'
 
-	const [settings, setSettings] = useState<any>(null)
+	const [settings, setSettings] = useState<CMSSettings | null>(null)
+	const [loading, setLoading] = useState<boolean>(true)
 
 	useEffect(() => {
 		const fetchSettings = async () => {
+			const settingsId = localStorage.getItem('setting-id')
 			try {
-				const response = await fetch('/api/site-settings')
+				const response = await fetch(`/api/site-settings?id=${settingsId}`)
 				const data = await response.json()
 				setSettings(data)
-				applyUserSettings(data)
+				if (data) {
+					applyUserSettings(data)
+				}
 			} catch (error) {
 				console.error('Failed to load site settings:', error)
+			} finally {
+				setLoading(false)
 			}
 		}
 
 		fetchSettings()
 	}, [])
+
+	useEffect(() => {
+		if (settings) applyUserSettings(settings)
+	}, [settings])
+
+	if (loading) {
+		return <p className='text-center mt-10 text-gray-600'>Loading...</p>
+	}
 
 	return !hideHeader ? (
 		<>

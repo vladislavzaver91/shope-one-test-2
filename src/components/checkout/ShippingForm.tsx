@@ -135,7 +135,7 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 				<input
 					type='text'
 					id='name'
-					className='w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500'
+					className='w-full p-3 rounded-[var(--border-input)] border focus:outline-none focus:ring-2 focus:ring-blue-500'
 					placeholder='Enter your name'
 					{...register('name', { required: 'Name is required' })}
 				/>
@@ -155,7 +155,7 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 				<input
 					type='text'
 					id='address'
-					className='w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500'
+					className='w-full p-3 rounded-[var(--border-input)] border focus:outline-none focus:ring-2 focus:ring-blue-500'
 					placeholder='Enter your address'
 					{...register('address', { required: 'Address is required' })}
 				/>
@@ -176,7 +176,7 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 					<input
 						type='text'
 						id='city'
-						className='w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500'
+						className='w-full p-3 rounded-[var(--border-input)] border focus:outline-none focus:ring-2 focus:ring-blue-500'
 						placeholder='City'
 						{...register('city', { required: 'City is required' })}
 					/>
@@ -194,7 +194,7 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 					<input
 						type='text'
 						id='postalCode'
-						className='w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500'
+						className='w-full p-3 rounded-[var(--border-input)] border focus:outline-none focus:ring-2 focus:ring-blue-500'
 						placeholder='Postal Code'
 						{...register('postalCode', { required: 'Postal Code is required' })}
 					/>
@@ -215,7 +215,7 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 					Country
 				</label>
 				<div
-					className='w-full p-3 bg-gray-50 rounded-lg border flex justify-between items-center cursor-pointer'
+					className='w-full p-3 bg-gray-50 rounded-[var(--border-input)] border flex justify-between items-center cursor-pointer'
 					onClick={() => setIsCountryDropdownOpen(!isCountryDropdownOpen)}
 				>
 					<span className={selectedCountry ? '' : 'text-gray-400'}>
@@ -280,7 +280,7 @@ const ShippingForm = ({ onSubmit }: ShippingFormProps) => {
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ duration: 0.5, delay: 0.3 }}
 				type='submit'
-				className='w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors'
+				className='w-full bg-[var(--accent-color)] text-white py-3 rounded-[var(--border-btn)] hover:bg-[var(--accent-color-dark)] font-medium transition-colors'
 			>
 				Continue to Payment
 			</motion.button>

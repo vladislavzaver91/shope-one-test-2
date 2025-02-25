@@ -28,7 +28,7 @@ const Hero = () => {
 					nextEl: '.banner-btn-next',
 					prevEl: '.banner-btn-prev',
 				}}
-				className='rounded-lg overflow-hidden h-64'
+				className='rounded-[var(--border-info-card)] overflow-hidden h-64'
 			>
 				{CATEGORY_ITEMS.map(category => (
 					<SwiperSlide key={category.title}>
@@ -56,10 +56,10 @@ const Hero = () => {
 					</SwiperSlide>
 				))}
 			</Swiper>
-			<button className='banner-btn-next z-10 absolute top-72 md:top-1/2 right-1/3 md:right-0 transform -translate-y-1/2 text-[#0c0c0c] p-3 border border-[#0c0c0c] rounded-full shadow-md hover:text-gray-600 hover:border-gray-600 transition-all cursor-pointer'>
+			<button className='banner-btn-next z-10 absolute top-72 md:top-1/2 right-1/3 md:right-0 transform -translate-y-1/2 text-[var(--arrow-slider-color)] p-3 border border-[var(--arrow-slider-color)] rounded-full shadow-md hover:text-gray-600 hover:border-gray-600 transition-all cursor-pointer'>
 				<ChevronRight />
 			</button>
-			<button className='banner-btn-prev z-10 absolute top-72 md:top-1/2 left-1/3 md:left-0 transform -translate-y-1/2 text-[#0c0c0c] p-3 border border-[#0c0c0c] rounded-full shadow-md hover:text-gray-600 hover:border-gray-600  transition-all cursor-pointer;'>
+			<button className='banner-btn-prev z-10 absolute top-72 md:top-1/2 left-1/3 md:left-0 transform -translate-y-1/2 text-[var(--arrow-slider-color)] p-3 border border-[var(--arrow-slider-color)] rounded-full shadow-md hover:text-gray-600 hover:border-gray-600  transition-all cursor-pointer;'>
 				<ChevronLeft />
 			</button>
 		</div>

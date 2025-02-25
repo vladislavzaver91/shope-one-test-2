@@ -83,7 +83,7 @@ const Header = () => {
 						href='/products'
 						className='hover:text-blue-500'
 						style={{
-							color: 'var(--font-color)',
+							color: 'var(--font-prime-color)',
 							fontFamily: 'var(--font-family)',
 						}}
 					>
@@ -93,7 +93,7 @@ const Header = () => {
 						href='/categories'
 						className='hover:text-blue-500'
 						style={{
-							color: 'var(--font-color)',
+							color: 'var(--font-prime-color)',
 							fontFamily: 'var(--font-family)',
 						}}
 					>
@@ -103,7 +103,7 @@ const Header = () => {
 						href='/about'
 						className='hover:text-blue-500'
 						style={{
-							color: 'var(--font-color)',
+							color: 'var(--font-prime-color)',
 							fontFamily: 'var(--font-family)',
 						}}
 					>
@@ -113,7 +113,7 @@ const Header = () => {
 						href='/contact'
 						className='hover:text-blue-500'
 						style={{
-							color: 'var(--font-color)',
+							color: 'var(--font-prime-color)',
 							fontFamily: 'var(--font-family)',
 						}}
 					>
@@ -172,7 +172,7 @@ const Header = () => {
 								href='/login'
 								className='px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition'
 								style={{
-									color: 'var(--font-color)',
+									color: 'var(--font-prime-color)',
 									fontFamily: 'var(--font-family)',
 								}}
 							>
@@ -182,7 +182,7 @@ const Header = () => {
 								href='/register'
 								className='px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition'
 								style={{
-									color: 'var(--font-color)',
+									color: 'var(--font-prime-color)',
 									fontFamily: 'var(--font-family)',
 								}}
 							>
@@ -207,7 +207,7 @@ const Header = () => {
 							onClick={toggleMenu}
 							className='text-xl hover:text-blue-500'
 							style={{
-								color: 'var(--font-color)',
+								color: 'var(--font-prime-color)',
 								fontFamily: 'var(--font-family)',
 							}}
 						>
@@ -218,7 +218,7 @@ const Header = () => {
 							onClick={toggleMenu}
 							className='text-xl hover:text-blue-500'
 							style={{
-								color: 'var(--font-color)',
+								color: 'var(--font-prime-color)',
 								fontFamily: 'var(--font-family)',
 							}}
 						>
@@ -229,7 +229,7 @@ const Header = () => {
 							onClick={toggleMenu}
 							className='text-xl hover:text-blue-500'
 							style={{
-								color: 'var(--font-color)',
+								color: 'var(--font-prime-color)',
 								fontFamily: 'var(--font-family)',
 							}}
 						>
@@ -240,7 +240,7 @@ const Header = () => {
 							onClick={toggleMenu}
 							className='text-xl hover:text-blue-500'
 							style={{
-								color: 'var(--font-color)',
+								color: 'var(--font-prime-color)',
 								fontFamily: 'var(--font-family)',
 							}}
 						>
@@ -268,7 +268,7 @@ const Header = () => {
 									onClick={toggleMenu}
 									className='px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition'
 									style={{
-										color: 'var(--font-color)',
+										color: 'var(--font-prime-color)',
 										fontFamily: 'var(--font-family)',
 									}}
 								>
@@ -279,7 +279,7 @@ const Header = () => {
 									onClick={toggleMenu}
 									className='px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition'
 									style={{
-										color: 'var(--font-color)',
+										color: 'var(--font-prime-color)',
 										fontFamily: 'var(--font-family)',
 									}}
 								>

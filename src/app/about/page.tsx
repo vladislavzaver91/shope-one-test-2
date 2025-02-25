@@ -28,7 +28,7 @@ export default function About() {
 					initial={{ opacity: 0, x: -20 }}
 					animate={{ opacity: 1, x: 0 }}
 					transition={{ duration: 0.5 }}
-					className='font-[family-name:var(--font-nunito-sans)] tracking-wider text-[32px] font-bold text-[#1a237e] text-center'
+					className='font-[family-name:var(--font-nunito-sans)] tracking-wider text-[32px] font-bold text-[var(--title-color)] text-center'
 				>
 					About Us
 				</motion.h1>
@@ -52,7 +52,9 @@ export default function About() {
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.6 }}
 				>
-					<h2 className='text-lg font-semibold text-[#1a237e]'>Our Mission</h2>
+					<h2 className='text-lg font-semibold text-[var(--title-color)]'>
+						Our Mission
+					</h2>
 					<p className='text-[#455a64]'>
 						Our mission is to empower consumers by providing access to a diverse
 						selection of products that enhance their lives. We believe in
@@ -66,7 +68,7 @@ export default function About() {
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.6 }}
 				>
-					<h2 className='text-lg font-semibold text-[#1a237e]'>
+					<h2 className='text-lg font-semibold text-[var(--title-color)]'>
 						What We Offer
 					</h2>
 					<ul className='list-disc list-inside text-[#455a64] space-y-2'>
@@ -87,7 +89,7 @@ export default function About() {
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.6 }}
 				>
-					<h2 className='text-lg font-semibold text-[#1a237e]'>
+					<h2 className='text-lg font-semibold text-[var(--title-color)]'>
 						Why Choose Us?
 					</h2>
 					<p className='text-[#455a64]'>
@@ -108,7 +110,7 @@ export default function About() {
 // 	return (
 // 		<div className='heading-section min-h-screen bg-white p-7'>
 // 			<section className='container mx-auto max-w-4xl'>
-// 				<h1 className='text-[32px] font-bold text-[#1a237e] mb-8'>About Us</h1>
+// 				<h1 className='text-[32px] font-bold text-[var(--title-color)] mb-8'>About Us</h1>
 
 // 				<div className='space-y-8'>
 // 					<p className='text-[#455a64]'>
@@ -118,14 +120,14 @@ export default function About() {
 // 						ensuring a seamless shopping experience for our customers.
 // 					</p>
 
-// 					<h2 className='text-lg font-semibold text-[#1a237e]'>Our Mission</h2>
+// 					<h2 className='text-lg font-semibold text-[var(--title-color)]'>Our Mission</h2>
 // 					<p className='text-[#455a64]'>
 // 						Our mission is to empower consumers by providing access to a diverse
 // 						selection of products that enhance their lives. We believe in
 // 						transparency, quality, and excellent customer service.
 // 					</p>
 
-// 					<h2 className='text-lg font-semibold text-[#1a237e]'>
+// 					<h2 className='text-lg font-semibold text-[var(--title-color)]'>
 // 						What We Offer
 // 					</h2>
 // 					<ul className='list-disc list-inside text-[#455a64] space-y-2'>
@@ -139,7 +141,7 @@ export default function About() {
 // 						</li>
 // 					</ul>
 
-// 					<h2 className='text-lg font-semibold text-[#1a237e]'>
+// 					<h2 className='text-lg font-semibold text-[var(--title-color)]'>
 // 						Why Choose Us?
 // 					</h2>
 // 					<p className='text-[#455a64]'>

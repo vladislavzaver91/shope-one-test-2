@@ -57,16 +57,16 @@ const ProductCard = ({ product }: ProductCardProps) => {
 						{product.category}
 					</span>
 				</div>
-				<h3 className='font-semibold text-[var(--font-color)] mb-2 line-clamp-2'>
+				<h3 className='font-semibold text-[var(--font-prime-color)] mb-2 line-clamp-2'>
 					{product.title}
 				</h3>
-				<p className='text-sm sm:h-10 text-gray-500 mb-4 line-clamp-2'>
+				<p className='text-sm sm:h-10 text-[var(--font-second-color)] mb-4 line-clamp-2'>
 					{truncateDescription(product.description, 5)}
 				</p>
 
 				{/* Price and Add to Cart Button */}
 				<div className='flex items-center justify-between flex-col'>
-					<span className='text-lg font-bold text-[var(--font-color)]'>
+					<span className='text-lg font-bold text-[var(--font-prime-color)]'>
 						${product.price.toLocaleString()}
 					</span>
 					<button

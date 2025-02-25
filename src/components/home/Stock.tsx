@@ -38,7 +38,7 @@ const Stock = () => {
 				<h2
 					className='tracking-widest text-xl font-medium '
 					style={{
-						color: 'var(--font-color)',
+						color: 'var(--font-prime-color)',
 					}}
 				>
 					Stock
@@ -47,10 +47,10 @@ const Stock = () => {
 					href='/'
 					className='flex items-center gap-3 tracking-widest text-sm '
 					style={{
-						color: 'var(--font-color)',
+						color: 'var(--font-prime-color)',
 					}}
 				>
-					<span>All stocks</span>
+					<span className='text-[var(--font-prime-color)]'>All stocks</span>
 					<ChevronRight size={20} />
 				</Link>
 			</div>
@@ -83,7 +83,7 @@ const Stock = () => {
 						</motion.div>
 					))}
 					{products.length === 0 && (
-						<p className='col-span-full text-center text-gray-500'>
+						<p className='col-span-full text-center text-[var(--font-second-color)]'>
 							No products found.
 						</p>
 					)}
