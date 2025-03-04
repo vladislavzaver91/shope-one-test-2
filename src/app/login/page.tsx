@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { jwtDecode } from 'jwt-decode'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 
 interface LoginFormInputs {
 	email: string
@@ -13,6 +13,17 @@ interface LoginFormInputs {
 
 interface DecodedToken {
 	userId: string
+}
+
+interface LoginResponse {
+	user: {
+		id: string
+		email: string
+		name: string
+		shopId?: string
+	}
+	accessToken: string
+	refreshToken: string
 }
 
 export default function LoginPage() {
@@ -24,7 +35,7 @@ export default function LoginPage() {
 	const [serverError, setServerError] = useState<string | null>(null)
 	const router = useRouter()
 
-	const onSubmit = async (data: LoginFormInputs) => {
+	const onSubmit: SubmitHandler<LoginFormInputs> = async data => {
 		setServerError(null)
 
 		try {
@@ -42,7 +53,7 @@ export default function LoginPage() {
 				return
 			}
 
-			const responseData = await response.json()
+			const responseData: LoginResponse = await response.json()
 			const decodedToken = jwtDecode<DecodedToken>(responseData.accessToken)
 			const userId = decodedToken.userId
 
@@ -50,8 +61,11 @@ export default function LoginPage() {
 			localStorage.setItem('refreshToken', responseData.refreshToken)
 			localStorage.setItem('userName', responseData.user.name || '')
 			localStorage.setItem('userId', userId)
-			console.log(responseData)
+			if (responseData.user.shopId) {
+				localStorage.setItem('shopId', responseData.user.shopId)
+			}
 
+			console.log(responseData)
 			router.push('/')
 		} catch (error) {
 			console.error('Login error:', error)

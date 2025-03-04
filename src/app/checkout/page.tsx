@@ -13,24 +13,9 @@ const ShippingForm = dynamic(
 	}
 )
 
-const PaymentMethodSelector = dynamic(
-	() => import('../../components/checkout/PaymentMethodSelector'),
-	{
-		ssr: false,
-	}
-)
-
-const StripeCheckout = dynamic(
-	() => import('../../components/checkout/StripeCheckout'),
-	{
-		ssr: false,
-	}
-)
-
 export default function CheckoutPage() {
 	const [step, setStep] = useState(1)
 	const [shippingData, setShippingData] = useState<Address | null>(null)
-	const [paymentMethod, setPaymentMethod] = useState('')
 	const { cart } = useCart()
 	const router = useRouter()
 
@@ -40,22 +25,19 @@ export default function CheckoutPage() {
 		setStep(2)
 	}
 
-	const handlePaymentMethodSelect = (method: string) => {
-		setPaymentMethod(method)
-		setStep(3)
-	}
-
 	const handleCompleteOrder = async () => {
-		if (!shippingData || cart.length === 0 || !paymentMethod) {
+		if (!shippingData || cart.length === 0) {
 			console.log('Please, fill in all details.')
 			return
 		}
 
 		const userId = localStorage.getItem('userId')
-		if (!userId) {
-			console.log('User ID not found')
+		const shopId = localStorage.getItem('shopId')
+		if (!userId || !shopId) {
+			console.log('User ID or Shop ID not found')
 			return
 		}
+
 		const productIds = cart.map(product => product.id)
 		const deliveryAddress = shippingData
 		const deliveryAddressId = localStorage.getItem('deliveryAddressId')
@@ -76,13 +58,12 @@ export default function CheckoutPage() {
 			createAt: new Date().toISOString(),
 			updateAt: new Date().toISOString(),
 			deliveryAddressId,
-			paymentMethod,
 		}
 
 		console.log(newOrder)
 
 		try {
-			const response = await fetch('/api/order', {
+			const storeResponse = await fetch('/api/order', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -91,14 +72,42 @@ export default function CheckoutPage() {
 				body: JSON.stringify(newOrder),
 			})
 
-			if (!response.ok) {
-				throw new Error('Failed to create order')
+			if (!storeResponse.ok) {
+				throw new Error('Failed to create order in store')
 			}
 
-			const result = await response.json()
-			console.log('Order created!', result)
+			const storeOrder = await storeResponse.json()
+
+			const crmResponse = await fetch('http://localhost:4444/api/orders', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					shopId: shopId,
+					completedAt: null,
+					deviceName: 'Web',
+					totalPrice: cart.reduce(
+						(sum, item) => sum + item.price * item.quantity,
+						0
+					),
+					productQuantityOrdered: cart.reduce(
+						(sum, item) => sum + item.quantity,
+						0
+					),
+					productQuantityDelivered: 0,
+					productName: cart.map(item => item.title).join(', '),
+					paymentType: 'card',
+					deliveryAddressId: storeOrder.deliveryAddressId,
+				}),
+			})
+
+			if (!crmResponse.ok) {
+				throw new Error('Failed to send order to CRM')
+			}
+
+			console.log('Order created and sent to CRM!')
 			setShippingData(null)
-			setPaymentMethod('')
 			router.push('/checkout/success')
 		} catch (error) {
 			console.error('Error completing order:', error)
@@ -110,13 +119,12 @@ export default function CheckoutPage() {
 			<div className='max-w-2xl mx-auto p-6 space-y-6'>
 				{step === 1 && <ShippingForm onSubmit={handleShippingSubmit} />}
 				{step === 2 && (
-					<PaymentMethodSelector onSelect={handlePaymentMethodSelect} />
-				)}
-				{step === 3 && (
-					<StripeCheckout
-						paymentMethod={paymentMethod}
-						handleCompleteOrder={handleCompleteOrder}
-					/>
+					<button
+						onClick={handleCompleteOrder}
+						className='w-full py-3 bg-blue-600 text-white font-medium rounded-xl hover:bg-blue-700 transition duration-200 shadow-md'
+					>
+						Complete Order
+					</button>
 				)}
 			</div>
 		</section>

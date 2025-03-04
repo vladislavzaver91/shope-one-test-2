@@ -25,6 +25,7 @@ enum ProductType {
 
 model User {
   id             String          @id @default(uuid())
+  shopId         String?
   email          String          @unique
   password       String
   name           String
@@ -42,61 +43,59 @@ model Address {
   id         String   @id @default(uuid())
   userId     String
   user       User     @relation("UserAddresses", fields: [userId], references: [id])
-  name       String   // Имя получателя
-  address    String   // Основная строка адреса
-  city       String   // Город
-  postalCode String   // Почтовый индекс
-  country    String   // Код страны, например, "US"
-  isDefault  Boolean?  @default(false) // Указывает, является ли адрес основным
-  orders     Order[]   @relation("AddressOrders") // Связь с заказами
+  name       String // Имя получателя
+  address    String // Основная строка адреса
+  city       String // Город
+  postalCode String // Почтовый индекс
+  country    String // Код страны, например, "US"
+  isDefault  Boolean? @default(false) // Указывает, является ли адрес основным
+  orders     Order[]  @relation("AddressOrders") // Связь с заказами
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
 
 model Order {
-  id              String      @id @default(uuid())
-  userId          String
-  user            User        @relation("UserOrders", fields: [userId], references: [id])
-  productIds      String[]
-  products        Product[]   @relation("ProductOrders")
-  deliveryAddress Address     @relation("AddressOrders", fields: [deliveryAddressId], references: [id]) // Ссылка на один адрес
-  deliveryAddressId String     // ID адреса
-  status          OrderStatus @default(Pending)
-  delivery        Delivery?   @relation("OrderDelivery")
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-  orderItems OrderItem[]
+  id                String      @id @default(uuid())
+  userId            String
+  user              User        @relation("UserOrders", fields: [userId], references: [id])
+  productIds        String[]
+  products          Product[]   @relation("ProductOrders")
+  deliveryAddress   Address     @relation("AddressOrders", fields: [deliveryAddressId], references: [id]) // Ссылка на один адрес
+  deliveryAddressId String // ID адреса
+  status            OrderStatus @default(Pending)
+  delivery          Delivery?   @relation("OrderDelivery")
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  orderItems        OrderItem[]
 }
 
 model OrderItem {
- id          String   @id @default(uuid())
-  orderId     String
-  order       Order    @relation(fields: [orderId], references: [id])
-  productId   String
-  product     Product  @relation(fields: [productId], references: [id])
-  quantity    Int
+  id            String  @id @default(uuid())
+  orderId       String
+  order         Order   @relation(fields: [orderId], references: [id])
+  productId     String
+  product       Product @relation(fields: [productId], references: [id])
+  quantity      Int
   selectedColor String?
 }
 
-
-
 model Product {
-  id          String   @id @default(uuid())
-  title       String
-  description String
-  price       Float
-  type        ProductType
-  category    String
-  images       String[]
-  attributes String[]
-  colorsAvailable       String[]
-  quantity Int // Количество в наличии (опционально)
-  weight      Float?   // Вес продукта, необязательный
-  dimensions  String?  // Размеры продукта в формате "ДxШxВ", необязательный
-  orders      Order[]  @relation("ProductOrders")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  orderItems OrderItem[]
+  id              String      @id @default(uuid())
+  title           String
+  description     String
+  price           Float
+  type            ProductType
+  category        String
+  images          String[]
+  attributes      String[]
+  colorsAvailable String[]
+  quantity        Int // Количество в наличии (опционально)
+  weight          Float? // Вес продукта, необязательный
+  dimensions      String? // Размеры продукта в формате "ДxШxВ", необязательный
+  orders          Order[]     @relation("ProductOrders")
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  orderItems      OrderItem[]
 }
 
 model PaymentIntent {
@@ -121,22 +120,21 @@ model Delivery {
   createdAt  DateTime @default(now())
 }
 
-
 model SiteSettings {
-  id                 String  @id @default(uuid())
-  font               String
-  arrowSliderColor   String  @default("#0c0c0c")
-  fontPrimeColor     String  @default("#171717")
-  fontSecondColor    String  @default("#9ca3af")
-  titleColor         String  @default("#1a237e")
-  accentColor        String
-  accentColorDark    String
-  borderProductCard  String
-  borderInfoCard     String
-  borderBtn          String
-  borderHeroBtn      String
-  borderHeaderInput  String
-  borderInput        String
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  id                String   @id @default(uuid())
+  font              String
+  arrowSliderColor  String   @default("#0c0c0c")
+  fontPrimeColor    String   @default("#171717")
+  fontSecondColor   String   @default("#9ca3af")
+  titleColor        String   @default("#1a237e")
+  accentColor       String
+  accentColorDark   String
+  borderProductCard String
+  borderInfoCard    String
+  borderBtn         String
+  borderHeroBtn     String
+  borderHeaderInput String
+  borderInput       String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }
