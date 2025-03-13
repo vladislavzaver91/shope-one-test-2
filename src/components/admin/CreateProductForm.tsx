@@ -114,6 +114,7 @@ const CreateProductForm = ({
 				}
 			}
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [editingProduct, setValue, setCategories, setCategoryInput])
 
 	const addAttribute = () => {

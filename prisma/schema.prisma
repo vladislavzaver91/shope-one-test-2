@@ -36,7 +36,7 @@ model User {
   paymentIntents PaymentIntent[] @relation("UserPayments")
   addresses      Address[]       @relation("UserAddresses")
   createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
+  updatedAt      DateTime?       @updatedAt
 }
 
 model Address {
